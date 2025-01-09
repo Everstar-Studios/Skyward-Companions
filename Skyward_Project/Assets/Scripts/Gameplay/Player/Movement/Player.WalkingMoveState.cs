@@ -23,20 +23,33 @@ public partial class Player
         protected override void Update(MovementContext context)
         {
             base.Update(context);
-
+            
             Vector3 direction = CameraSystem.Camera.transform.forward;
             Vector2 moveInput = player.inputComponent.MoveInput;
             Vector3 rightDirection = -Vector3.Cross(direction, Vector3.up);
-            Vector3 movement = (rightDirection * moveInput.x + direction * moveInput.y) * context.speed;
+            
+            Vector3 desiredMovement = (rightDirection * moveInput.x + direction * moveInput.y) * context.speed;
 
-            float currentHorizontalSpeed = new Vector3(context.velocity.x, 0.0f, context.velocity.z).magnitude;
-            // animator.SetFloat(Speed, currentHorizontalSpeed);
-            // animator.SetBool(Grounded, context.OnGround);
+            if (context.IsGrounded)
+            {
+                // Normal walking behavior
+                context.velocity = new Vector3(desiredMovement.x, context.velocity.y, desiredMovement.z);
+            }
+            else
+            {
+                // Implement air control
+                Vector3 horizontalVelocity = new Vector3(context.velocity.x, 0, context.velocity.z);
+                Vector3 desiredHorizontalMovement = new Vector3(desiredMovement.x, 0, desiredMovement.z);
+
+                // Blend current velocity with desired movement based on controlPercentage
+                Vector3 airControlMovement = Vector3.Lerp(horizontalVelocity, desiredHorizontalMovement, player.GetControlPercentage());
+
+                // Apply the air control adjustment while preserving vertical velocity
+                context.velocity = new Vector3(airControlMovement.x, context.velocity.y, airControlMovement.z);
+            }
             
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             context.transform.rotation = Quaternion.Slerp(context.transform.rotation, targetRotation, Time.deltaTime * 10);
-
-            context.velocity = new Vector3(movement.x, context.velocity.y, movement.z);
         }
 
         protected override void OnExit(MovementContext context)

@@ -43,6 +43,8 @@ namespace Skyward.Movement
         
         private ISpeedProvider speedProvider;
 
+        public bool InAir => !characterController.isGrounded;
+
         private void Awake()
         {
             characterController = GetComponent<CharacterController>();

@@ -24,9 +24,14 @@ public partial class Player : ISpeedProvider
 
     float ISpeedProvider.GetSpeed()
     {
-        if (inputComponent.SprintInput)
-            return SprintSpeed;
         return movementComponent.Speed;
     }
 
+    public float GetControlPercentage()
+    {
+        if (movementComponent.InAir)
+            return controlPercentageDuringJump;
+        
+        return 1;
+    }
 }
