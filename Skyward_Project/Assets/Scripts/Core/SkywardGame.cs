@@ -12,11 +12,6 @@ public class SkywardGame : MonoBehaviour
     private GameObject systemsGameObject;
     private GameContext context;
 
-    private void Awake()
-    {
-        
-    }
-
     public IEnumerator Initialize(GameSettings settings)
     {
         context = new GameContext()
@@ -53,6 +48,14 @@ public class SkywardGame : MonoBehaviour
         foreach((Type systemType, RequiredSystemAttribute attribute) in ReflectionHelper.AllTypesWithAttribute<RequiredSystemAttribute>())
         {
             yield return systemType;
+        }
+    }
+
+    private void OnApplicationQuit()
+    {
+        foreach (var system in systemsGameObject.GetComponents<ISystem>())
+        {
+            system.Cleanup();
         }
     }
 }
