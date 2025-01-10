@@ -24,15 +24,13 @@ public partial class Player
         {
             base.Update(context);
             
-            Vector3 direction = CameraSystem.Camera.transform.forward;
+            Transform cameraTransform = CameraSystem.Camera.transform;
             Vector2 moveInput = player.inputComponent.MoveInput;
-            Vector3 rightDirection = -Vector3.Cross(direction, Vector3.up);
             
-            Vector3 desiredMovement = (rightDirection * moveInput.x + direction * moveInput.y) * context.speed;
+            Vector3 desiredMovement = (cameraTransform.right * moveInput.x + cameraTransform.forward * moveInput.y) * context.speed;
 
             if (context.IsGrounded)
             {
-                // Normal walking behavior
                 context.velocity = new Vector3(desiredMovement.x, context.velocity.y, desiredMovement.z);
             }
             else
@@ -48,15 +46,8 @@ public partial class Player
                 context.velocity = new Vector3(airControlMovement.x, context.velocity.y, airControlMovement.z);
             }
             
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            Quaternion targetRotation = Quaternion.LookRotation(cameraTransform.forward);
             context.transform.rotation = Quaternion.Slerp(context.transform.rotation, targetRotation, Time.deltaTime * 10);
-        }
-
-        protected override void OnExit(MovementContext context)
-        {
-            base.OnExit(context);
-
-            // animator.SetFloat(Speed, 0f);
         }
     }
 

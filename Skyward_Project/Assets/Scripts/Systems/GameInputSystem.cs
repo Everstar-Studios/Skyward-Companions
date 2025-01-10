@@ -7,10 +7,13 @@ namespace Skyward.Systems
 {
     public class GameInputSystem : BaseSystem<GameInputSystem>
     {
-        [SerializeField]
-        private PlayerInput playerInput;
+        private static PlayerInput playerInput;
 
-        private static PlayerInput PlayerInput => Instance.playerInput;
+        public static PlayerInput PlayerInput
+        {
+            get => playerInput;
+            set => playerInput = value;
+        }
         
         // TODO OK: Implement generic commands for input actions
         public static event Action<Vector2> onMove;
@@ -20,9 +23,9 @@ namespace Skyward.Systems
         public static event Action<bool> onSprint;
         public static event Action onTogglePOV;
 
-        public void OnMove(InputValue value)
+        public void OnMove(InputAction.CallbackContext context)
         {
-            onMove?.Invoke(value.Get<Vector2>());
+            onMove?.Invoke(context.ReadValue<Vector2>());
         }
 
         public void OnLook(InputValue value)
@@ -35,7 +38,7 @@ namespace Skyward.Systems
             onInteract?.Invoke();
         }
 
-        public void OnJump(InputValue value)
+        public void OnJump(InputAction.CallbackContext context)
         {
             onJump?.Invoke();
         }

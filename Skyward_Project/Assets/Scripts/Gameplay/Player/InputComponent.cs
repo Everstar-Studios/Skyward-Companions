@@ -1,8 +1,11 @@
+using System;
 using Skyward.Systems;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InputComponent : MonoBehaviour
 {
+    private PlayerInput playerInput;
     public Vector2 MoveInput { get; private set; }
     public Vector2 LookInput { get; private set; }
     public bool SprintInput { get; private set; }
@@ -14,6 +17,9 @@ public class InputComponent : MonoBehaviour
         GameInputSystem.onLook += OnLook;
         GameInputSystem.onSprint += OnSprint;
         GameInputSystem.onJump += OnJump;
+
+        playerInput = GetComponent<PlayerInput>();
+        GameInputSystem.PlayerInput = playerInput;
     }
 
     private void OnDisable()
