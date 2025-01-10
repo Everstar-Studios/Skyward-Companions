@@ -38,8 +38,6 @@ namespace Skyward.Core
                 Destroy(gameObject);
             else
                 Instance = this as T;
-            
-            DontDestroyOnLoad(gameObject);
         }
     }
 
