@@ -13,19 +13,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 0
---- !u!114 &-12899561892744854
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 9
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -33,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MI_Castle_Trim_01
+  m_Name: MI_Castle_Trim_02 1
   m_Shader: {fileID: -6465566751694194690, guid: 1d79841aac711a14096152a27f862c49, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -51,7 +38,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Layer_01_Color:
-        m_Texture: {fileID: 2800000, guid: d1c31e15d53c96d41b3becae4a300425, type: 3}
+        m_Texture: {fileID: 2800000, guid: 693d76ad0dbfcc645b87702212c149e4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_01_Emissive:
@@ -59,11 +46,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_01_Normal:
-        m_Texture: {fileID: 2800000, guid: 3e839a973b5a7d74c901b69b70cbbdc5, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8439446ee82c80e45aa17fe4613fe25d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_01_ORM:
-        m_Texture: {fileID: 2800000, guid: 8d5933495cdb93d4a82e9421e94886b5, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6b5e7814d2669af4faa569890dd27199, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_02_Color_A:
@@ -114,18 +101,18 @@ Material:
     - _Dirt_Gradient_Mask_Height: 0
     - _Dirt_Mask_Contrast: 0.5
     - _Dirt_Mask_Growth: 0.5
-    - _Dirt_Roughness: 19.14
+    - _Dirt_Roughness: 1
     - _LayerContrast: 4
     - _Layer_01_AO: 0.25
     - _Layer_01_Emissive_Intensity: 1
     - _Layer_01_Flaten_Normal: 0
-    - _Layer_01_Metallic: 0
-    - _Layer_01_Roughness: 2
+    - _Layer_01_Metallic: 1
+    - _Layer_01_Roughness: 3.28
     - _Layer_02_AO_A: 1
     - _Layer_02_Emissive_Intensity_A: 1
     - _Layer_02_Flaten_Normal_A: 0
     - _Layer_02_Metallic_A: 1
-    - _Layer_02_Roughness_A: 9.72
+    - _Layer_02_Roughness_A: 1
     - _Layer_02_Tiling_Multiplier_A: 2
     - _POMCameraDistanceOptimization_inMeters: 100
     - _POMCameraGradienceOptimization_inMeters: 2
@@ -143,8 +130,21 @@ Material:
     m_Colors:
     - _Dirt_Color: {r: 0.09205068, g: 0.4811321, b: 0.070354216, a: 0}
     - _Layer_01_Emissive_Color: {r: 0.9811321, g: 0.9765041, b: 0.9765041, a: 0}
-    - _Layer_01_Tint: {r: 0.745283, g: 0.745283, b: 0.745283, a: 0}
+    - _Layer_01_Tint: {r: 0.87169814, g: 0.87169814, b: 0.87169814, a: 0}
     - _Layer_02_Emissive_Color_A: {r: 0.9811321, g: 0.9765041, b: 0.9765041, a: 0}
     - _Layer_02_Tint_A: {r: 0.9716981, g: 0.9716981, b: 0.9716981, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
+--- !u!114 &4810571391606564043
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 9
