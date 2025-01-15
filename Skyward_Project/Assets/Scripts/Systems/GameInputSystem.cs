@@ -33,7 +33,6 @@ namespace Skyward.Systems
 
         public void OnLook(InputAction.CallbackContext context)
         {
-            Debug.Log(UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId));
             onLook?.Invoke(context.ReadValue<Vector2>());
         }
 
