@@ -5,13 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class Lobby : MonoBehaviour
 {
-    public GameSettings gameSettings = new();
-    
+    [SerializeField]
     private SkywardGame game;
+    
+    public GameSettings gameSettings = new();
 
     private void Awake()
     {
-        game = GetComponent(typeof(SkywardGame)) as SkywardGame;
+        DontDestroyOnLoad(gameObject);
     }
 
     private IEnumerator Start()
