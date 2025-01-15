@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class Lobby : MonoBehaviour
 {
+    public static Lobby Instance { get; private set; }
+    
     [SerializeField]
     private SkywardGame game;
     
@@ -12,6 +14,14 @@ public class Lobby : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        
         DontDestroyOnLoad(gameObject);
     }
 

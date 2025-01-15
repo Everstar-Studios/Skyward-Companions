@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 
 public class SkywardGame : MonoBehaviour
 {
+    public static SkywardGame Instance { get; private set; }
+    
     public GameObject gameManagerPrefab;
     private GameObject GameManager { get; set; }
         
@@ -16,6 +18,19 @@ public class SkywardGame : MonoBehaviour
 
     public GameFactory Factory => factory;
     private GameFactory factory;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        
+        DontDestroyOnLoad(gameObject);
+
+        Instance = this;
+    }
 
     public IEnumerator Initialize(GameSettings settings)
     {
@@ -77,6 +92,7 @@ public class SkywardGame : MonoBehaviour
             systemsGameObject.AddComponent(systemType);
         }
         
+        DontDestroyOnLoad(systemsGameObject);
     }
     
     void InitializeSystems()
