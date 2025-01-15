@@ -23,10 +23,11 @@ namespace Skyward.Systems
             mainCamera = GetComponent<Camera>();
             mainVirtualCamera = mainCamera.GetComponentInChildren<CinemachineCamera>();
         }
-        
-        void OnDestroy()
+
+        protected override void Cleanup()
         {
             base.Cleanup();
+            
             DestroyImmediate(mainCamera.gameObject);
         }
 
