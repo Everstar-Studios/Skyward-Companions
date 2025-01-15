@@ -116,9 +116,4 @@ public class SkywardGame : MonoBehaviour
             system.Cleanup();
         }
     }
-
-    public void LevelRequested(string levelName)
-    {
-        GameSystem.OnLevelRequested(levelName);
-    }
 }
