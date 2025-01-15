@@ -1,9 +1,18 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    
+    private SkywardGame game;
+    public SkywardGame Game
+    {
+        get => game;
+        set => game = value;
+    }
 
     private void Awake()
     {
@@ -15,5 +24,16 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+    
+    private IEnumerator FactoryCoroutine()
+    {
+        while(true)
+        {
+            if(Game != null)
+                yield return Game.Factory.ProcessQueue();
+            
+            yield return new WaitForFixedUpdate();
+        }
     }
 }

@@ -17,9 +17,6 @@ public class InputComponent : MonoBehaviour
         GameInputSystem.onLook += OnLook;
         GameInputSystem.onSprint += OnSprint;
         GameInputSystem.onJump += OnJump;
-
-        playerInput = GetComponent<PlayerInput>();
-        GameInputSystem.PlayerInput = playerInput;
     }
 
     private void OnDisable()

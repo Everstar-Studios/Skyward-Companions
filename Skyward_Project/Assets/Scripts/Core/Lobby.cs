@@ -1,17 +1,31 @@
 using System.Collections;
 using Skyward.Core;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Lobby : MonoBehaviour
 {
+    public static Lobby Instance { get; private set; }
+    
+    [SerializeField]
+    private SkywardGame game;
+    
     public GameSettings gameSettings = new();
     
-    private SkywardGame game;
+    
 
     private void Awake()
     {
-        game = GetComponent(typeof(SkywardGame)) as SkywardGame;
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        
+        DontDestroyOnLoad(gameObject);
     }
 
     private IEnumerator Start()
@@ -24,8 +38,8 @@ public class Lobby : MonoBehaviour
         yield return game.Initialize(gameSettings);
     }
 
-    public void StartScene(string sceneName)
+    public void StartScene(TMP_InputField field)
     {
-        SceneManager.LoadScene(sceneName);
+        SceneManager.LoadScene(field.text);
     }
 }

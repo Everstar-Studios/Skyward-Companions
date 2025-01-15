@@ -7,13 +7,9 @@ namespace Skyward.Systems
 {
     public class GameInputSystem : BaseSystem<GameInputSystem>
     {
-        private static PlayerInput playerInput;
+        private PlayerInput playerInput;
 
-        public static PlayerInput PlayerInput
-        {
-            get => playerInput;
-            set => playerInput = value;
-        }
+        public static PlayerInput PlayerInput => Instance.playerInput;
         
         // TODO OK: Implement generic commands for input actions
         public static event Action<Vector2> onMove;
@@ -23,14 +19,21 @@ namespace Skyward.Systems
         public static event Action<bool> onSprint;
         public static event Action onTogglePOV;
 
+        protected override void Awake()
+        {
+            base.Awake();
+
+            playerInput = GetComponent<PlayerInput>();
+        }
+
         public void OnMove(InputAction.CallbackContext context)
         {
             onMove?.Invoke(context.ReadValue<Vector2>());
         }
 
-        public void OnLook(InputValue value)
+        public void OnLook(InputAction.CallbackContext context)
         {
-            onLook?.Invoke(value.Get<Vector2>());
+            onLook?.Invoke(context.ReadValue<Vector2>());
         }
 
         public void OnInteract(InputValue value)

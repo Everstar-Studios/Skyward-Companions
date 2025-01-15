@@ -28,6 +28,7 @@ public partial class Player
             Vector2 moveInput = player.inputComponent.MoveInput;
             
             Vector3 desiredMovement = (cameraTransform.right * moveInput.x + cameraTransform.forward * moveInput.y) * context.speed;
+            desiredMovement.y = 0;
 
             if (context.IsGrounded)
             {
@@ -46,7 +47,7 @@ public partial class Player
                 context.velocity = new Vector3(airControlMovement.x, context.velocity.y, airControlMovement.z);
             }
             
-            Quaternion targetRotation = Quaternion.LookRotation(cameraTransform.forward);
+            Quaternion targetRotation = Quaternion.LookRotation(new Vector3(cameraTransform.forward.x, 0, cameraTransform.forward.z));
             context.transform.rotation = Quaternion.Slerp(context.transform.rotation, targetRotation, Time.deltaTime * 10);
         }
     }
