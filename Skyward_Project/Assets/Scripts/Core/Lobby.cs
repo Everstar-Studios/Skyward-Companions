@@ -1,5 +1,6 @@
 using System.Collections;
 using Skyward.Core;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,6 +12,8 @@ public class Lobby : MonoBehaviour
     private SkywardGame game;
     
     public GameSettings gameSettings = new();
+    
+    
 
     private void Awake()
     {
@@ -35,8 +38,8 @@ public class Lobby : MonoBehaviour
         yield return game.Initialize(gameSettings);
     }
 
-    public void StartScene(string sceneName)
+    public void StartScene(TMP_InputField field)
     {
-        SceneManager.LoadScene(sceneName);
+        SceneManager.LoadScene(field.text);
     }
 }
