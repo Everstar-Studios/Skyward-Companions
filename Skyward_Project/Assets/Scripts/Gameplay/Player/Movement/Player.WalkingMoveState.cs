@@ -4,7 +4,7 @@ using Skyward.Movement;
 
 public partial class Player
 {
-    private static readonly int Speed = Animator.StringToHash("Speed");
+    private static readonly int strSpeed = Animator.StringToHash("Speed");
     private static readonly int Grounded = Animator.StringToHash("Grounded");
 
     public class WalkingMoveState : MoveState
@@ -49,6 +49,16 @@ public partial class Player
             
             Quaternion targetRotation = Quaternion.LookRotation(new Vector3(cameraTransform.forward.x, 0, cameraTransform.forward.z));
             context.transform.rotation = Quaternion.Slerp(context.transform.rotation, targetRotation, Time.deltaTime * 10);
+
+            float speed = new Vector3(context.velocity.x, 0f, context.velocity.z).magnitude;
+            animator.SetFloat(strSpeed, speed);
+        }
+
+        protected override void OnExit(MovementContext context)
+        {
+            base.OnExit(context);
+
+            animator.SetFloat(strSpeed, 0f);
         }
     }
 
