@@ -66,8 +66,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hasCustomInitialization: 1
   colliderRadius: 1
-  colliderCenter: {x: 0, y: 1.5, z: 0}
-  colliderHeight: 3
+  colliderCenter: {x: 0, y: 1, z: 0}
+  colliderHeight: 1
   physicMaterial: {fileID: 0}
   speed: 20
   Gravity: 50
@@ -112,8 +112,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2156905674414580837}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.018709475, y: -0.000000022856858, z: 4.277147e-10, w: 0.999825}
-  m_LocalPosition: {x: 0, y: 1.804235, z: -5.7223015}
+  m_LocalRotation: {x: 0.11873074, y: 0.002210524, z: -0.00026432754, w: 0.99292403}
+  m_LocalPosition: {x: 0.048303477, y: 1.9021174, z: -2.8607373}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -232,7 +232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b5d7c088409d9a40b7b09aa707777f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TargetOffset: {x: 0, y: 0, z: 0}
+  TargetOffset: {x: 0, y: 1, z: 0}
   TrackerSettings:
     BindingMode: 4
     PositionDamping: {x: 0.25, y: 0.25, z: 0.25}
@@ -240,7 +240,7 @@ MonoBehaviour:
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
   OrbitStyle: 0
-  Radius: 6
+  Radius: 3
   Orbits:
     Top:
       Radius: 2
@@ -296,16 +296,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Composition:
-    ScreenPosition: {x: 0, y: 0}
+    ScreenPosition: {x: -0.012594312, y: -0.09253731}
     DeadZone:
       Enabled: 1
-      Size: {x: 0.47, y: 0.5}
+      Size: {x: 0.44816947, y: 0.5}
     HardLimits:
       Enabled: 1
-      Size: {x: 0.47, y: 0.5}
+      Size: {x: 0.44816947, y: 0.5}
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
-  TargetOffset: {x: 0, y: 1.59, z: 0}
+  TargetOffset: {x: 0, y: 1.5, z: 0}
   Damping: {x: 0.5, y: 0.5}
   Lookahead:
     Enabled: 0
