@@ -14,10 +14,16 @@ namespace Companions.Editor
 
         private static void AddSceneDependencies()
         {
-            var game = FindAnyObjectByType<SkywardGame>();
-            var hud = FindAnyObjectByType<GameHUDComponent>();
+            var camera = FindAnyObjectByType<Camera>();
             var player = FindAnyObjectByType<Player>();
+            var hud = FindAnyObjectByType<GameHUDComponent>();
+            var game = FindAnyObjectByType<SkywardGame>();
 
+            if (camera == null)
+            {
+                GameObject cameraPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Core/GO_MainCamera.prefab");
+                PrefabUtility.InstantiatePrefab(cameraPrefab);
+            }
             if (game == null)
             {
                 GameObject skywardGamePrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Core/GO_SkywardGame.prefab");
