@@ -29,7 +29,6 @@ namespace Skyward.Movement
         public float Speed => speed;
         public float DefaultSpeed { get; private set; }
         public float Gravity = 9.81f;
-        public float Drag = 1f;
 
         private MovementRequest request;
         private MovementStateMachine stateMachine;
@@ -89,7 +88,6 @@ namespace Skyward.Movement
                 speed = speed,
                 velocity = velocity,
                 collisionFlags = collisionFlags,
-                drag = Drag,
                 request = request,
                 position = transform.position,
             };

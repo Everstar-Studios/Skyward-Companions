@@ -28,7 +28,6 @@ namespace Skyward.Movement
     public class MovementContext : StateMachineContext
     {
         public float speed;
-        public float drag;
         public Transform transform;
         public Vector2 input;
         public Vector3 position;

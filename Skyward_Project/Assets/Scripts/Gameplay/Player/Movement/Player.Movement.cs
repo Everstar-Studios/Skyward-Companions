@@ -7,8 +7,6 @@ public partial class Player : ISpeedProvider
 {
     private MovementComponent movementComponent;
 
-    public float SprintSpeed = 8f;
-
     void SetupMovement()
     {
         movementComponent = GetComponent<MovementComponent>();
