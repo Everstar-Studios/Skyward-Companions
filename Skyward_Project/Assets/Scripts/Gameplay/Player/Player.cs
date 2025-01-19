@@ -3,6 +3,7 @@ using UnityEngine;
 
 public partial class Player : MonoBehaviour
 {
+    [HideInInspector]
     public InputComponent inputComponent;
 
     private void Awake()
@@ -13,10 +14,5 @@ public partial class Player : MonoBehaviour
     void Start()
     {
         SetupMovement();
-    }
-
-    void Update()
-    {
-        
     }
 }
