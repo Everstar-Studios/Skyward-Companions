@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 9069334917528296495}
   - component: {fileID: 3748683607019470952}
   - component: {fileID: 648147404050229493}
+  - component: {fileID: 7415752012781179788}
   m_Layer: 0
   m_Name: GO_Player
   m_TagString: Untagged
@@ -50,7 +51,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   JumpSpeed: 25
   controlPercentageDuringJump: 0.5
-  SprintSpeed: 8
   inputComponent: {fileID: 648147404050229493}
 --- !u!114 &3748683607019470952
 MonoBehaviour:
@@ -65,13 +65,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasCustomInitialization: 1
-  colliderRadius: 1
-  colliderCenter: {x: 0, y: 1, z: 0}
-  colliderHeight: 1
   physicMaterial: {fileID: 0}
   speed: 20
   Gravity: 50
-  Drag: 1
 --- !u!114 &648147404050229493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,6 +80,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 566b2d6c02e4f5143b4c9bdbc0126a95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!143 &7415752012781179788
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1803294879062183142}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 1.5
+  m_Radius: 0.15
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0.75, z: 0}
 --- !u!1 &2156905674414580837
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,9 +115,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1080014488019943063}
   - component: {fileID: 955801712807071510}
-  - component: {fileID: 6577483420272401355}
   - component: {fileID: 62659991957304308}
   - component: {fileID: 8472683964518333926}
+  - component: {fileID: 6577483420272401355}
   m_Layer: 0
   m_Name: CinemachineCamera
   m_TagString: Untagged
@@ -112,8 +133,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2156905674414580837}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.11873074, y: 0.002210524, z: -0.00026432754, w: 0.99292403}
-  m_LocalPosition: {x: 0.048303477, y: 1.9021174, z: -2.8607373}
+  m_LocalRotation: {x: 0.069758, y: 0.000000029018652, z: -0.0000000020292263, w: 0.99756396}
+  m_LocalPosition: {x: 0, y: 1.9021175, z: -2.8611507}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -162,64 +183,6 @@ MonoBehaviour:
       BarrelClipping: 0.25
       Anamorphism: 0
   BlendHint: 0
---- !u!114 &6577483420272401355
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2156905674414580837}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89875cdc57c54474a8a74efd9b2a3b5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ScanRecursively: 1
-  SuppressInputWhileBlending: 1
-  IgnoreTimeScale: 0
-  m_ControllerManager:
-    Controllers:
-    - Name: Look Orbit X
-      Owner: {fileID: 62659991957304308}
-      Enabled: 1
-      Input:
-        InputAction: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-        Gain: 200
-        LegacyInput: 
-        LegacyGain: 0
-        CancelDeltaTime: 0
-      InputValue: 0
-      Driver:
-        AccelTime: 0
-        DecelTime: 0
-    - Name: Look Orbit Y
-      Owner: {fileID: 62659991957304308}
-      Enabled: 1
-      Input:
-        InputAction: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-        Gain: -50
-        LegacyInput: 
-        LegacyGain: 0
-        CancelDeltaTime: 1
-      InputValue: 0
-      Driver:
-        AccelTime: 0
-        DecelTime: 0
-    - Name: Orbit Scale
-      Owner: {fileID: 62659991957304308}
-      Enabled: 0
-      Input:
-        InputAction: {fileID: 0}
-        Gain: 1
-        LegacyInput: 
-        LegacyGain: 200
-        CancelDeltaTime: 0
-      InputValue: 0
-      Driver:
-        AccelTime: 0
-        DecelTime: 0
-  PlayerIndex: -1
-  AutoEnableInputs: 1
 --- !u!114 &62659991957304308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296,10 +259,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Composition:
-    ScreenPosition: {x: -0.012594312, y: -0.09253731}
+    ScreenPosition: {x: 0, y: 0}
     DeadZone:
       Enabled: 1
-      Size: {x: 0.44816947, y: 0.5}
+      Size: {x: 0.4, y: 0.5}
     HardLimits:
       Enabled: 1
       Size: {x: 0.44816947, y: 0.5}
@@ -312,6 +275,64 @@ MonoBehaviour:
     Time: 0
     Smoothing: 0
     IgnoreY: 0
+--- !u!114 &6577483420272401355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2156905674414580837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89875cdc57c54474a8a74efd9b2a3b5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ScanRecursively: 1
+  SuppressInputWhileBlending: 1
+  IgnoreTimeScale: 0
+  m_ControllerManager:
+    Controllers:
+    - Name: Look Orbit X
+      Owner: {fileID: 62659991957304308}
+      Enabled: 1
+      Input:
+        InputAction: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+        Gain: 200
+        LegacyInput: 
+        LegacyGain: 0
+        CancelDeltaTime: 0
+      InputValue: 0
+      Driver:
+        AccelTime: 0
+        DecelTime: 0
+    - Name: Look Orbit Y
+      Owner: {fileID: 62659991957304308}
+      Enabled: 1
+      Input:
+        InputAction: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+        Gain: -50
+        LegacyInput: 
+        LegacyGain: 0
+        CancelDeltaTime: 1
+      InputValue: 0
+      Driver:
+        AccelTime: 0
+        DecelTime: 0
+    - Name: Orbit Scale
+      Owner: {fileID: 62659991957304308}
+      Enabled: 0
+      Input:
+        InputAction: {fileID: 0}
+        Gain: 1
+        LegacyInput: 
+        LegacyGain: 200
+        CancelDeltaTime: 0
+      InputValue: 0
+      Driver:
+        AccelTime: 0
+        DecelTime: 0
+  PlayerIndex: -1
+  AutoEnableInputs: 1
 --- !u!1001 &2324963012167328637
 PrefabInstance:
   m_ObjectHideFlags: 0
