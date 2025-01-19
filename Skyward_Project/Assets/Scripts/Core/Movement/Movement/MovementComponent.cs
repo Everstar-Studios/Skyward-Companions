@@ -9,16 +9,11 @@ namespace Skyward.Movement
         float GetSpeed();
     }
 
+    [RequireComponent(typeof(CharacterController))]
     public class MovementComponent : MonoBehaviour
     {
         [field: SerializeField] private bool hasCustomInitialization;
-
-        [SerializeField]
-        private float colliderRadius = 1f;
-        [SerializeField]
-        private Vector3 colliderCenter = new Vector3(0f, 1.5f, 0f);
-        [SerializeField]
-        private float colliderHeight = 3f;
+        
         [SerializeField]
         PhysicsMaterial physicMaterial;
 
@@ -46,13 +41,6 @@ namespace Skyward.Movement
 
         private void Awake()
         {
-            characterController = GetComponent<CharacterController>();
-            if (characterController == null)
-                characterController = gameObject.AddComponent<CharacterController>();
-
-            characterController.center = colliderCenter;
-            characterController.radius = colliderRadius;
-            characterController.height = colliderHeight;
             characterController.material = physicMaterial;
             
             DefaultSpeed = speed;
