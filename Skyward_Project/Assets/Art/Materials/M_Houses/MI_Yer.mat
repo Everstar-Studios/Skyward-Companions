@@ -33,7 +33,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MI_Castle_Wall_01
+  m_Name: MI_Yer
   m_Shader: {fileID: -6465566751694194690, guid: e122f22b930b9fe4a9defc9570be42dc, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -53,7 +53,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Layer_01_Color_Map:
-        m_Texture: {fileID: 2800000, guid: ae0cf99f7ebe6284fa10e3ebfc2c5fae, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0fd61b96b645f4c4688bb7807afe32b2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_01_Emissive_Map:
@@ -61,15 +61,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_01_Normal_Map:
-        m_Texture: {fileID: 2800000, guid: 4e1b94078fde96d48877adbb0eefba8b, type: 3}
+        m_Texture: {fileID: 2800000, guid: 23ffe90bd218e7543884ccee168b0197, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_01_ORM_Map:
-        m_Texture: {fileID: 2800000, guid: 899e18b33c1e84f4faa0fd55133063ac, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_02_Color_Map:
-        m_Texture: {fileID: 2800000, guid: ae0cf99f7ebe6284fa10e3ebfc2c5fae, type: 3}
+        m_Texture: {fileID: 2800000, guid: abc00000000001257534210380499961, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_02_Emissive_Map:
@@ -77,11 +77,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_02_Normal_Map:
-        m_Texture: {fileID: 2800000, guid: 4e1b94078fde96d48877adbb0eefba8b, type: 3}
+        m_Texture: {fileID: 2800000, guid: abc00000000013498896294219641994, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_02_ORM_Map:
-        m_Texture: {fileID: 2800000, guid: 899e18b33c1e84f4faa0fd55133063ac, type: 3}
+        m_Texture: {fileID: 2800000, guid: abc00000000010723163918954810748, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _POM_Height:
@@ -112,18 +112,18 @@ Material:
     m_Floats:
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
-    - _Dirt_Gradience_Feather: 16.6
-    - _Dirt_Gradience_Height: 26.48
+    - _Dirt_Gradience_Feather: 14.2
+    - _Dirt_Gradience_Height: 26.53
     - _Dirt_Mask_Contrast: 1.34
     - _Dirt_Mask_Growth: -0.02
     - _Dirt_Roughness: 1
     - _Layer_01_AO_Multiplier: 1
-    - _Layer_01_Flatten_Normal: 0.3
+    - _Layer_01_Flatten_Normal: 3.06
     - _Layer_01_Metallic_Multiplier: 0
     - _Layer_01_Roughness_Multiplier: 1
     - _Layer_01_UV_Scale: 1.53
-    - _Layer_02_AO_Multiplier: 0.1
-    - _Layer_02_Flatten_Normal: 0.1
+    - _Layer_02_AO_Multiplier: 1
+    - _Layer_02_Flatten_Normal: 0.2
     - _Layer_02_Metallic_Multiplier: 0
     - _Layer_02_Roughness_Multiplier: 1
     - _Layer_02_UV_Scale: 1
@@ -143,12 +143,14 @@ Material:
     - _Use_Coverage_Gradient: 1
     - _Variation_Noise_Tiling: 6.25
     m_Colors:
-    - _Dirt_Color: {r: 0.8584906, g: 0.791899, b: 0.7086597, a: 1}
+    - _Dirt_Color: {r: 0.9622642, g: 0.74236965, b: 0.4221253, a: 0}
     - _Layer_01_Emissive_Tint_HDR: {r: 1, g: 1, b: 1, a: 0}
-    - _Layer_01_Tint: {r: 1, g: 1, b: 1, a: 0}
+    - _Layer_01_Tint: {r: 0.7830189, g: 0.6105194, b: 0.42475083, a: 1}
     - _Layer_02_Emissive_Tint_HDR: {r: 1, g: 1, b: 1, a: 0}
-    - _Layer_02_Tint: {r: 0.87169814, g: 0.87169814, b: 0.87169814, a: 0}
+    - _Layer_02_Tint: {r: 0.7830189, g: 0.6960799, b: 0.5946511, a: 1}
+    - _UV_Layer_01_Scale: {r: 1, g: 1, b: 0, a: 0}
+    - _UV_Layer_02_Scale: {r: 10, g: 12, b: 0, a: 0}
     - _UV_Offset: {r: 0, g: 0, b: 0, a: 0}
-    - _UV_Scale: {r: 2, g: 2, b: 0, a: 0}
+    - _UV_Scale: {r: 5, g: 5, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
