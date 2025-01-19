@@ -69,7 +69,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_02_Color_Map:
-        m_Texture: {fileID: 2800000, guid: abc00000000001257534210380499961, type: 3}
+        m_Texture: {fileID: 2800000, guid: d931c43653fb7004eb348f8eda0fdcfd, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_02_Emissive_Map:
@@ -77,11 +77,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_02_Normal_Map:
-        m_Texture: {fileID: 2800000, guid: abc00000000013498896294219641994, type: 3}
+        m_Texture: {fileID: 2800000, guid: 020474cbb34098845a3131a5f1cec7e1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_02_ORM_Map:
-        m_Texture: {fileID: 2800000, guid: abc00000000010723163918954810748, type: 3}
+        m_Texture: {fileID: 2800000, guid: c33491ab6b73a4c45ba3255074075ccf, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _POM_Height:
@@ -115,21 +115,21 @@ Material:
     - _Dirt_Gradience_Feather: 14.2
     - _Dirt_Gradience_Height: 26.53
     - _Dirt_Mask_Contrast: 1.34
-    - _Dirt_Mask_Growth: -0.02
+    - _Dirt_Mask_Growth: 0.2
     - _Dirt_Roughness: 1
     - _Layer_01_AO_Multiplier: 1
-    - _Layer_01_Flatten_Normal: 3.06
+    - _Layer_01_Flatten_Normal: 4
     - _Layer_01_Metallic_Multiplier: 0
     - _Layer_01_Roughness_Multiplier: 1
     - _Layer_01_UV_Scale: 1.53
     - _Layer_02_AO_Multiplier: 1
-    - _Layer_02_Flatten_Normal: 0.2
+    - _Layer_02_Flatten_Normal: -1
     - _Layer_02_Metallic_Multiplier: 0
-    - _Layer_02_Roughness_Multiplier: 1
+    - _Layer_02_Roughness_Multiplier: 5
     - _Layer_02_UV_Scale: 1
     - _Layer_Contrast: 19.97
-    - _Layer_Contrast_Mul: 13.6
-    - _Layer_Contrast_Pow: 2.2
+    - _Layer_Contrast_Mul: 7.12
+    - _Layer_Contrast_Pow: 0.25
     - _POM_Camera_Distance_Optimization: 100
     - _POM_Camera_Gradience_Optimization: 2
     - _POM_Height_Ratio: 0.12
@@ -141,15 +141,15 @@ Material:
     - _USE_LAYER_02: 1
     - _USE_POM: 0
     - _Use_Coverage_Gradient: 1
-    - _Variation_Noise_Tiling: 6.25
+    - _Variation_Noise_Tiling: 6.75
     m_Colors:
     - _Dirt_Color: {r: 0.9622642, g: 0.74236965, b: 0.4221253, a: 0}
     - _Layer_01_Emissive_Tint_HDR: {r: 1, g: 1, b: 1, a: 0}
     - _Layer_01_Tint: {r: 0.7830189, g: 0.6105194, b: 0.42475083, a: 1}
     - _Layer_02_Emissive_Tint_HDR: {r: 1, g: 1, b: 1, a: 0}
-    - _Layer_02_Tint: {r: 0.7830189, g: 0.6960799, b: 0.5946511, a: 1}
-    - _UV_Layer_01_Scale: {r: 100, g: 100, b: 0, a: 0}
-    - _UV_Layer_02_Scale: {r: 100, g: 100, b: 0, a: 0}
+    - _Layer_02_Tint: {r: 1, g: 0.8983884, b: 0.7783019, a: 1}
+    - _UV_Layer_01_Scale: {r: 10, g: 10, b: 0, a: 0}
+    - _UV_Layer_02_Scale: {r: 25, g: 27, b: 0, a: 0}
     - _UV_Offset: {r: 0, g: 0, b: 0, a: 0}
     - _UV_Scale: {r: 5, g: 5, b: 0, a: 0}
   m_BuildTextureStacks: []
