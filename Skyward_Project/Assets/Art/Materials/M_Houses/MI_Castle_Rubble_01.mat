@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-1190763617431593478
+--- !u!114 &-815842949727102948
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,13 +20,12 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MI_Castle_Town_BrickWall_House
+  m_Name: MI_Castle_Rubble_01
   m_Shader: {fileID: -6465566751694194690, guid: e122f22b930b9fe4a9defc9570be42dc, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _USE_DIRT_MASK
-  - _USE_LAYER_02
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -39,47 +38,47 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _Layer_01_Color:
-        m_Texture: {fileID: 2800000, guid: cfad02bcb68344d43b4b52a04c86c86f, type: 3}
+    - _ColorMap:
+        m_Texture: {fileID: 2800000, guid: abc00000000012291431584239320754, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ColorMap_1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CoverageColorMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CoverageNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CoverageORMMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Emissive_Map:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_01_Color_Map:
-        m_Texture: {fileID: 2800000, guid: ae0cf99f7ebe6284fa10e3ebfc2c5fae, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Layer_01_Emissive:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: abc00000000012291431584239320754, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_01_Emissive_Map:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Layer_01_Normal:
-        m_Texture: {fileID: 2800000, guid: 38100262852536a4eb3def1a64c008b0, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _Layer_01_Normal_Map:
-        m_Texture: {fileID: 2800000, guid: 4e1b94078fde96d48877adbb0eefba8b, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Layer_01_ORM:
-        m_Texture: {fileID: 2800000, guid: e2b2f4b3ae3279f4c8ccebbcc955d887, type: 3}
+        m_Texture: {fileID: 2800000, guid: abc00000000014825872624293520049, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_01_ORM_Map:
-        m_Texture: {fileID: 2800000, guid: 899e18b33c1e84f4faa0fd55133063ac, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Layer_02_Color_A:
-        m_Texture: {fileID: 2800000, guid: cfad02bcb68344d43b4b52a04c86c86f, type: 3}
+        m_Texture: {fileID: 2800000, guid: abc00000000016802231502908346543, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_02_Color_Map:
-        m_Texture: {fileID: 2800000, guid: ae0cf99f7ebe6284fa10e3ebfc2c5fae, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Layer_02_Emissive_A:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -87,35 +86,39 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Layer_02_Normal_A:
-        m_Texture: {fileID: 2800000, guid: 38100262852536a4eb3def1a64c008b0, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _Layer_02_Normal_Map:
-        m_Texture: {fileID: 2800000, guid: 4e1b94078fde96d48877adbb0eefba8b, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Layer_02_ORM_A:
-        m_Texture: {fileID: 2800000, guid: e2b2f4b3ae3279f4c8ccebbcc955d887, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_02_ORM_Map:
-        m_Texture: {fileID: 2800000, guid: 899e18b33c1e84f4faa0fd55133063ac, type: 3}
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: abc00000000014825872624293520049, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ORMMap:
+        m_Texture: {fileID: 2800000, guid: abc00000000016802231502908346543, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _PASGBasePBROpaqueORM_65a53f0dc42548d8af356cfcee93394c_EmissiveMap_3204051104:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _PASGBasePBROpaqueORM_65a53f0dc42548d8af356cfcee93394c_EmissiveMap_3204051104_Texture2D:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _POM_Height:
-        m_Texture: {fileID: 2800000, guid: cc20d52eb5566c44e87f6fd55bbdc0ce, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1d0bc15879c5c8c4fbea8f9d665ce6f5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SlopeNoiseTexture:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Triplanar_20e4dba18cf84a8c9aaf7f6252b3a96b_Texture_1_Texture2D:
-        m_Texture: {fileID: 2800000, guid: 7156872dfec946b40b0c19e401a2fe74, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Triplanar_a55e4756d3774f5391a2e1d06602058c_Texture_1:
-        m_Texture: {fileID: 2800000, guid: 7156872dfec946b40b0c19e401a2fe74, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Triplanar_a55e4756d3774f5391a2e1d06602058c_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 7156872dfec946b40b0c19e401a2fe74, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -133,72 +136,89 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AOIntensity: 1.05
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _BUILTIN_AlphaClip: 0
+    - _BUILTIN_Blend: 0
+    - _BUILTIN_CullMode: 2
+    - _BUILTIN_DstBlend: 0
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
+    - _BUILTIN_SrcBlend: 1
+    - _BUILTIN_Surface: 0
+    - _BUILTIN_ZTest: 4
+    - _BUILTIN_ZWrite: 1
+    - _BUILTIN_ZWriteControl: 0
+    - _Blend: 0
+    - _BlendModePreserveSpecular: 0
+    - _CastShadows: 1
+    - _CoverageMetallicIntensity: 0
+    - _CoverageNormalIntensity: 0
+    - _CoverageRoughnessIntensity: 0
+    - _CoverageSize: 0
+    - _Cull: 2
     - _Dirt_Gradience_Feather: 0.2
-    - _Dirt_Gradience_Height: 0
-    - _Dirt_Gradient_Mask_Feather: -0.06
-    - _Dirt_Gradient_Mask_Height: 0
-    - _Dirt_Mask_Contrast: 1.21
-    - _Dirt_Mask_Growth: 0.04
+    - _Dirt_Gradience_Height: 0.12
+    - _Dirt_Mask_Contrast: 0.8
+    - _Dirt_Mask_Growth: 0
     - _Dirt_Roughness: 0
-    - _LayerContrast: 42.33
-    - _Layer_01_AO: 0.2
+    - _DstBlend: 0
+    - _EDGEBLENDING: 0
+    - _EmissiveIntensity: 0
+    - _EmissiveIntensity_1: 0.5
+    - _EnableCoverage: 0
     - _Layer_01_AO_Multiplier: 1
-    - _Layer_01_Emissive_Intensity: 1
-    - _Layer_01_Flaten_Normal: 0.3
     - _Layer_01_Flatten_Normal: 0.3
-    - _Layer_01_Metallic: 0
-    - _Layer_01_Metallic_Multiplier: 0
-    - _Layer_01_Roughness: 1
+    - _Layer_01_Metallic_Multiplier: 1
     - _Layer_01_Roughness_Multiplier: 1
-    - _Layer_02_AO_A: 0.11
-    - _Layer_02_AO_Multiplier: 0.1
-    - _Layer_02_Emissive_Intensity_A: 13.4
-    - _Layer_02_Flaten_Normal_A: 0.1
-    - _Layer_02_Flatten_Normal: 0.1
-    - _Layer_02_Metallic_A: 0
-    - _Layer_02_Metallic_Multiplier: 0
-    - _Layer_02_Roughness_A: 1
+    - _Layer_02_AO_Multiplier: 1
+    - _Layer_02_Flatten_Normal: 0
+    - _Layer_02_Metallic_Multiplier: 1
     - _Layer_02_Roughness_Multiplier: 1
-    - _Layer_02_Tiling_Multiplier_A: 1.5
-    - _Layer_02_UV_Scale: 1
+    - _Layer_02_UV_Scale: 2
     - _Layer_Contrast_Mul: 4
     - _Layer_Contrast_Pow: 4
-    - _POMCameraDistanceOptimization_inMeters: 100
-    - _POMCameraGradienceOptimization_inMeters: 2
+    - _MetallicIntensity: 0
+    - _NoiseTextureSize: 100
+    - _NormalIntensity: 0.766
     - _POM_Camera_Distance_Optimization: 100
     - _POM_Camera_Gradience_Optimization: 2
-    - _POM_Height_Ratio: 0.63
-    - _POM_Max_Steps: 32
+    - _POM_Height_Ratio: 6
+    - _POM_Max_Steps: 64
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _USE_COVERAGE_GRADIENT: 0
+    - _ReceiveShadows: 1
+    - _RoughnessIntensity: 2
+    - _SloapContrast: 1
+    - _SloapOffset: 0
+    - _SrcBlend: 1
+    - _Surface: 0
+    - _Texture_Size: 100
     - _USE_DIRT_MASK: 1
     - _USE_EMISSIVE: 0
-    - _USE_LAYER_02: 1
-    - _USE_LAYER_02_A: 0
-    - _USE_PARALLAX_OCCLUSION: 0
+    - _USE_LAYER_02: 0
     - _USE_POM: 0
-    - _UV_Scale: 1
-    - _Use_Coverage_Gradient: 0
-    - _VariationNoiseTiling: 0.07
+    - _UV_Size: 1
+    - _Use_Coverage_Gradient: 0.023
     - _Variation_Noise_Tiling: 1
+    - _WorkflowMode: 0
+    - _ZTest: 4
+    - _ZWrite: 1
+    - _ZWriteControl: 0
     m_Colors:
+    - _ColorTint: {r: 1, g: 0.84595335, b: 0.6556604, a: 1}
     - _Dirt_Color: {r: 0.8584906, g: 0.791899, b: 0.7086597, a: 1}
-    - _Layer_01_Emissive_Color: {r: 0.9811321, g: 0.9765041, b: 0.9765041, a: 0}
+    - _EmissiveColor: {r: 1, g: 1, b: 1, a: 0}
     - _Layer_01_Emissive_Tint_HDR: {r: 1, g: 1, b: 1, a: 0}
-    - _Layer_01_Tint: {r: 0.9622642, g: 0.9622642, b: 0.9622642, a: 0}
-    - _Layer_02_Emissive_Color_A: {r: 1, g: 1, b: 1, a: 0}
+    - _Layer_01_Tint: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 0}
     - _Layer_02_Emissive_Tint_HDR: {r: 1, g: 1, b: 1, a: 0}
     - _Layer_02_Tint: {r: 1, g: 1, b: 1, a: 0}
-    - _Layer_02_Tint_A: {r: 0.99433964, g: 1, b: 0.9998441, a: 0}
-    - _UV_Offset: {r: 0, g: -0.63, b: 0, a: 0}
-    - _UV_Scale: {r: 0.58, g: 0.66, b: 0, a: 0}
-    - _Vector2: {r: 0.53, g: 0.94, b: 0, a: 0}
+    - _UV_Offset: {r: 0, g: 0, b: 0, a: 0}
+    - _UV_Scale: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &9154114959897949800
+--- !u!114 &8795548188587808846
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
