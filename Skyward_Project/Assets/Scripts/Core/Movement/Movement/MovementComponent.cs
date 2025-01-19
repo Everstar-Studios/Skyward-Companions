@@ -41,6 +41,7 @@ namespace Skyward.Movement
 
         private void Awake()
         {
+            characterController = GetComponent<CharacterController>();
             characterController.material = physicMaterial;
             
             DefaultSpeed = speed;
