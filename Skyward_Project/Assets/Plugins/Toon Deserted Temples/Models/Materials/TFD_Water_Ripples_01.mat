@@ -9,11 +9,14 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: TFD_Water_Ripples_01
   m_Shader: {fileID: 4800000, guid: ac6d0254eb95b5c488a858cf85980f1d, type: 3}
-  m_ValidKeywords:
-  - _RECEIVE_SHADOWS_OFF
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
   m_InvalidKeywords:
   - _LIGHTS_ON
   - _MAINFOAMPOWER_ON
+  - _RECEIVESHADOWS_OFF
+  - _RECEIVE_SHADOWS_OFF
   - _VERTEXOFFSET2_ON
   - _WAVES_ON
   m_LightmapFlags: 4
@@ -22,6 +25,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -176,6 +180,7 @@ Material:
     - _FresnelColor: {r: 0.054901965, g: 0.6039216, b: 0.6, a: 1}
     - _Highlights1Color: {r: 0.61743504, g: 0.6908598, b: 0.7075472, a: 1}
     - _Highlights2Color: {r: 0, g: 0.43867922, b: 0.5849056, a: 1}
-    - _ScrollingSpeed: {r: 0, g: 0.5, b: 0, a: 0}
+    - _ScrollingSpeed: {r: 0.1, g: 0.3, b: 0, a: 0}
     - _ShallowColor: {r: 0.36320746, g: 0.8575595, b: 1, a: 1}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
