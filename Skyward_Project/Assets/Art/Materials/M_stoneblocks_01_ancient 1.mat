@@ -37,7 +37,8 @@ Material:
   m_Shader: {fileID: -6465566751694194690, guid: e122f22b930b9fe4a9defc9570be42dc, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _USE_LAYER_02
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -75,7 +76,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_01_Color_Map:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 6d169f3f5f3170644a864050e16936fa, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_01_Emissive_Map:
@@ -83,15 +84,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_01_Normal_Map:
-        m_Texture: {fileID: 2800000, guid: b16f5d7982329f64b9fe14a3ef6d32f0, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1675edbf82c200d4399d57f96ee1e8e7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_01_ORM_Map:
-        m_Texture: {fileID: 2800000, guid: 43c16928a457adc41858aba01ec03e5b, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_02_Color_Map:
-        m_Texture: {fileID: 2800000, guid: 05a34e76e470f204d82b348ccd18bfa7, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6d169f3f5f3170644a864050e16936fa, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_02_Emissive_Map:
@@ -99,11 +100,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_02_Normal_Map:
-        m_Texture: {fileID: 2800000, guid: b16f5d7982329f64b9fe14a3ef6d32f0, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1675edbf82c200d4399d57f96ee1e8e7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_02_ORM_Map:
-        m_Texture: {fileID: 2800000, guid: 43c16928a457adc41858aba01ec03e5b, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -119,7 +120,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _POM_Height:
-        m_Texture: {fileID: 2800000, guid: 1d0bc15879c5c8c4fbea8f9d665ce6f5, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
@@ -162,10 +163,10 @@ Material:
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
-    - _Dirt_Gradience_Feather: 0.2
-    - _Dirt_Gradience_Height: 0
-    - _Dirt_Mask_Contrast: 0.5
-    - _Dirt_Mask_Growth: 0.5
+    - _Dirt_Gradience_Feather: -0.02
+    - _Dirt_Gradience_Height: 0.51
+    - _Dirt_Mask_Contrast: 1.02
+    - _Dirt_Mask_Growth: 0.71
     - _Dirt_Roughness: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
@@ -174,14 +175,14 @@ Material:
     - _Glossiness: 0.102
     - _GlossyReflections: 1
     - _Layer_01_AO_Multiplier: 1
-    - _Layer_01_Flatten_Normal: 0
-    - _Layer_01_Metallic_Multiplier: 1
+    - _Layer_01_Flatten_Normal: 0.5
+    - _Layer_01_Metallic_Multiplier: 0
     - _Layer_01_Roughness_Multiplier: 1
     - _Layer_02_AO_Multiplier: 1
-    - _Layer_02_Flatten_Normal: 0
-    - _Layer_02_Metallic_Multiplier: 1
+    - _Layer_02_Flatten_Normal: 0.5
+    - _Layer_02_Metallic_Multiplier: 0
     - _Layer_02_Roughness_Multiplier: 1
-    - _Layer_02_UV_Scale: 2
+    - _Layer_02_UV_Scale: 1
     - _Layer_Contrast_Mul: 4
     - _Layer_Contrast_Pow: 4
     - _Metallic: 0
@@ -203,7 +204,7 @@ Material:
     - _Surface: 0
     - _USE_DIRT_MASK: 0
     - _USE_EMISSIVE: 0
-    - _USE_LAYER_02: 0
+    - _USE_LAYER_02: 1
     - _USE_POM: 0
     - _UVSec: 0
     - _Use_Coverage_Gradient: 0
@@ -213,12 +214,12 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 0.7161095, b: 0.4669811, a: 1}
     - _Color: {r: 1, g: 0.7161095, b: 0.46698105, a: 1}
-    - _Dirt_Color: {r: 0, g: 0.27358484, b: 0.03080816, a: 1}
+    - _Dirt_Color: {r: 1, g: 0.84815127, b: 0.3160377, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Layer_01_Emissive_Tint_HDR: {r: 1, g: 1, b: 1, a: 0}
-    - _Layer_01_Tint: {r: 1, g: 1, b: 1, a: 0}
+    - _Layer_01_Tint: {r: 1, g: 0.76238203, b: 0.5707547, a: 1}
     - _Layer_02_Emissive_Tint_HDR: {r: 1, g: 1, b: 1, a: 0}
-    - _Layer_02_Tint: {r: 1, g: 1, b: 1, a: 0}
+    - _Layer_02_Tint: {r: 0.990566, g: 0.7264637, b: 0.5186454, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _UV_Layer_01_Scale: {r: 1, g: 1, b: 0, a: 0}
     - _UV_Layer_02_Scale: {r: 1, g: 1, b: 0, a: 0}
