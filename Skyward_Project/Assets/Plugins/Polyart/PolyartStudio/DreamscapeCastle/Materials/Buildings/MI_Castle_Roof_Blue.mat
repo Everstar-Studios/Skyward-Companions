@@ -38,7 +38,6 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _USE_DIRT_MASK
   - _USE_PARALLAX_OCCLUSION
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -53,7 +52,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Layer_01_Color:
-        m_Texture: {fileID: 2800000, guid: 9d18393581536484f9a0f0d34f821b43, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_01_Color_Map:
@@ -77,7 +76,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_01_ORM:
-        m_Texture: {fileID: 2800000, guid: 51cf498b3ccfb104089b3efb02446344, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer_01_ORM_Map:
@@ -150,18 +149,18 @@ Material:
     - _BUILTIN_QueueOffset: 0
     - _Dirt_Gradience_Feather: 0.2
     - _Dirt_Gradience_Height: 0
-    - _Dirt_Gradient_Mask_Feather: 3.16
-    - _Dirt_Gradient_Mask_Height: 11.33
-    - _Dirt_Mask_Contrast: 2.57
-    - _Dirt_Mask_Growth: 0.12
-    - _Dirt_Roughness: -1.72
+    - _Dirt_Gradient_Mask_Feather: -0.3
+    - _Dirt_Gradient_Mask_Height: 13.64
+    - _Dirt_Mask_Contrast: 1.69
+    - _Dirt_Mask_Growth: 0.19
+    - _Dirt_Roughness: -5.8
     - _LayerContrast: 3.86
     - _Layer_01_AO: 0
     - _Layer_01_AO_Multiplier: 1
     - _Layer_01_Emissive_Intensity: 1
-    - _Layer_01_Flaten_Normal: 0
+    - _Layer_01_Flaten_Normal: -0.2
     - _Layer_01_Flatten_Normal: 0
-    - _Layer_01_Metallic: 1
+    - _Layer_01_Metallic: 0.2
     - _Layer_01_Metallic_Multiplier: 1
     - _Layer_01_Roughness: 1
     - _Layer_01_Roughness_Multiplier: 1
@@ -188,7 +187,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _USE_COVERAGE_GRADIENT: 0
-    - _USE_DIRT_MASK: 1
+    - _USE_DIRT_MASK: 0
     - _USE_EMISSIVE: 0
     - _USE_LAYER_02: 0
     - _USE_LAYER_02_A: 0
@@ -199,10 +198,10 @@ Material:
     - _VariationNoiseTiling: 0.1
     - _Variation_Noise_Tiling: 1
     m_Colors:
-    - _Dirt_Color: {r: 0.6981132, g: 0.6212444, b: 0.5828587, a: 1}
+    - _Dirt_Color: {r: 0.9433962, g: 0.6150182, b: 0.4672481, a: 1}
     - _Layer_01_Emissive_Color: {r: 0.9811321, g: 0.9765041, b: 0.9765041, a: 0}
     - _Layer_01_Emissive_Tint_HDR: {r: 1, g: 1, b: 1, a: 0}
-    - _Layer_01_Tint: {r: 1, g: 1, b: 1, a: 0}
+    - _Layer_01_Tint: {r: 0.5849056, g: 0.4561764, b: 0.30072978, a: 1}
     - _Layer_02_Emissive_Color_A: {r: 0.9811321, g: 0.9765041, b: 0.9765041, a: 0}
     - _Layer_02_Emissive_Tint_HDR: {r: 1, g: 1, b: 1, a: 0}
     - _Layer_02_Tint: {r: 1, g: 1, b: 1, a: 0}

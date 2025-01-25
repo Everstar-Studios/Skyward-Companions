@@ -38,6 +38,7 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _USE_DIRT_MASK
   - _USE_POM
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -111,13 +112,13 @@ Material:
     m_Floats:
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
-    - _Dirt_Gradience_Feather: 0.9
-    - _Dirt_Gradience_Height: 22.29
-    - _Dirt_Mask_Contrast: 3.92
-    - _Dirt_Mask_Growth: 0.71
+    - _Dirt_Gradience_Feather: 0.6
+    - _Dirt_Gradience_Height: 21.37
+    - _Dirt_Mask_Contrast: 3.02
+    - _Dirt_Mask_Growth: 0.24
     - _Dirt_Roughness: 1
     - _Layer_01_AO_Multiplier: 0.35
-    - _Layer_01_Flatten_Normal: 0
+    - _Layer_01_Flatten_Normal: 1
     - _Layer_01_Metallic_Multiplier: 0.1
     - _Layer_01_Roughness_Multiplier: 1
     - _Layer_01_UV_Scale: 1
@@ -135,17 +136,20 @@ Material:
     - _POM_Max_Steps: 32
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _USE_DIRT_MASK: 0
+    - _USE_DIRT_MASK: 1
     - _USE_EMISSIVE: 0
     - _USE_LAYER_02: 0
     - _USE_POM: 1
-    - _Use_Coverage_Gradient: 0
+    - _Use_Coverage_Gradient: 0.181
     - _Variation_Noise_Tiling: 1
     m_Colors:
-    - _Dirt_Color: {r: 0.6156863, g: 0.56078434, b: 0.49411768, a: 1}
+    - _Dirt_Color: {r: 0.7735849, g: 0.57746047, b: 0.41233534, a: 1}
     - _Layer_01_Emissive_Tint_HDR: {r: 1, g: 1, b: 1, a: 0}
-    - _Layer_01_Tint: {r: 0.90606624, g: 0.941655, b: 0.94716984, a: 0}
+    - _Layer_01_Tint: {r: 1, g: 0.7728119, b: 0.495283, a: 1}
     - _Layer_02_Emissive_Tint_HDR: {r: 1, g: 1, b: 1, a: 0}
     - _Layer_02_Tint: {r: 1, g: 1, b: 1, a: 0}
+    - _UV_Layer_01_Scale: {r: 1, g: 1, b: 0, a: 0}
+    - _UV_Layer_02_Scale: {r: 1, g: 1, b: 0, a: 0}
+    - _UV_Offset: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
