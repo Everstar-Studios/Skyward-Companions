@@ -13,6 +13,11 @@ namespace FS_ThirdPerson
         private void Awake()
         {
             footStepEffects = GetComponentInParent<FootStepEffects>();
+            if (footStepEffects == null)
+            {
+                Destroy(gameObject);
+                return;
+            }
             this.gameObject.layer = LayerMask.NameToLayer("FootTrigger");
         }
 
