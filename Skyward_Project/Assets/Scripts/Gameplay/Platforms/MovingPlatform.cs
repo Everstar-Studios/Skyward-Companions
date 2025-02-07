@@ -9,13 +9,29 @@ using UnityEditor;
 
 public class MovingPlatform : MonoBehaviour
 {
+    public enum EMovementType
+    {
+        Linear,
+        Loop,
+        Circular
+    }
+
+    [Header("General")]
+    [SerializeField] 
+    internal EMovementType movementType;
     [SerializeField]
     internal float movementSpeed;
+    
+    [Header("Linear Movement")]
     [SerializeField]
     internal List<Vector3> points = new();
-    [SerializeField] 
-    internal bool closePoints;
-
+    
+    [Header("Circular Settings")]
+    public Vector3 circularCenter = Vector3.zero;
+    public float circularRadius = 5f;
+    public Vector3 circularAxis = Vector3.up;
+    public float circularAngleOffset = 0f;
+    
     [Header("Debug")] 
     public Color lineColor = Color.green;
     public float lineThickness = 2f;
@@ -24,18 +40,39 @@ public class MovingPlatform : MonoBehaviour
     
     private int currentIndex = 0;
     private bool movingForward = true;
+    private float circularAngle = 0f;
 
     private void Start()
     {
-        if (!points.Any())
+        if (movementType == EMovementType.Circular)
+        {
+            circularAngle = circularAngleOffset * Mathf.Deg2Rad;
+            Quaternion rotation = Quaternion.AngleAxis(circularAngle * Mathf.Rad2Deg, circularAxis);
+            Vector3 offset = rotation * new Vector3(circularRadius, 0, 0);
+            transform.position = circularCenter + offset;
+        }
+        else if (!points.Any())
             points.Add(transform.position);
     }
     
     private void Update()
     {
-        if (points.Count < 2) return;
+        if (movementType == EMovementType.Circular)
+        {
+            circularAngle += movementSpeed * Time.deltaTime;
+            HandleCircularMovement();
+        }
+        else if (points.Count >= 2)
+            MoveBetweenPoints();
+    }
 
-        MoveBetweenPoints();
+    private void HandleCircularMovement()
+    {
+        Vector3 normalizedAxis = circularAxis.normalized;
+        Quaternion rotation = Quaternion.FromToRotation(Vector3.up, normalizedAxis);
+        float angle = circularAngle;
+        Vector3 offset = rotation * new Vector3(Mathf.Cos(angle) * circularRadius, Mathf.Sin(angle) * circularRadius, 0);
+        transform.position = circularCenter + offset;
     }
 
     private void MoveBetweenPoints()
@@ -45,7 +82,7 @@ public class MovingPlatform : MonoBehaviour
 
         if (Vector3.Distance(transform.position, target) < 0.1f)
         {
-            if (closePoints && points.Count > 2) 
+            if (movementType == EMovementType.Loop && points.Count > 2) 
             {
                 currentIndex = (currentIndex + 1) % points.Count;
             }
@@ -77,24 +114,43 @@ public class MovingPlatform : MonoBehaviour
     
     private void OnDrawGizmos()
     {
-        if (points.Count == 0) 
-            return;
-        
-        for (int i = 0; i < points.Count; i++)
+        if (movementType == EMovementType.Circular)
         {
-            Gizmos.color = sphereColor;
-            Gizmos.DrawSphere(points[i], sphereRadius);
-            if (i < points.Count - 1)
+            //Gizmos.DrawSphere(circularCenter, 0.2f);
+            
+            Quaternion rotation = Quaternion.FromToRotation(Vector3.up, circularAxis.normalized);
+            
+            int segments = 32;
+            Vector3 prevPoint = circularCenter + rotation * new Vector3(circularRadius, 0, 0);
+
+            for (int i = 1; i <= segments; i++)
+            {
+                float angle = (i / (float)segments) * 360f * Mathf.Deg2Rad;
+                Vector3 nextPoint = circularCenter + rotation * new Vector3(Mathf.Cos(angle) * circularRadius, Mathf.Sin(angle) * circularRadius, 0);
+                Gizmos.DrawLine(prevPoint, nextPoint);
+                prevPoint = nextPoint;
+            }
+            
+            Gizmos.DrawLine(circularCenter, transform.position);
+        }
+        else if (points.Count > 0)
+        {
+            for (int i = 0; i < points.Count; i++)
+            {
+                Gizmos.color = sphereColor;
+                Gizmos.DrawSphere(points[i], 0.2f);
+                if (i < points.Count - 1)
+                {
+                    Gizmos.color = lineColor;
+                    DrawThickLine(points[i], points[i + 1]);
+                }
+            }
+            
+            if (movementType == EMovementType.Loop && points.Count > 2)
             {
                 Gizmos.color = lineColor;
-                DrawThickLine(points[i], points[i + 1]);
+                DrawThickLine(points[^1], points[0]);
             }
-        }
-
-        if (closePoints && points.Count > 2)
-        {
-            Gizmos.color = lineColor;
-            DrawThickLine(points[^1], points[0]);
         }
     }
     
@@ -117,10 +173,14 @@ public class MovingPlatform : MonoBehaviour
 [CustomEditor(typeof(MovingPlatform))]
 public class MovingPlatformEditor : Editor
 {
+    private SerializedProperty movementTypeProp;
     private SerializedProperty pointsProp;
     private SerializedProperty movementSpeedProp;
-    private SerializedProperty closePointsProp;
     private SerializedProperty lineColorProp;
+    private SerializedProperty circularCenterProp;
+    private SerializedProperty circularRadiusProp;
+    private SerializedProperty circularAxisProp;
+    private SerializedProperty circularAngleOffsetProp;
     private SerializedProperty lineThicknessProp;
     private SerializedProperty sphereRadiusProp;
     private SerializedProperty sphereColorProp;
@@ -129,41 +189,49 @@ public class MovingPlatformEditor : Editor
     
     private void OnEnable()
     {
+        movementTypeProp = serializedObject.FindProperty(nameof(MovingPlatform.movementType));
         pointsProp = serializedObject.FindProperty(nameof(MovingPlatform.points));
         movementSpeedProp = serializedObject.FindProperty(nameof(MovingPlatform.movementSpeed));
-        closePointsProp = serializedObject.FindProperty(nameof(MovingPlatform.closePoints));
         lineColorProp = serializedObject.FindProperty(nameof(MovingPlatform.lineColor));
         lineThicknessProp = serializedObject.FindProperty(nameof(MovingPlatform.lineThickness));
         sphereColorProp = serializedObject.FindProperty(nameof(MovingPlatform.sphereColor));
         sphereRadiusProp = serializedObject.FindProperty(nameof(MovingPlatform.sphereRadius));
+        circularCenterProp = serializedObject.FindProperty(nameof(MovingPlatform.circularCenter));
+        circularRadiusProp = serializedObject.FindProperty(nameof(MovingPlatform.circularRadius));
+        circularAxisProp = serializedObject.FindProperty(nameof(MovingPlatform.circularAxis));
+        circularAngleOffsetProp = serializedObject.FindProperty(nameof(MovingPlatform.circularAngleOffset));
         
         platform = (MovingPlatform)target;
     }
     
     private void OnSceneGUI()
     {
-        if (platform.points.Count == 0) 
-            return;
-
-        Handles.color = Color.cyan;
-
-        for (int i = 0; i < platform.points.Count; i++)
+        if (platform.movementType == MovingPlatform.EMovementType.Circular)
         {
             EditorGUI.BeginChangeCheck();
-            Vector3 newPos = Handles.PositionHandle(platform.points[i], Quaternion.identity);
+            Vector3 newCenter = Handles.PositionHandle(platform.circularCenter, Quaternion.identity);
             if (EditorGUI.EndChangeCheck())
             {
-                Undo.RecordObject(platform, "Move Point");
-                platform.points[i] = newPos;
+                Undo.RecordObject(platform, "Move Circular Center");
+                platform.circularCenter = newCenter;
             }
-
-            Handles.Label(platform.points[i] + Vector3.up * 0.2f, $"Point {i}");
         }
-        
-        if (platform.closePoints && platform.points.Count > 2)
+        else if (platform.points != null && platform.points.Count > 0)
         {
-            Handles.color = Color.yellow;
-            Handles.DrawLine(platform.points[^1], platform.points[0]);
+            Handles.color = platform.lineColor;
+
+            for (int i = 0; i < platform.points.Count; i++)
+            {
+                EditorGUI.BeginChangeCheck();
+                Vector3 newPos = Handles.PositionHandle(platform.points[i], Quaternion.identity);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    Undo.RecordObject(platform, "Move Point");
+                    platform.points[i] = newPos;
+                }
+
+                Handles.Label(platform.points[i] + Vector3.up * 0.2f, $"Point {i}");
+            }
         }
     }
 
@@ -171,20 +239,29 @@ public class MovingPlatformEditor : Editor
     {
         serializedObject.Update();
         
-        if (GUILayout.Button("Add Point"))
-        {
-            Undo.RecordObject(target, "Add Point");
-            platform = (MovingPlatform)target;
-            Vector3 reference = platform.points.Count > 0 ? platform.points[^1] : platform.transform.position;
-            platform.points.Add(reference + Vector3.right * 2f);
-        }
-
-        EditorGUILayout.PropertyField(pointsProp);
+        EditorGUILayout.PropertyField(movementTypeProp);
         EditorGUILayout.PropertyField(movementSpeedProp);
+        
+        MovingPlatform.EMovementType movementType = (MovingPlatform.EMovementType)movementTypeProp.enumValueIndex;
 
-        if (pointsProp.arraySize > 2)
+        if (movementType is MovingPlatform.EMovementType.Linear or MovingPlatform.EMovementType.Loop)
         {
-            EditorGUILayout.PropertyField(closePointsProp);
+            
+            EditorGUILayout.PropertyField(pointsProp);
+            if (GUILayout.Button("Add Point"))
+            {
+                Undo.RecordObject(target, "Add Point");
+                platform = (MovingPlatform)target;
+                Vector3 reference = platform.points.Count > 0 ? platform.points[^1] : platform.transform.position;
+                platform.points.Add(reference + Vector3.right * 2f);
+            }
+        }
+        else if (movementType == MovingPlatform.EMovementType.Circular)
+        {
+            EditorGUILayout.PropertyField(circularCenterProp);
+            EditorGUILayout.PropertyField(circularRadiusProp);
+            EditorGUILayout.PropertyField(circularAxisProp);
+            EditorGUILayout.PropertyField(circularAngleOffsetProp);
         }
 
         EditorGUILayout.PropertyField(lineColorProp);
