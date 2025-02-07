@@ -1,5 +1,5 @@
 #if invector
-using FS_ThirdPerson;
+using Skyward.Characters;
 using Invector.vCamera;
 using Invector.vCharacterController;
 using System.Collections;

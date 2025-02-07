@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEditor;
 #endif
 using UnityEngine;
-namespace FS_ThirdPerson
+namespace Skyward.Characters
 {
     public class HideInInspectorEnumAttribute : PropertyAttribute
     {

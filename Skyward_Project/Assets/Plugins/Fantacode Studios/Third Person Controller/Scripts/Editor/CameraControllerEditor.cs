@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
-namespace FS_ThirdPerson
+namespace Skyward.Characters
 {
 
     [CustomEditor(typeof(CameraController))]

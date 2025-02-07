@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 
 
-namespace FS_ThirdPerson
+namespace Skyward.Characters
 {
     public class FootStepEffects : MonoBehaviour
     {

@@ -1,3 +1,4 @@
+using Skyward.Characters;
 using UnityEditor;
 using Skyward.Core;
 using UnityEngine;
@@ -15,7 +16,7 @@ namespace Companions.Editor
         private static void AddSceneDependencies()
         {
             var camera = FindAnyObjectByType<Camera>();
-            var player = FindAnyObjectByType<Player>();
+            var player = FindAnyObjectByType<PlayerController>();
             var hud = FindAnyObjectByType<GameHUDComponent>();
             var game = FindAnyObjectByType<SkywardGame>();
 

@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
 
-namespace FS_ThirdPerson
+namespace Skyward.Characters
 {
     public enum Mask { Hand, UpperBody, RightFinger }
 

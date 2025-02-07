@@ -1,10 +1,10 @@
-using FS_ThirdPerson;
+using Skyward.Characters;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-namespace FS_ThirdPerson 
+namespace Skyward.Characters 
 {
     public static partial class AnimatorParameters
     {
