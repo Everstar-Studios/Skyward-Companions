@@ -1,4 +1,4 @@
-namespace FS_ThirdPerson
+namespace Skyward.Characters
 {
     public static class FolderPath
     {

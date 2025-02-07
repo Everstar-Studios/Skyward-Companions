@@ -1,4 +1,4 @@
-using FS_ThirdPerson;
+using Skyward.Characters;
 using System.Linq;
 #if UNITY_EDITOR
 using UnityEditor;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FS_ThirdPerson
+namespace Skyward.Characters
 {
     public class LookAtCamera : MonoBehaviour
     {
