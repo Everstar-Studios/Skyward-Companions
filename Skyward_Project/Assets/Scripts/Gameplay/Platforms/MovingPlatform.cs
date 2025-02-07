@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.Serialization;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -9,11 +10,17 @@ using UnityEditor;
 public class MovingPlatform : MonoBehaviour
 {
     [SerializeField]
-    private float movementSpeed;
+    internal float movementSpeed;
     [SerializeField]
     internal List<Vector3> points = new();
     [SerializeField] 
     internal bool closePoints;
+
+    [Header("Debug")] 
+    public Color lineColor = Color.green;
+    public float lineThickness = 2f;
+    public Color sphereColor = Color.green;
+    public float sphereRadius = 0.2f;
     
     private int currentIndex = 0;
     private bool movingForward = true;
@@ -40,18 +47,16 @@ public class MovingPlatform : MonoBehaviour
         {
             if (closePoints && points.Count > 2) 
             {
-                // ✅ Loop back to 0th index when reaching the last waypoint
                 currentIndex = (currentIndex + 1) % points.Count;
             }
             else 
             {
-                // ✅ Normal back and forth movement
                 if (movingForward)
                 {
                     currentIndex++;
                     if (currentIndex >= points.Count)
                     {
-                        currentIndex = points.Count - 2; // Start moving back
+                        currentIndex = points.Count - 2;
                         movingForward = false;
                     }
                 }
@@ -60,7 +65,7 @@ public class MovingPlatform : MonoBehaviour
                     currentIndex--;
                     if (currentIndex < 0)
                     {
-                        currentIndex = 1; // Start moving forward again
+                        currentIndex = 1;
                         movingForward = true;
                     }
                 }
@@ -72,20 +77,37 @@ public class MovingPlatform : MonoBehaviour
     
     private void OnDrawGizmos()
     {
-        if (points.Count == 0) return;
-
-        Gizmos.color = Color.green;
+        if (points.Count == 0) 
+            return;
+        
         for (int i = 0; i < points.Count; i++)
         {
-            Gizmos.DrawSphere(points[i], 0.2f);
+            Gizmos.color = sphereColor;
+            Gizmos.DrawSphere(points[i], sphereRadius);
             if (i < points.Count - 1)
             {
-                Gizmos.DrawLine(points[i], points[i + 1]);
+                Gizmos.color = lineColor;
+                DrawThickLine(points[i], points[i + 1]);
             }
         }
-        
+
         if (closePoints && points.Count > 2)
-            Gizmos.DrawLine(points[^1], points[0]);
+        {
+            Gizmos.color = lineColor;
+            DrawThickLine(points[^1], points[0]);
+        }
+    }
+    
+    private void DrawThickLine(Vector3 start, Vector3 end)
+    {
+        Vector3 direction = (end - start).normalized;
+        Vector3 perpendicular = Vector3.Cross(direction, Vector3.up) * (lineThickness * 0.01f);
+
+        for (float i = -lineThickness * 0.005f; i <= lineThickness * 0.005f; i += 0.005f)
+        {
+            Vector3 offset = perpendicular * i;
+            Gizmos.DrawLine(start + offset, end + offset);
+        }
     }
     
     #endif
@@ -95,29 +117,82 @@ public class MovingPlatform : MonoBehaviour
 [CustomEditor(typeof(MovingPlatform))]
 public class MovingPlatformEditor : Editor
 {
+    private SerializedProperty pointsProp;
+    private SerializedProperty movementSpeedProp;
+    private SerializedProperty closePointsProp;
+    private SerializedProperty lineColorProp;
+    private SerializedProperty lineThicknessProp;
+    private SerializedProperty sphereRadiusProp;
+    private SerializedProperty sphereColorProp;
+
+    private MovingPlatform platform;
+    
+    private void OnEnable()
+    {
+        pointsProp = serializedObject.FindProperty(nameof(MovingPlatform.points));
+        movementSpeedProp = serializedObject.FindProperty(nameof(MovingPlatform.movementSpeed));
+        closePointsProp = serializedObject.FindProperty(nameof(MovingPlatform.closePoints));
+        lineColorProp = serializedObject.FindProperty(nameof(MovingPlatform.lineColor));
+        lineThicknessProp = serializedObject.FindProperty(nameof(MovingPlatform.lineThickness));
+        sphereColorProp = serializedObject.FindProperty(nameof(MovingPlatform.sphereColor));
+        sphereRadiusProp = serializedObject.FindProperty(nameof(MovingPlatform.sphereRadius));
+        
+        platform = (MovingPlatform)target;
+    }
+    
     private void OnSceneGUI()
     {
-        MovingPlatform platform = (MovingPlatform)target;
+        if (platform.points.Count == 0) 
+            return;
 
-        if (platform.points == null || platform.points.Count == 0) return;
-
-        // Handles Color
         Handles.color = Color.cyan;
 
         for (int i = 0; i < platform.points.Count; i++)
         {
-            // Draw draggable handles
             EditorGUI.BeginChangeCheck();
             Vector3 newPos = Handles.PositionHandle(platform.points[i], Quaternion.identity);
             if (EditorGUI.EndChangeCheck())
             {
-                Undo.RecordObject(platform, "Move Waypoint");
+                Undo.RecordObject(platform, "Move Point");
                 platform.points[i] = newPos;
             }
 
-            // Label for each waypoint
-            Handles.Label(platform.points[i] + Vector3.up * 0.2f, $"Waypoint {i}");
+            Handles.Label(platform.points[i] + Vector3.up * 0.2f, $"Point {i}");
         }
+        
+        if (platform.closePoints && platform.points.Count > 2)
+        {
+            Handles.color = Color.yellow;
+            Handles.DrawLine(platform.points[^1], platform.points[0]);
+        }
+    }
+
+    public override void OnInspectorGUI()
+    {
+        serializedObject.Update();
+        
+        if (GUILayout.Button("Add Point"))
+        {
+            Undo.RecordObject(target, "Add Point");
+            platform = (MovingPlatform)target;
+            Vector3 reference = platform.points.Count > 0 ? platform.points[^1] : platform.transform.position;
+            platform.points.Add(reference + Vector3.right * 2f);
+        }
+
+        EditorGUILayout.PropertyField(pointsProp);
+        EditorGUILayout.PropertyField(movementSpeedProp);
+
+        if (pointsProp.arraySize > 2)
+        {
+            EditorGUILayout.PropertyField(closePointsProp);
+        }
+
+        EditorGUILayout.PropertyField(lineColorProp);
+        EditorGUILayout.PropertyField(lineThicknessProp);
+        EditorGUILayout.PropertyField(sphereColorProp);
+        EditorGUILayout.PropertyField(sphereRadiusProp);
+
+        serializedObject.ApplyModifiedProperties();
     }
 }
 #endif
