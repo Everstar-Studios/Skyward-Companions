@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace FS_ThirdPerson 
+namespace Skyward.Characters 
 {
     public class MobileCameraInputController : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {

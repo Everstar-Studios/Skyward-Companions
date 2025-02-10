@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
-namespace FS_ThirdPerson
+namespace Skyward.Characters
 {
     public static partial class AnimatorParameters
     {

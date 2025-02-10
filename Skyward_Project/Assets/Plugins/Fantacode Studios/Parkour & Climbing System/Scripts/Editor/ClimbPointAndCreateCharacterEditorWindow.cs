@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEditor.Animations;
 using System.Collections.Generic;
-using FS_ThirdPerson;
+using Skyward.Characters;
 
 namespace FS_ParkourSystem
 {

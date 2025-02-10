@@ -4,7 +4,7 @@ using System.Linq;
 using Unity.Collections;
 using UnityEngine;
 
-namespace FS_ThirdPerson
+namespace Skyward.Characters
 {
     public class CameraController : MonoBehaviour
     {

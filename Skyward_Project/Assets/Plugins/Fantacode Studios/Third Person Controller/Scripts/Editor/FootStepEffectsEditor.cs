@@ -3,7 +3,7 @@ using UnityEditor;
 using System.Collections.Generic;
 using System;
 
-namespace FS_ThirdPerson
+namespace Skyward.Characters
 {
 
     [CustomEditor(typeof(FootStepEffects))]

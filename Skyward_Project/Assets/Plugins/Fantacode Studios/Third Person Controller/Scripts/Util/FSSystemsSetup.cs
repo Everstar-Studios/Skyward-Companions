@@ -8,7 +8,7 @@ using UnityEditorInternal;
 using UnityEngine;
 using AnimatorController = UnityEditor.Animations.AnimatorController;
 
-namespace FS_ThirdPerson
+namespace Skyward.Characters
 {
     public partial class FSSystemsSetup : MonoBehaviour
     {

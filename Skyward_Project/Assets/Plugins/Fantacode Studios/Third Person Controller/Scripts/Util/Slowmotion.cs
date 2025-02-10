@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace FS_ThirdPerson
+namespace Skyward.Characters
 {
     public class Slowmotion : MonoBehaviour
     {

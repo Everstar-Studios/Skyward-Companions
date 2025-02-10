@@ -3,7 +3,7 @@ using System;
 using UnityEditor;
 #endif
 using UnityEngine;
-namespace FS_ThirdPerson
+namespace Skyward.Characters
 {
 
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]

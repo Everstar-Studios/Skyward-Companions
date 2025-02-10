@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace FS_ThirdPerson
+namespace Skyward.Characters
 {
     public static class ScriptingDefineSymbolController
     {

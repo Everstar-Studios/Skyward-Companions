@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace FS_ThirdPerson
+namespace Skyward.Characters
 {
     public partial class EnvironmentScanner : MonoBehaviour
     {
