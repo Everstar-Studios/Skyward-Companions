@@ -65,6 +65,8 @@ namespace Skyward.Characters
         Vector3 currentSpeed;
 
 
+        public float gravity = 9.8f;
+        public float Gravity => -gravity;
         public bool verticalJump;
 
         [Tooltip("Defines how long it takes for the character to reach the peak of the jump")]
@@ -862,7 +864,6 @@ namespace Skyward.Characters
         }
         public Vector3 MoveDir { get { return desiredMoveDir; } set { desiredMoveDir = value; } }
         public bool IsGrounded => isGrounded;
-        public float Gravity => -20;
         public bool PreventAllSystems { get; set; } = false;
         public Animator Animator
         {

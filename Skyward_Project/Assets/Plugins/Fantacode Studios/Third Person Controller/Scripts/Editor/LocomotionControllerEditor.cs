@@ -27,6 +27,7 @@ namespace Skyward.Characters
         SerializedProperty forwardHipRotationBlend;
         SerializedProperty rotateHipForBackwardAnimation;
         SerializedProperty backwardHipRotationBlend;
+        SerializedProperty gravity;
 
         SerializedProperty verticalJump;
         SerializedProperty timeToJump;
@@ -56,6 +57,7 @@ namespace Skyward.Characters
             runSpeed = serializedObject.FindProperty("runSpeed");
             walkSpeed = serializedObject.FindProperty("walkSpeed");
             rotationSpeed = serializedObject.FindProperty("rotationSpeed");
+            gravity = serializedObject.FindProperty("gravity");
 
             acceleration = serializedObject.FindProperty("acceleration");
             deceleration = serializedObject.FindProperty("deceleration");
@@ -108,6 +110,8 @@ namespace Skyward.Characters
 
             EditorGUILayout.PropertyField(enableSprint);
             EditorGUILayout.PropertyField(setDefaultStateToRunning);
+            EditorGUILayout.PropertyField(gravity);
+            
 
             EditorGUILayout.Space(5);
             EditorGUILayout.PropertyField(useMultiDirectionalAnimation);
