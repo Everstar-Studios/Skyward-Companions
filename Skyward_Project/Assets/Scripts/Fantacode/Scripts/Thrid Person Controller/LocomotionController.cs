@@ -396,7 +396,18 @@ namespace Skyward.Characters
             velocity.y = ySpeed;
 
             currentSpeed.y = ySpeed;
+            
             //if (currentSpeed != Vector3.zero)
+            // if (isGrounded && hit.transform.TryGetComponent(out MovingPlatform platform))
+            // {
+            //     if (transform.parent != platform.transform)
+            //     {
+            //         transform.SetParent(platform.transform, true);
+            //     }
+            // }
+            // else if (transform.parent != null)
+            //     transform.SetParent(null);
+            
             characterController.Move(currentSpeed * Time.deltaTime);
             currentSpeed.y = 0;
 
