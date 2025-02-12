@@ -182,10 +182,13 @@ namespace Skyward.Characters
                 }
                 tagManager.ApplyModifiedProperties();
 
-                foreach (var tag in systemProjectSettingsData.systemProjectSettings.tags)
+                if (systemProjectSettingsData.systemProjectSettings.tags != null)
                 {
-                    if (!InternalEditorUtility.tags.ToList().Contains(tag))
-                        InternalEditorUtility.AddTag(tag);
+                    foreach (var tag in systemProjectSettingsData.systemProjectSettings.tags)
+                    {
+                        if (!InternalEditorUtility.tags.ToList().Contains(tag))
+                            InternalEditorUtility.AddTag(tag);
+                    }
                 }
 
                 systemProjectSettingsData.systemProjectSettings.extraSetupAction?.Invoke();
