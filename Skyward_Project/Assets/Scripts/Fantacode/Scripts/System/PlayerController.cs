@@ -102,7 +102,15 @@ namespace Skyward.Characters
         void Awake()
         {
             player = GetComponent<ICharacter>();
-            cameraGameObject = FindAnyObjectByType<Camera>().gameObject;
+            var camera = FindAnyObjectByType<Camera>();
+            if (camera == null)
+            {
+                Debug.LogException(new Exception("Camera could not be found in the scene. Make sure you have a Camera with CinemachineBrain!"));
+                Debug.Break();
+            }
+
+            cameraGameObject = camera.gameObject;
+            
             animator = player.Animator;
 
             foreach (var script in managedScripts)
