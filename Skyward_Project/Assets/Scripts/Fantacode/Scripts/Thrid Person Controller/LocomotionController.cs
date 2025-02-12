@@ -255,7 +255,7 @@ namespace Skyward.Characters
             animator.SetFloat("locomotionType", useMultiDirectionalAnimation ? 1 : 0);
 
             var wasGroundedPreviously = isGrounded;
-            GroundCheck();
+            var hit = GroundCheck();
 
             if (isGrounded && !wasGroundedPreviously)
             {
@@ -396,17 +396,20 @@ namespace Skyward.Characters
             velocity.y = ySpeed;
 
             currentSpeed.y = ySpeed;
-            
-            //if (currentSpeed != Vector3.zero)
-            // if (isGrounded && hit.transform.TryGetComponent(out MovingPlatform platform))
-            // {
-            //     if (transform.parent != platform.transform)
-            //     {
-            //         transform.SetParent(platform.transform, true);
-            //     }
-            // }
-            // else if (transform.parent != null)
-            //     transform.SetParent(null);
+
+            if (isGrounded && hit.transform.TryGetComponent(out MovingPlatform platform))
+            {
+                if (!isParentedToPlatform)
+                {
+                    transform.parent = platform.transform;
+                    isParentedToPlatform = true;
+                }
+            }
+            else if (isParentedToPlatform)
+            {
+                transform.parent = null;
+                isParentedToPlatform = false;
+            }
             
             characterController.Move(currentSpeed * Time.deltaTime);
             currentSpeed.y = 0;
@@ -428,6 +431,9 @@ namespace Skyward.Characters
             else
                 targetRotation = transform.rotation;
         }
+
+        private bool isParentedToPlatform;
+        
         void setTargetRotation(Vector3 moveDir, ref Quaternion targetRotation)
         {
             var cameraForward = cameraGameObject.transform.forward;
@@ -573,10 +579,14 @@ namespace Skyward.Characters
         }
 
 
-        void GroundCheck()
+        RaycastHit GroundCheck()
         {
-            isGrounded = Physics.CheckSphere(transform.TransformPoint(groundCheckOffset), groundCheckRadius, groundLayer);
+            RaycastHit hit;
+            Vector3 origin = transform.TransformPoint(groundCheckOffset);
+            Vector3 direction = Vector3.down;
+            isGrounded = Physics.SphereCast(origin, groundCheckRadius, direction, out hit, groundCheckRadius, groundLayer);
             animator.SetBool(AnimatorParameters.IsGrounded, isGrounded);
+            return hit;
         }
 
         private void OnDrawGizmosSelected()

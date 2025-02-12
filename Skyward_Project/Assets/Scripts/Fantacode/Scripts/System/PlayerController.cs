@@ -102,7 +102,7 @@ namespace Skyward.Characters
         void Awake()
         {
             player = GetComponent<ICharacter>();
-            cameraGameObject = Camera.main.gameObject;
+            cameraGameObject = FindAnyObjectByType<Camera>().gameObject;
             animator = player.Animator;
 
             foreach (var script in managedScripts)
