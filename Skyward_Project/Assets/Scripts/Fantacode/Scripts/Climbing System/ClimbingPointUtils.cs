@@ -26,13 +26,13 @@ namespace FS_ParkourSystem
             obj.transform.eulerAngles = Vector3.zero;
 
 
-            float xLength = Mathf.Abs(obj.GetComponent<MeshRenderer>().bounds.min.x - obj.GetComponent<MeshRenderer>().bounds.max.x);
-            float yLength = Mathf.Abs(obj.GetComponent<MeshRenderer>().bounds.min.y - obj.GetComponent<MeshRenderer>().bounds.max.y);
-            float zLength = Mathf.Abs(obj.GetComponent<MeshRenderer>().bounds.min.z - obj.GetComponent<MeshRenderer>().bounds.max.z);
+            float xLength = Mathf.Abs(obj.GetComponentInChildren<MeshRenderer>().bounds.min.x - obj.GetComponentInChildren<MeshRenderer>().bounds.max.x);
+            float yLength = Mathf.Abs(obj.GetComponentInChildren<MeshRenderer>().bounds.min.y - obj.GetComponentInChildren<MeshRenderer>().bounds.max.y);
+            float zLength = Mathf.Abs(obj.GetComponentInChildren<MeshRenderer>().bounds.min.z - obj.GetComponentInChildren<MeshRenderer>().bounds.max.z);
 
-            float x = obj.GetComponent<MeshRenderer>().bounds.center.x;
-            float y = obj.GetComponent<MeshRenderer>().bounds.center.y;
-            float z = obj.GetComponent<MeshRenderer>().bounds.center.z;
+            float x = obj.GetComponentInChildren<MeshRenderer>().bounds.center.x;
+            float y = obj.GetComponentInChildren<MeshRenderer>().bounds.center.y;
+            float z = obj.GetComponentInChildren<MeshRenderer>().bounds.center.z;
 
 
 

@@ -72,7 +72,7 @@ namespace FS_ParkourSystem
 
                         foreach (var obj in objs)
                         {
-                            if (obj.GetComponent<MeshRenderer>() == null || distanceBetweenPoints <= 0)
+                            if (obj.GetComponentInChildren<MeshRenderer>() == null || distanceBetweenPoints <= 0)
                                 continue;
 
                             obj.layer = LayerMask.NameToLayer("Ledge");
