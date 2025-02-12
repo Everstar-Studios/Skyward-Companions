@@ -399,6 +399,7 @@ namespace Skyward.Characters
 
             if (isGrounded && hit.transform.TryGetComponent(out MovingPlatform platform))
             {
+                currentSpeed.y = 0;
                 if (!isParentedToPlatform)
                 {
                     transform.parent = platform.transform;
