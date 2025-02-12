@@ -1,3 +1,4 @@
+#define inputsystem
 using System;
 using UnityEngine;
 
