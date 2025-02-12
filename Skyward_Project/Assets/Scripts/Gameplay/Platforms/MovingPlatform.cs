@@ -20,7 +20,7 @@ public class MovingPlatform : MonoBehaviour
     [SerializeField] 
     internal EMovementType movementType;
     [SerializeField] 
-    internal float movementSpeed;
+    internal float movementSpeed = 1.5f;
 
     [Header("Linear Movement")] 
     [SerializeField]
@@ -57,14 +57,14 @@ public class MovingPlatform : MonoBehaviour
             points.Add(transform.position);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (movementType == EMovementType.Circular)
         {
-            circularAngle += movementSpeed * Time.deltaTime;
+            circularAngle += movementSpeed * Time.fixedDeltaTime;
             HandleCircularMovement();
         }
-        else if (points.Count >= 2)
+        else if (points.Count > 1)
             MoveBetweenPoints();
     }
 
@@ -73,15 +73,14 @@ public class MovingPlatform : MonoBehaviour
         Vector3 normalizedAxis = circularAxis.normalized;
         Quaternion rotation = Quaternion.FromToRotation(Vector3.up, normalizedAxis);
         float angle = circularAngle;
-        Vector3 offset =
-            rotation * new Vector3(Mathf.Cos(angle) * circularRadius, Mathf.Sin(angle) * circularRadius, 0);
+        Vector3 offset = rotation * new Vector3(Mathf.Cos(angle) * circularRadius, Mathf.Sin(angle) * circularRadius, 0);
         transform.position = circularCenter + offset;
     }
 
     private void MoveBetweenPoints()
     {
         Vector3 target = points[currentIndex];
-        transform.position = Vector3.MoveTowards(transform.position, target, movementSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, target, movementSpeed * Time.fixedDeltaTime);
 
         if (Vector3.Distance(transform.position, target) < 0.1f)
         {
