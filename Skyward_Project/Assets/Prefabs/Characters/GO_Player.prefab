@@ -5912,13 +5912,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6903193317393294783d91aa6a5e2111, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprintSpeed: 10
+  sprintSpeed: 8.37
   runSpeed: 4.5
   walkSpeed: 5
   rotationSpeed: 2.5
   acceleration: 25
   deceleration: 100
-  enableSprint: 1
+  enableSprint: 0
   setDefaultStateToRunning: 0
   useMultiDirectionalAnimation: 0
   playerDirectionBlend: 1
@@ -5932,13 +5932,13 @@ MonoBehaviour:
   verticalJump: 1
   timeToJump: 0.4
   jumpMoveSpeed: 4
-  preventFallingFromLedge: 1
+  preventFallingFromLedge: 0
   slidingMovementThresholdFromLedge: -1
   preventLedgeRotation: 0
   preventWallSlide: 0
-  enableBalanceWalk: 1
+  enableBalanceWalk: 0
   balanceWalkDetectionType: 0
-  enableTurningAnim: 0
+  enableTurningAnim: 1
   playQuickTurnAnimation: 0
   QuickTurnThreshhold: -0.01
   playQuickStopAnimation: 0
@@ -5961,7 +5961,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enablePredictiveJump: 0
-  <MaxJumpHeight>k__BackingField: 3.09
+  <MaxJumpHeight>k__BackingField: 3
   minDistanceFromLedgeForJumping: 8.05
   <MaxJumpDistance>k__BackingField: 6.44
   footColliderRadius: 0.1
@@ -10975,7 +10975,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4301198301421475038}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.09013423, y: 0.0029493396, z: -0.00026692406, w: 0.99592525}
+  m_LocalRotation: {x: 0.09012857, y: 0.011151559, z: -0.001009245, w: 0.99586725}
   m_LocalPosition: {x: 0, y: 2.25, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
