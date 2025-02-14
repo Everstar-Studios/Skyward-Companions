@@ -3,6 +3,7 @@ using System.Collections;
 using Skyward.Characters;
 using Skyward.Utils;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BreakingPlatform : MonoBehaviour
 {
@@ -10,28 +11,14 @@ public class BreakingPlatform : MonoBehaviour
     private Collider collider;
     [SerializeField] 
     private float breakDelay;
+    [SerializeField] 
+    private UnityEvent onPlayerStepEvent;
+    [SerializeField] 
+    private UnityEvent preBreakEvent;
 
     private bool isBroken = false;
 
     private Transform player;
-
-    private void OnCollisionEnter(Collision other)
-    {
-        if (isBroken)
-            return;
-        if (!other.collider.TryGetComponent(out player))
-            return;
-
-        StartCoroutine(PrepareBreak());
-    }
-
-    private IEnumerator PrepareBreak()
-    {
-        isBroken = true;
-        yield return new WaitForSeconds(breakDelay);
-        transform.GetRoot().gameObject.SetActive(false);
-
-    }
 
     private IEnumerator Start()
     {
@@ -52,5 +39,16 @@ public class BreakingPlatform : MonoBehaviour
                 break;
             }
         }
+    }
+    
+    private IEnumerator PrepareBreak()
+    {
+        isBroken = true;
+        onPlayerStepEvent.Invoke();
+        
+        yield return new WaitForSeconds(breakDelay);
+        
+        preBreakEvent.Invoke();
+        transform.GetRoot().gameObject.SetActive(false);
     }
 }
