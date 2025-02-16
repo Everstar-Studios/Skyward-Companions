@@ -10975,8 +10975,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4301198301421475038}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0901335, y: 0.0039909948, z: -0.0003611954, w: 0.9959217}
-  m_LocalPosition: {x: 0, y: 2.25, z: -4}
+  m_LocalRotation: {x: -0.026960846, y: 0.010058112, z: 0.00027128757, w: 0.99958587}
+  m_LocalPosition: {x: 0, y: 1.2028233, z: -3.8148677}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11044,8 +11044,8 @@ MonoBehaviour:
     AngularDampingMode: 0
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
-  OrbitStyle: 1
-  Radius: 10
+  OrbitStyle: 0
+  Radius: 4
   Orbits:
     Top:
       Radius: 2
@@ -11101,7 +11101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Composition:
-    ScreenPosition: {x: -0.01090908, y: 0}
+    ScreenPosition: {x: -0.01090908, y: -0.02513957}
     DeadZone:
       Enabled: 0
       Size: {x: 0.2, y: 0.2}
@@ -11138,31 +11138,31 @@ MonoBehaviour:
       Owner: {fileID: 4028997141652451916}
       Enabled: 1
       Input:
-        InputAction: {fileID: -5630151704836100654, guid: 1d6e640e716dc4ff6989b73d02023f2b, type: 3}
-        Gain: 3
-        LegacyInput: Mouse X
+        InputAction: {fileID: -6055912931470156525, guid: b13ed430d9a91c6478f27db44ef7e99d, type: 3}
+        Gain: 200
+        LegacyInput: 
         LegacyGain: 200
         CancelDeltaTime: 0
       InputValue: 0
       Driver:
-        AccelTime: 0.2
-        DecelTime: 0.2
+        AccelTime: 0
+        DecelTime: 0
     - Name: Look Orbit Y
       Owner: {fileID: 4028997141652451916}
       Enabled: 1
       Input:
-        InputAction: {fileID: -5630151704836100654, guid: 1d6e640e716dc4ff6989b73d02023f2b, type: 3}
-        Gain: -3
-        LegacyInput: Mouse Y
+        InputAction: {fileID: -6055912931470156525, guid: b13ed430d9a91c6478f27db44ef7e99d, type: 3}
+        Gain: -200
+        LegacyInput: 
         LegacyGain: -200
         CancelDeltaTime: 0
       InputValue: 0
       Driver:
-        AccelTime: 0.2
-        DecelTime: 0.2
+        AccelTime: 0
+        DecelTime: 0
     - Name: Orbit Scale
       Owner: {fileID: 4028997141652451916}
-      Enabled: 1
+      Enabled: 0
       Input:
         InputAction: {fileID: 5082991133974614888, guid: 1d6e640e716dc4ff6989b73d02023f2b, type: 3}
         Gain: 1
@@ -25630,6 +25630,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3260533357108793994, guid: 3f7a78c58144dfe4a83854ad872c49fe, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3260533357108793994, guid: 3f7a78c58144dfe4a83854ad872c49fe, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3260533357108793994, guid: 3f7a78c58144dfe4a83854ad872c49fe, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5489226671638820878}
+    - target: {fileID: 3260533357108793994, guid: 3f7a78c58144dfe4a83854ad872c49fe, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3260533357108793994, guid: 3f7a78c58144dfe4a83854ad872c49fe, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DebugLog
+      objectReference: {fileID: 0}
+    - target: {fileID: 3260533357108793994, guid: 3f7a78c58144dfe4a83854ad872c49fe, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: DebugLogComponent, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3260533357108793994, guid: 3f7a78c58144dfe4a83854ad872c49fe, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: testttt
+      objectReference: {fileID: 0}
+    - target: {fileID: 3260533357108793994, guid: 3f7a78c58144dfe4a83854ad872c49fe, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5085845159155690122, guid: 3f7a78c58144dfe4a83854ad872c49fe, type: 3}
       propertyPath: m_Name
       value: UI
@@ -25637,10 +25669,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7314969355295433189, guid: 3f7a78c58144dfe4a83854ad872c49fe, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5489226671638820878}
   m_SourcePrefab: {fileID: 100100000, guid: 3f7a78c58144dfe4a83854ad872c49fe, type: 3}
 --- !u!224 &1741449512071822300 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 165391022353605071, guid: 3f7a78c58144dfe4a83854ad872c49fe, type: 3}
   m_PrefabInstance: {fileID: 1900881164214573587}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &9215126282495146998 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7314969355295433189, guid: 3f7a78c58144dfe4a83854ad872c49fe, type: 3}
+  m_PrefabInstance: {fileID: 1900881164214573587}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5489226671638820878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9215126282495146998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89cbd3f380c65514a995837ed8c0550b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
