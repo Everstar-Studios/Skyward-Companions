@@ -49,7 +49,7 @@ public partial class @LocomotionInputAction: IInputActionCollection2, IDisposabl
                     ""name"": ""Drop"",
                     ""type"": ""Button"",
                     ""id"": ""dd251ed4-d36c-44c1-863e-91251e99e45d"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -164,6 +164,17 @@ public partial class @LocomotionInputAction: IInputActionCollection2, IDisposabl
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
                     ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CameraInput"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""189386ee-c7f1-4e91-b294-71733843791a"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": ""ScaleVector2(x=0.01,y=0.01)"",
                     ""groups"": """",
                     ""action"": ""CameraInput"",
                     ""isComposite"": false,
