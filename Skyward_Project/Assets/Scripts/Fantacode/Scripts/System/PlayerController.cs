@@ -34,6 +34,18 @@ namespace Skyward.Characters
         public SystemState PreviousSystemState { get; private set; }
         public SystemState DefaultSystemState => SystemState.Locomotion; 
         public SystemState FocusedSystemState => FocusedScript == null ? DefaultSystemState : FocusedScript.State;
+        
+        /////===============================================================================\\\\\
+
+        private CharacterController controller;
+        private bool isSliding = false;
+        private Vector3 slideVelocity;
+        private float slideSpeed = 3f;
+        private Vector3 hedefNokta;
+
+
+        /////===============================================================================\\\\\
+
         public void SetSystemState(SystemState newState)
         {
             PreviousSystemState = CurrentSystemState;
@@ -101,6 +113,15 @@ namespace Skyward.Characters
         // Awake all registered scripts
         void Awake()
         {
+
+        /////===============================================================================\\\\\
+            controller = GetComponent<CharacterController>();
+            if (controller == null)
+            {
+                Debug.LogError("CharacterController bulunamadı! Kayma çalışmaz.");
+            }
+        /////===============================================================================\\\\\
+
             player = GetComponent<ICharacter>();
             var camera = FindAnyObjectByType<Camera>();
             if (camera == null)
@@ -161,6 +182,38 @@ namespace Skyward.Characters
                     if (script.enabled)
                         script.HandleUpdate();
                 }
+
+
+        /////===============================================================================\\\\\
+
+            if (isSliding)
+            {
+                Vector3 gravityEffect = Vector3.down * 5f; // Yerçekimi etkisi
+                Vector3 moveVector = slideVelocity + gravityEffect;
+
+                // Eğer oyuncunun önünde bir çarpışma algılanırsa, kaymayı durdur
+                if (Physics.CapsuleCast(controller.bounds.center, controller.bounds.center + Vector3.up * controller.height, 
+                                        controller.radius, moveVector.normalized, 1f, LayerMask.GetMask("Ground")))
+                {
+                    Debug.Log("🛑 Engel var, kayma durduruluyor.");
+                    StopSliding();
+                    return;
+                }
+
+                // Hareketi uygula
+                controller.Move(moveVector * Time.deltaTime);
+                Debug.Log($"⚡ Character Controller ile kayıyorum: {moveVector}");
+
+                // Eğer yere değerse kaymayı durdur
+                if (controller.isGrounded)
+                {
+                    Debug.Log("🛑 Yere temas edildi, kayma durduruluyor.");
+                    StopSliding();
+                }
+            }
+
+        /////===============================================================================\\\\\
+
         }
         void OnAnimatorMove()
         {
@@ -199,5 +252,50 @@ namespace Skyward.Characters
         {
             // GUILayout.Label(FocusedSystemState.ToString(), new GUIStyle() { fontSize = 24 }); ;
         }
+
+
+        /////===============================================================================\\\\\
+        void OnControllerColliderHit(ControllerColliderHit hit)
+        {
+            // Eğer oyuncu InvisibleWallLayer içeren bir nesneye çarparsa, kaymaya başla
+            if (hit.gameObject.layer == LayerMask.NameToLayer("InvisibleWallLayer"))
+            {
+                Debug.Log("🛑 Invisible Wall'a çarptım! Kayma başlıyor...");
+                StartSliding();
+            }
+
+            // Eğer oyuncu Ground layerına sahip bir nesneye çarparsa, kaymayı durdur
+            if (hit.gameObject.layer == LayerMask.NameToLayer("Ground"))
+            {
+                Debug.Log("🛑 Ground'a temas ettim! Kayma durduruluyor.");
+                StopSliding();
+            }
+        }
+
+        void StartSliding()
+        {
+            isSliding = true;
+            Debug.Log("🛑 InvisibleWall'a çarptım! Kayma başlıyor...");
+
+            // ✅ Doğru hedef noktayı kullan
+            hedefNokta = new Vector3(450f, 19f, 446f);
+
+            // ✅ Kayma yönünü hesapla
+            Vector3 slideDirection = (hedefNokta - transform.position).normalized;
+
+            // ✅ Kayma hızını uygula
+            slideVelocity = slideDirection * slideSpeed;
+
+            Debug.Log($"⚡ Güncellenmiş kayma yönü: {slideDirection}");
+        }
+        void StopSliding()
+        {
+            isSliding = false;
+            slideVelocity = Vector3.zero; // Kayma hızını tamamen sıfırla
+            Debug.Log("🛑 Kayma durduruldu.");
+        }
+
+        /////===============================================================================\\\\\
+
     }
 }
