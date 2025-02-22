@@ -255,7 +255,7 @@ namespace Skyward.Characters
             animator.SetFloat("locomotionType", useMultiDirectionalAnimation ? 1 : 0);
 
             var wasGroundedPreviously = isGrounded;
-            var hit = GroundCheck();
+            GroundCheck();
 
             if (isGrounded && !wasGroundedPreviously)
             {
@@ -397,7 +397,7 @@ namespace Skyward.Characters
 
             currentSpeed.y = ySpeed;
 
-            if (isGrounded && hit.transform.TryGetComponent(out MovingPlatform platform))
+            if (isGrounded && groundColliders[0].TryGetComponent(out MovingPlatform platform))
             {
                 currentSpeed.y = 0;
                 if (!isParentedToPlatform)
@@ -579,15 +579,16 @@ namespace Skyward.Characters
             return false;
         }
 
+        private Collider[] groundColliders = new Collider[1];
 
-        RaycastHit GroundCheck()
+        void GroundCheck()
         {
             RaycastHit hit;
             Vector3 origin = transform.TransformPoint(groundCheckOffset);
             Vector3 direction = Vector3.down;
-            isGrounded = Physics.SphereCast(origin, groundCheckRadius, direction, out hit, groundCheckRadius, groundLayer);
+            //isGrounded = Physics.SphereCast(origin, groundCheckRadius, direction, out hit, groundCheckRadius, groundLayer);
+            isGrounded = Physics.OverlapSphereNonAlloc(origin, groundCheckRadius, groundColliders, groundLayer) > 0;
             animator.SetBool(AnimatorParameters.IsGrounded, isGrounded);
-            return hit;
         }
 
         private void OnDrawGizmosSelected()
