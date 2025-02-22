@@ -220,13 +220,11 @@ namespace Skyward.Characters
         {
             if (hit.gameObject.layer == LayerMask.NameToLayer("InvisibleWallLayer"))
             {
-                Debug.Log("🛑 Invisible Wall'a çarptım! Kayma başlıyor...");
                 sliding.StartSliding();
             }
 
             if (hit.gameObject.layer == LayerMask.NameToLayer("Ground"))
             {
-                Debug.Log("🛑 Ground'a temas ettim! Kayma durduruluyor.");
                 sliding.StopSliding();
             }
         }

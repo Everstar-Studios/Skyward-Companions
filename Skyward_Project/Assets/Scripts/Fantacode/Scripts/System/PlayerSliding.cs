@@ -12,10 +12,6 @@ public class PlayerSliding : MonoBehaviour
     void Awake()
     {
         controller = GetComponent<CharacterController>();
-        if (controller == null)
-        {
-            Debug.LogError("CharacterController bulunamadı! Kayma çalışmaz.");
-        }
     }
 
     void Update()
@@ -29,19 +25,16 @@ public class PlayerSliding : MonoBehaviour
             if (Physics.CapsuleCast(controller.bounds.center, controller.bounds.center + Vector3.up * controller.height,
                                     controller.radius, moveVector.normalized, 1f, LayerMask.GetMask("Ground")))
             {
-                Debug.Log("🛑 Engel var, kayma durduruluyor.");
                 StopSliding();
                 return;
             }
 
             // Hareketi uygula
             controller.Move(moveVector * Time.deltaTime);
-            Debug.Log($"⚡ Character Controller ile kayıyorum: {moveVector}");
 
             // Eğer yere değerse kaymayı durdur
             if (controller.isGrounded)
             {
-                Debug.Log("🛑 Yere temas edildi, kayma durduruluyor.");
                 StopSliding();
             }
         }
@@ -50,7 +43,6 @@ public class PlayerSliding : MonoBehaviour
     public void StartSliding()
     {
         isSliding = true;
-        Debug.Log("🛑 InvisibleWall'a çarptım! Kayma başlıyor...");
 
         // ✅ Hedef olarak belirlenen GameObject'i kullan
         GameObject hedefObje = GameObject.Find("HedefNokta"); // "HedefNokta" adında bir GameObject bul
@@ -61,7 +53,6 @@ public class PlayerSliding : MonoBehaviour
         }
         else
         {
-            Debug.LogError("❌ Hedef GameObject bulunamadı! Varsayılan noktaya kayıyor.");
             hedefNokta = new Vector3(450f, 19f, 446f); // Eğer GameObject bulunamazsa varsayılan noktayı kullan
         }
 
@@ -70,14 +61,11 @@ public class PlayerSliding : MonoBehaviour
 
         // ✅ Kayma hızını uygula
         slideVelocity = slideDirection * slideSpeed;
-
-        Debug.Log($"⚡ Güncellenmiş kayma yönü: {slideDirection}");
     }
 
     public void StopSliding()
     {
         isSliding = false;
         slideVelocity = Vector3.zero; // Kayma hızını tamamen sıfırla
-        Debug.Log("🛑 Kayma durduruldu.");
     }
 }
