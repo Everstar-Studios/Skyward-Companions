@@ -49,7 +49,7 @@ public partial class @LocomotionInputAction: IInputActionCollection2, IDisposabl
                     ""name"": ""Drop"",
                     ""type"": ""Button"",
                     ""id"": ""dd251ed4-d36c-44c1-863e-91251e99e45d"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -67,7 +67,7 @@ public partial class @LocomotionInputAction: IInputActionCollection2, IDisposabl
                     ""name"": ""SprintKey"",
                     ""type"": ""Button"",
                     ""id"": ""e7eb017d-b5cb-4759-b104-c58d1d9f1904"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -163,7 +163,7 @@ public partial class @LocomotionInputAction: IInputActionCollection2, IDisposabl
                     ""id"": ""99bcbf85-9a33-4dda-987e-92ca243bfd79"",
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""ScaleVector2(x=100,y=100)"",
                     ""groups"": """",
                     ""action"": ""CameraInput"",
                     ""isComposite"": false,
