@@ -5944,7 +5944,7 @@ MonoBehaviour:
   playQuickStopAnimation: 0
   runToStopThreshhold: 0.4
   groundCheckRadius: 0.2
-  groundCheckOffset: {x: 0, y: 0.3, z: 0.07}
+  groundCheckOffset: {x: 0, y: 0, z: 0}
   groundLayer:
     serializedVersion: 2
     m_Bits: 513
@@ -10976,7 +10976,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4301198301421475038}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.026959747, y: 0.013621537, z: 0.00036740085, w: 0.99954367}
+  m_LocalRotation: {x: -0.026961245, y: 0.008633805, z: 0.00023287148, w: 0.99959916}
   m_LocalPosition: {x: 0, y: 1.2028233, z: -3.8148677}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -11072,7 +11072,7 @@ MonoBehaviour:
   VerticalAxis:
     Value: 17.5
     Center: 17.5
-    Range: {x: -10, y: 45}
+    Range: {x: -10, y: 60}
     Wrap: 0
     Recentering:
       Enabled: 0
@@ -11112,7 +11112,7 @@ MonoBehaviour:
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
   TargetOffset: {x: 0, y: 1.52, z: 0}
-  Damping: {x: 0.5, y: 0.5}
+  Damping: {x: 0, y: 0}
   Lookahead:
     Enabled: 0
     Time: 0
@@ -11140,9 +11140,9 @@ MonoBehaviour:
       Enabled: 1
       Input:
         InputAction: {fileID: -6055912931470156525, guid: b13ed430d9a91c6478f27db44ef7e99d, type: 3}
-        Gain: 100
+        Gain: 1
         LegacyInput: 
-        LegacyGain: 100
+        LegacyGain: 1
         CancelDeltaTime: 0
       InputValue: 0
       Driver:
@@ -11153,9 +11153,9 @@ MonoBehaviour:
       Enabled: 1
       Input:
         InputAction: {fileID: -6055912931470156525, guid: b13ed430d9a91c6478f27db44ef7e99d, type: 3}
-        Gain: -100
+        Gain: -1
         LegacyInput: 
-        LegacyGain: -100
+        LegacyGain: -1
         CancelDeltaTime: 0
       InputValue: 0
       Driver:
