@@ -5850,6 +5850,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5209498071287124412}
   - component: {fileID: 3134556856589395041}
+  - component: {fileID: 6094230789992536671}
   - component: {fileID: 2497969912419022337}
   - component: {fileID: 2559574073103921843}
   - component: {fileID: 2118719334502932689}
@@ -5858,7 +5859,7 @@ GameObject:
   - component: {fileID: 8850765461885274042}
   - component: {fileID: 4714229603545159168}
   - component: {fileID: 3971569804270633727}
-  m_Layer: 2
+  m_Layer: 10
   m_Name: GO_Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5900,6 +5901,18 @@ MonoBehaviour:
   - {fileID: 2118719334502932689}
   - {fileID: 2559574073103921843}
   <CurrentSystemState>k__BackingField: 0
+--- !u!114 &6094230789992536671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2338293788737626659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19e1e13aa26baaa41b605a5e216c5a2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2497969912419022337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5933,12 +5946,12 @@ MonoBehaviour:
   timeToJump: 0.5
   jumpMoveSpeed: 7
   preventFallingFromLedge: 0
-  slidingMovementThresholdFromLedge: -1
+  slidingMovementThresholdFromLedge: 0.194
   preventLedgeRotation: 0
   preventWallSlide: 0
   enableBalanceWalk: 0
   balanceWalkDetectionType: 0
-  enableTurningAnim: 1
+  enableTurningAnim: 0
   playQuickTurnAnimation: 0
   QuickTurnThreshhold: -0.01
   playQuickStopAnimation: 0
@@ -5947,7 +5960,7 @@ MonoBehaviour:
   groundCheckOffset: {x: 0, y: 0.3, z: 0.07}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 513
+    m_Bits: 64
 --- !u!114 &2559574073103921843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6151,10 +6164,10 @@ CharacterController:
   serializedVersion: 3
   m_Height: 1.7
   m_Radius: 0.2
-  m_SlopeLimit: 47.71
-  m_StepOffset: 0.64
-  m_SkinWidth: 0.02
-  m_MinMoveDistance: 0.001
+  m_SlopeLimit: 80
+  m_StepOffset: 0.1
+  m_SkinWidth: 0.1
+  m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0.87, z: 0.08}
 --- !u!114 &4714229603545159168
 MonoBehaviour:
@@ -10975,8 +10988,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4301198301421475038}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.026960855, y: 0.010056832, z: 0.0002712531, w: 0.99958587}
-  m_LocalPosition: {x: 0, y: 1.2028233, z: -3.8148677}
+  m_LocalRotation: {x: -0.026959453, y: 0.01639025, z: 0.00044209237, w: 0.9995021}
+  m_LocalPosition: {x: -0.049342334, y: 1.2028198, z: -3.8145614}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
