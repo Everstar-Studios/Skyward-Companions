@@ -45,7 +45,7 @@
                     "name": "SprintKey",
                     "type": "Button",
                     "id": "e7eb017d-b5cb-4759-b104-c58d1d9f1904",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -141,18 +141,7 @@
                     "id": "99bcbf85-9a33-4dda-987e-92ca243bfd79",
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "CameraInput",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "189386ee-c7f1-4e91-b294-71733843791a",
-                    "path": "<Mouse>/delta",
-                    "interactions": "",
-                    "processors": "ScaleVector2(x=0.01,y=0.01)",
+                    "processors": "ScaleVector2(x=100,y=100)",
                     "groups": "",
                     "action": "CameraInput",
                     "isComposite": false,
