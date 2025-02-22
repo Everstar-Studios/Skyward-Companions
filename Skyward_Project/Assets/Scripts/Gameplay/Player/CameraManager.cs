@@ -1,3 +1,4 @@
+using System;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,6 +12,12 @@ public class CameraManager : MonoBehaviour
     private Vector2 lastInput;
     private float lastX;
     private float lastY;
+
+    private void Awake()
+    {
+        lastX = cam.HorizontalAxis.Value;
+        lastY = cam.VerticalAxis.Value;
+    }
 
     void Update()
     {
