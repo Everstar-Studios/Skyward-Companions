@@ -15,6 +15,8 @@ public class BreakingPlatform : MonoBehaviour
     private UnityEvent onPlayerStepEvent;
     [SerializeField] 
     private UnityEvent preBreakEvent;
+    [SerializeField] 
+    private float respawnDelay = 5f;
 
     private bool isBroken = false;
 
@@ -33,22 +35,24 @@ public class BreakingPlatform : MonoBehaviour
             if (!collider.bounds.Contains(player.position))
                 yield return new WaitForFixedUpdate();
             else
-            {
-                isBroken = true;
-                yield return PrepareBreak();
-                break;
-            }
+                yield return PrepareBreakFlow();
         }
     }
     
-    private IEnumerator PrepareBreak()
+    private IEnumerator PrepareBreakFlow()
     {
         isBroken = true;
         onPlayerStepEvent.Invoke();
         
         yield return new WaitForSeconds(breakDelay);
-        
+
+        var child = collider.gameObject;
         preBreakEvent.Invoke();
-        transform.GetRoot().gameObject.SetActive(false);
+        child.SetActive(false);
+
+        yield return new WaitForSeconds(respawnDelay);
+
+        child.SetActive(true);
+        isBroken = false;
     }
 }
