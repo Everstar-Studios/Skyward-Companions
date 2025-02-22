@@ -6,7 +6,7 @@ public class PlayerSliding : MonoBehaviour
     private CharacterController controller;
     private bool isSliding = false;
     private Vector3 slideVelocity;
-    private float slideSpeed = 5f;
+    private float slideSpeed = 10f;
     private Vector3 hedefNokta;
 
     void Awake()
