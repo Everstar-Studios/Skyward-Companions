@@ -40,8 +40,6 @@ public class GameManager : MonoBehaviour
 
     public void StartGame(int sceneIndex)
     {
-        SceneManager.LoadScene(sceneIndex);
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+
     }
 }

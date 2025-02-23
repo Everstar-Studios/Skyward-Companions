@@ -6,6 +6,12 @@ using UnityEngine;
 namespace Skyward.Core
 {
     public interface ICoreComponent { }
+
+    public interface ISkywardComponent : ICoreComponent
+    {
+        void WorldLoaded();
+        void Cleanup();
+    }
     
     public interface ISystem : ICoreComponent
     {
@@ -16,6 +22,12 @@ namespace Skyward.Core
 
     public class GameContext
     {
+        public SkywardGame game;
+
+        public GameContext(SkywardGame game)
+        {
+            this.game = game;
+        }
     }
     
     

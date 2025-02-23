@@ -4,7 +4,8 @@ namespace Skyward.Core
 {
     public abstract class BaseSystem : MonoBehaviour, ISystem
     {
-        protected GameContext GameContext { get; private set; }
+        internal GameContext gamecontext;
+        protected GameContext GameContext => gamecontext; 
         
         protected virtual void Preload(GameContext context) { }
         protected virtual void Initialize(GameContext context) { }
@@ -17,8 +18,6 @@ namespace Skyward.Core
         
         void ISystem.Initialize(GameContext context)
         {
-            GameContext = context;
-            
             Initialize(context);
         }
 
