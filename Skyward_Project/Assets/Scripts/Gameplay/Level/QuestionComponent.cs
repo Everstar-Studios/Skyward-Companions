@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Skyward.Characters;
 using Skyward.Core;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -36,7 +37,19 @@ public class QuestionComponent : MonoBehaviour, ISkywardComponent
 
     private void Start()
     {
+        SetupAnswers();
         SetActivateQuestions(false);
+    }
+
+    private void SetupAnswers()
+    {
+        GetTextComponent(correctAnswer.platform).text = correctAnswer.answer;
+        wrongAnswers.ForEach((w) => GetTextComponent(w.platform).text = w.answer);
+    }
+
+    private TMP_Text GetTextComponent(Component answer)
+    {
+        return answer.GetComponentInChildren<TMP_Text>();
     }
 
     private void SetActivateQuestions(bool active)
