@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -35,5 +36,12 @@ public class GameManager : MonoBehaviour
             
             yield return new WaitForFixedUpdate();
         }
+    }
+
+    public void StartGame(int sceneIndex)
+    {
+        SceneManager.LoadScene(sceneIndex);
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 }
