@@ -34,7 +34,7 @@ namespace Skyward.Characters
                 EditorApplication.update -= OnFirstUpdate;
                 CreateSetupScript();
                 setupScript.ImportProjectSettings();
-                ShowWindow();
+                //ShowWindow();
                 setupScript.FindSystem();
             }
         }
