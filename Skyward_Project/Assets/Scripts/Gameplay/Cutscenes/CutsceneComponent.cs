@@ -27,6 +27,8 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     [SerializeField] 
     private Collider trigger;
     [SerializeField] 
+    private bool disableInput = true;
+    [SerializeField] 
     private UnityEvent onCutsceneStarted;
     [SerializeField]
     private UnityEvent onCutsceneStopped;
@@ -94,6 +96,9 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
             CutsceneSystem.Play(Director);
         else if (VideoPlayer != null)
             CutsceneSystem.Play(VideoPlayer);
+
+        if (disableInput)
+            GameInputSystem.DisableInput();
         
         onCutsceneStarted?.Invoke();
         CameraSystem.DisableCamera();
@@ -102,12 +107,20 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     private void OnCutsceneEnd(PlayableDirector _)
     {
         onCutsceneStopped?.Invoke();
+        
+        if (disableInput)
+            GameInputSystem.EnableInput();
+        
         CameraSystem.EnableCamera();
     }
     
     private void OnVideoEnded(VideoPlayer _)
     {
         onCutsceneStopped?.Invoke();
+        
+        if (disableInput)
+            GameInputSystem.EnableInput();
+        
         CameraSystem.EnableCamera();
     }
     

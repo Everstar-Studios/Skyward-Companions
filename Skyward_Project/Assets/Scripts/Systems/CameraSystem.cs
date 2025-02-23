@@ -22,7 +22,6 @@ namespace Skyward.Systems
             base.Awake();
             
             mainCamera = GetComponent<Camera>();
-            mainVirtualCamera = mainCamera.GetComponentInChildren<CinemachineCamera>();
         }
 
         protected override void Cleanup()
@@ -30,6 +29,11 @@ namespace Skyward.Systems
             base.Cleanup();
             
             DestroyImmediate(mainCamera.gameObject);
+        }
+
+        public static void SetCamera(CinemachineCamera cinemachineCamera)
+        {
+            Instance.mainVirtualCamera = cinemachineCamera;
         }
 
         public static void EnableCamera()

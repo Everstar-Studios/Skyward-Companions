@@ -1,10 +1,12 @@
 #define inputsystem
 using System;
+using Skyward.Core;
+using Skyward.Systems;
 using UnityEngine;
 
 namespace FS_ParkourSystem
 {
-    public partial class ParkourInputManager : MonoBehaviour
+    public partial class ParkourInputManager : MonoBehaviour, ISkywardComponent
     {
         [Header("Keys")]
         [SerializeField] KeyCode jumpKey = KeyCode.Space;
@@ -29,6 +31,12 @@ namespace FS_ParkourSystem
             input = new ParkourInputAction();
             input.Enable();
         }
+        
+        void ISkywardComponent.WorldLoaded()
+        {
+            GameInputSystem.AddInputAction(input);
+        }
+        
         private void OnDisable()
         {
             input.Disable();

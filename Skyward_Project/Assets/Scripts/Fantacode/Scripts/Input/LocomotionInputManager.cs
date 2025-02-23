@@ -2,12 +2,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Skyward.Core;
+using Skyward.Systems;
 using UnityEngine;
 
 
 namespace Skyward.Characters
 {
-    public class LocomotionInputManager : MonoBehaviour
+    public class LocomotionInputManager : MonoBehaviour, ISkywardComponent
     {
         [Header("Keys")]
         [SerializeField] KeyCode jumpKey = KeyCode.Space;
@@ -44,7 +46,19 @@ namespace Skyward.Characters
         {
             input = new LocomotionInputAction();
             input.Enable();
+
         }
+
+        void ISkywardComponent.WorldLoaded()
+        {
+            GameInputSystem.AddInputAction(input);
+        }
+
+        private void OnCutsceneStarted(object sender, EventArgs args)
+        {
+            
+        }
+
         private void OnDisable()
         {
             input.Disable();
