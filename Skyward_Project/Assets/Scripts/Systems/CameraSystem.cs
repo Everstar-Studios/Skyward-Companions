@@ -12,6 +12,7 @@ namespace Skyward.Systems
         public static Camera Camera => Instance.mainCamera;
 
         public static CinemachineBrain Brain => CinemachineCore.FindPotentialTargetBrain(MainVirtualCamera);
+        public static bool HasBrain => Brain != null;
 
         private CinemachineCamera mainVirtualCamera;
         public static CinemachineCamera MainVirtualCamera => Instance.mainVirtualCamera;
