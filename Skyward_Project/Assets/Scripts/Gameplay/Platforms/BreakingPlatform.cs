@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
 using Skyward.Characters;
+using Skyward.Core;
 using Skyward.Utils;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class BreakingPlatform : MonoBehaviour
+public class BreakingPlatform : MonoBehaviour, ISkywardComponent
 {
     [SerializeField] 
     private Collider collider;
@@ -22,14 +23,22 @@ public class BreakingPlatform : MonoBehaviour
 
     private Transform player;
 
-    private IEnumerator Start()
+    private bool worldLoaded = false;
+
+    void ISkywardComponent.WorldLoaded()
     {
-        player = FindAnyObjectByType<PlayerController>().transform;
-        yield return CheckForPlayer();
+        worldLoaded = true;
+    }
+
+    private void OnEnable()
+    {
+        StartCoroutine(CheckForPlayer());
     }
 
     private IEnumerator CheckForPlayer()
     {
+        yield return new WaitUntil(() => worldLoaded);
+        player = PlayerSystem.Player.transform;
         while (true)
         {
             if (!collider.bounds.Contains(player.position))
