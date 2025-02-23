@@ -38,18 +38,38 @@ public class SkywardGame : MonoBehaviour
         if (FindAnyObjectByType<Lobby>() == null)
             yield return Initialize(new GameSettings());
     }
+    
+    public void LaunchLevel(int sceneIndex)
+    {
+        InitializeSystems();
+        
+        var async = SceneManager.LoadSceneAsync(sceneIndex);
+        async.completed += OnLevelLoaded;
+    }
+
+    private void OnLevelLoaded(AsyncOperation operation)
+    {
+        operation.completed -= OnLevelLoaded;
+        
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        
+        TrackPrespawnedObjects();
+        WorldLoaded();
+    }
+
+    private void WorldLoaded()
+    {
+        foreach (var comp in ComponentSystem.GetAllComponents<ISkywardComponent>())
+            comp.WorldLoaded();
+    }
 
     public IEnumerator Initialize(GameSettings settings)
     {
-        context = new GameContext()
-        {
-        };
-
-        CreateFactory();
+        context = new GameContext(this);
+        
         CreateSystems();
-        CreateGameManager();
         TrackPrespawnedObjects();
-        InitializeSystems();
         
         yield break;
     }
@@ -97,6 +117,12 @@ public class SkywardGame : MonoBehaviour
                 continue;
 
             systemsGameObject.AddComponent(systemType);
+            
+            Component systemComponent = (Component)FindAnyObjectByType(systemType);
+            if (systemComponent is BaseSystem system)
+            {
+                system.gamecontext = context;
+            }
         }
         
         DontDestroyOnLoad(systemsGameObject);

@@ -37,11 +37,4 @@ public class GameManager : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
     }
-
-    public void StartGame(int sceneIndex)
-    {
-        SceneManager.LoadScene(sceneIndex);
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-    }
 }

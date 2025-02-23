@@ -26,6 +26,6 @@ public class LobbyUI : MonoBehaviour
 
     public void OpenLevel(int sceneIndex)
     {
-        GameManager.Instance.StartGame(sceneIndex);
+        GameSystem.LaunchLevel(sceneIndex);
     }
 }
