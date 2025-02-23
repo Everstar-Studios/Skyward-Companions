@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Skyward.Characters;
 using Skyward.Core;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class QuestionComponent : MonoBehaviour, ISkywardComponent
 {
@@ -27,28 +28,33 @@ public class QuestionComponent : MonoBehaviour, ISkywardComponent
     private CorrectAnswerData correctAnswer;
     [SerializeField]
     private List<WrongAnswerData> wrongAnswers;
-
-    private Transform player;
+    [SerializeField]
+    private UnityEvent succeededEvent;
+    [SerializeField]
+    private UnityEvent failedEvent;
+    private bool questionAsked = false;
 
     private void Start()
     {
         SetActivateQuestions(false);
     }
 
-    void ISkywardComponent.WorldLoaded()
-    {
-        player = PlayerSystem.Player.transform;
-    }
-
     private void SetActivateQuestions(bool active)
     {
         correctAnswer.platform.gameObject.SetActive(active);
+        SetActivateWrongPlatforms(active);
+    }
+
+    private void SetActivateWrongPlatforms(bool active)
+    {
         wrongAnswers.ForEach((w) => w.platform.gameObject.SetActive(active));
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform != player.transform)
+        if (questionAsked)
+            return;
+        if (other.transform != PlayerSystem.Player.transform)
             return;
 
         ShowQuestions();
@@ -62,24 +68,38 @@ public class QuestionComponent : MonoBehaviour, ISkywardComponent
 
     private IEnumerator OnQuestionAsked()
     {
+        questionAsked = true;
+        Transform player = PlayerSystem.Player.transform;
         while (true)
         {
             foreach (WrongAnswerData wrongAnswer in wrongAnswers)
             {
                 if (wrongAnswer.platform.IsBroken)
                 {
-                    SetActivateQuestions(false);
+                    Failed();
                     yield break;
                 }
             }
 
             if (correctAnswer.platform.bounds.Contains(player.position))
             {
-                Debug.Log($"You won!");
+                Succeeded();
                 yield break;
             }
             
             yield return new WaitForFixedUpdate();
         }
+    }
+
+    private void Failed()
+    {
+        failedEvent.Invoke();
+        SetActivateQuestions(false);
+    }
+
+    private void Succeeded()
+    {
+        succeededEvent.Invoke();
+        SetActivateWrongPlatforms(false);
     }
 }
