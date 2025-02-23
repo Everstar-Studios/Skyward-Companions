@@ -1,59 +1,36 @@
 using System;
+using System.Collections.Generic;
 using Skyward.Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Skyward.Systems
 {
+    [RequiredSystem]
     public class GameInputSystem : BaseSystem<GameInputSystem>
     {
-        private PlayerInput playerInput;
-
-        public static PlayerInput PlayerInput => Instance.playerInput;
+        public static List<IInputActionCollection2> Inputs => Instance.inputs;
+        private List<IInputActionCollection2> inputs = new();
+        public static void EnableInput()
+        {
+            Inputs.ForEach((i) => i.Enable());
+        }
         
-        // TODO OK: Implement generic commands for input actions
-        public static event Action<Vector2> onMove;
-        public static event Action<Vector2> onLook;
-        public static event Action onInteract;
-        public static event Action onJump;
-        public static event Action<bool> onSprint;
-        public static event Action onTogglePOV;
-
-        protected override void Awake()
+        public static void DisableInput()
         {
-            base.Awake();
-
-            playerInput = GetComponent<PlayerInput>();
+            Inputs.ForEach((i) => i.Disable());
         }
 
-        public void OnMove(InputAction.CallbackContext context)
+        public static void AddInputAction(IInputActionCollection2 inputAction)
         {
-            onMove?.Invoke(context.ReadValue<Vector2>());
+            Inputs.Add(inputAction);
         }
 
-        public void OnLook(InputAction.CallbackContext context)
+        protected override void Cleanup()
         {
-            onLook?.Invoke(context.ReadValue<Vector2>());
-        }
-
-        public void OnInteract(InputValue value)
-        {
-            onInteract?.Invoke();
-        }
-
-        public void OnJump(InputAction.CallbackContext context)
-        {
-            onJump?.Invoke();
-        }
-
-        public void OnSprint(InputValue value)
-        {
-            onSprint?.Invoke(value.isPressed);
-        }
-
-        public void OnTogglePOV(InputValue value)
-        {
-            onTogglePOV?.Invoke();
+            base.Cleanup();
+            
+            Instance.inputs.Clear();
         }
     }
 }

@@ -12,6 +12,7 @@ namespace Skyward.Systems
         public static Camera Camera => Instance.mainCamera;
 
         public static CinemachineBrain Brain => CinemachineCore.FindPotentialTargetBrain(MainVirtualCamera);
+        public static bool HasBrain => Brain != null;
 
         private CinemachineCamera mainVirtualCamera;
         public static CinemachineCamera MainVirtualCamera => Instance.mainVirtualCamera;
@@ -21,7 +22,6 @@ namespace Skyward.Systems
             base.Awake();
             
             mainCamera = GetComponent<Camera>();
-            mainVirtualCamera = mainCamera.GetComponentInChildren<CinemachineCamera>();
         }
 
         protected override void Cleanup()
@@ -29,6 +29,11 @@ namespace Skyward.Systems
             base.Cleanup();
             
             DestroyImmediate(mainCamera.gameObject);
+        }
+
+        public static void SetCamera(CinemachineCamera cinemachineCamera)
+        {
+            Instance.mainVirtualCamera = cinemachineCamera;
         }
 
         public static void EnableCamera()

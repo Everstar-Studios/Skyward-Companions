@@ -9,8 +9,8 @@ namespace Skyward.Core
 
     public interface ISkywardComponent : ICoreComponent
     {
-        void WorldLoaded();
-        void Cleanup();
+        void WorldLoaded() {}
+        void Cleanup() { }
     }
     
     public interface ISystem : ICoreComponent
