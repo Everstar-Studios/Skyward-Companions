@@ -234,7 +234,7 @@ MonoBehaviour:
       Input:
         InputAction: {fileID: -6055912931470156525, guid: b13ed430d9a91c6478f27db44ef7e99d, type: 3}
         Gain: 1
-        LegacyInput: Mouse X
+        LegacyInput: 
         LegacyGain: 100
         CancelDeltaTime: 0
       InputValue: 0
@@ -247,7 +247,7 @@ MonoBehaviour:
       Input:
         InputAction: {fileID: -6055912931470156525, guid: b13ed430d9a91c6478f27db44ef7e99d, type: 3}
         Gain: -1
-        LegacyInput: Mouse Y
+        LegacyInput: 
         LegacyGain: -100
         CancelDeltaTime: 0
       InputValue: 0
@@ -281,6 +281,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a16ea6828ae6cb4eb353eb7a649e86c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputController: {fileID: 1327548416407404257}
   inputActionReference: {fileID: -6055912931470156525, guid: b13ed430d9a91c6478f27db44ef7e99d, type: 3}
-  cam: {fileID: 5689800807339082144}
