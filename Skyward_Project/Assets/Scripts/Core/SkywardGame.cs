@@ -36,7 +36,10 @@ public class SkywardGame : MonoBehaviour
     private IEnumerator Start()
     {
         if (FindAnyObjectByType<Lobby>() == null)
+        {
             yield return Initialize(new GameSettings());
+            OnLevelLoaded();
+        }
     }
     
     public void LaunchLevel(int sceneIndex)
@@ -50,15 +53,19 @@ public class SkywardGame : MonoBehaviour
     private void OnLevelLoaded(AsyncOperation operation)
     {
         operation.completed -= OnLevelLoaded;
-        
+        OnLevelLoaded();
+    }
+
+    private void OnLevelLoaded()
+    {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         
         TrackPrespawnedObjects();
-        WorldLoaded();
+        NotifyWorldLoaded();
     }
 
-    private void WorldLoaded()
+    private void NotifyWorldLoaded()
     {
         foreach (var comp in ComponentSystem.GetAllComponents<ISkywardComponent>())
             comp.WorldLoaded();
