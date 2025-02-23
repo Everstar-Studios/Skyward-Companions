@@ -43,14 +43,11 @@ public class SkywardVirtualCamera : MonoBehaviour
         
         Vector2 movementDelta = input - lastInput;
         lastInput = input;
-        
-        bool isStop = movementDelta.magnitude <= float.Epsilon;
-        if (!isStop)
-        {
-            lastX = orbitalFollowComponent.HorizontalAxis.Value;
-            lastY = orbitalFollowComponent.VerticalAxis.Value;
+
+        lastX = orbitalFollowComponent.HorizontalAxis.Value;
+        lastY = orbitalFollowComponent.VerticalAxis.Value;
+        if (movementDelta.magnitude > float.Epsilon)
             return;
-        }
 
         orbitalFollowComponent.HorizontalAxis.Value = lastX;
         orbitalFollowComponent.VerticalAxis.Value = lastY;
