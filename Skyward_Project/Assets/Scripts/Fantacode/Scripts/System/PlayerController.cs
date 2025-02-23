@@ -34,6 +34,12 @@ namespace Skyward.Characters
         public SystemState PreviousSystemState { get; private set; }
         public SystemState DefaultSystemState => SystemState.Locomotion; 
         public SystemState FocusedSystemState => FocusedScript == null ? DefaultSystemState : FocusedScript.State;
+        
+        /////===============================================================================\\\\\
+        private PlayerSliding sliding;
+
+        /////===============================================================================\\\\\
+
         public void SetSystemState(SystemState newState)
         {
             PreviousSystemState = CurrentSystemState;
@@ -85,7 +91,7 @@ namespace Skyward.Characters
         public GameObject cameraGameObject { get; set; }
         public Animator animator { get; set; }
         //public CharacterController characterController { get; set; }
-        //public EnvironmentScanner environmentScanner { get; set`; }
+        //public EnvironmentScanner environmentScanner { get; set; }
         public ICharacter player { get; set; }
 
         public Action<float, float> OnStartCameraShake;
@@ -101,6 +107,13 @@ namespace Skyward.Characters
         // Awake all registered scripts
         void Awake()
         {
+
+        /////===============================================================================\\\\\
+
+            sliding = GetComponent<PlayerSliding>();
+
+        /////===============================================================================\\\\\
+
             player = GetComponent<ICharacter>();
             var camera = FindAnyObjectByType<Camera>();
             if (camera == null)
@@ -161,6 +174,7 @@ namespace Skyward.Characters
                     if (script.enabled)
                         script.HandleUpdate();
                 }
+
         }
         void OnAnimatorMove()
         {
@@ -199,5 +213,23 @@ namespace Skyward.Characters
         {
             // GUILayout.Label(FocusedSystemState.ToString(), new GUIStyle() { fontSize = 24 }); ;
         }
+
+
+        /////===============================================================================\\\\\
+        void OnControllerColliderHit(ControllerColliderHit hit)
+        {
+            if (hit.gameObject.layer == LayerMask.NameToLayer("InvisibleWallLayer"))
+            {
+                sliding.StartSliding();
+            }
+
+            if (hit.gameObject.layer == LayerMask.NameToLayer("Ground"))
+            {
+                sliding.StopSliding();
+            }
+        }
+
+        /////===============================================================================\\\\\
+
     }
 }
