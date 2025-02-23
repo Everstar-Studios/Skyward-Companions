@@ -20,6 +20,7 @@ public class BreakingPlatform : MonoBehaviour, ISkywardComponent
     private float respawnDelay = 5f;
 
     private bool isBroken = false;
+    public bool IsBroken => isBroken;
 
     private Transform player;
 
