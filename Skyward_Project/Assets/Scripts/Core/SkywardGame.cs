@@ -69,8 +69,6 @@ public class SkywardGame : MonoBehaviour
         context = new GameContext(this);
         
         CreateSystems();
-        TrackPrespawnedObjects();
-        
         yield break;
     }
     
