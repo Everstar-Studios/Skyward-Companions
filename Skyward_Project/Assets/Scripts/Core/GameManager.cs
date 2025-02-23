@@ -37,9 +37,4 @@ public class GameManager : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
     }
-
-    public void StartGame(int sceneIndex)
-    {
-
-    }
 }
