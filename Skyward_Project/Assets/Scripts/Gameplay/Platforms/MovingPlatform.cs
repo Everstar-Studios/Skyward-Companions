@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 using UnityEditor;
 #endif
 
-public class MovingPlatform : MonoBehaviour
+public class MovingPlatform : Platform
 {
     public enum EMovementType
     {
