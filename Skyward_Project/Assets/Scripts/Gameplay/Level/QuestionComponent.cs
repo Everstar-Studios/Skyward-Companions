@@ -13,18 +13,18 @@ public class QuestionComponent : MonoBehaviour, ISkywardComponent
     public class CorrectAnswerData
     {
         public Collider platform;
-        public string answer;
     }
     
     [Serializable]
     public class WrongAnswerData
     {
         public BreakingPlatform platform;
-        public string answer;
     }
 
+    [SerializeField]
+    public string question;
     [SerializeField] 
-    private Collider trigger;
+    private float triggerRadius;
     [SerializeField]
     private CorrectAnswerData correctAnswer;
     [SerializeField]
@@ -35,84 +35,79 @@ public class QuestionComponent : MonoBehaviour, ISkywardComponent
     private UnityEvent failedEvent;
     private bool questionAsked = false;
 
-    private void Start()
+    private IEnumerator Start()
     {
-        SetupAnswers();
-        SetActivateQuestions(false);
+        yield return RecognizePlayer();
     }
 
-    private void SetupAnswers()
+    private IEnumerator RecognizePlayer()
     {
-        GetTextComponent(correctAnswer.platform).text = correctAnswer.answer;
-        wrongAnswers.ForEach((w) => GetTextComponent(w.platform).text = w.answer);
-    }
-
-    private TMP_Text GetTextComponent(Component answer)
-    {
-        return answer.GetComponentInChildren<TMP_Text>();
-    }
-
-    private void SetActivateQuestions(bool active)
-    {
-        correctAnswer.platform.gameObject.SetActive(active);
-        SetActivateWrongPlatforms(active);
-    }
-
-    private void SetActivateWrongPlatforms(bool active)
-    {
-        wrongAnswers.ForEach((w) => w.platform.gameObject.SetActive(active));
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (questionAsked)
-            return;
-        if (other.transform != PlayerSystem.Player.transform)
-            return;
-
-        ShowQuestions();
-    }
-
-    private void ShowQuestions()
-    {
-        SetActivateQuestions(true);
-        StartCoroutine(OnQuestionAsked());
-    }
-
-    private IEnumerator OnQuestionAsked()
-    {
-        questionAsked = true;
+        yield return new WaitUntil(() => PlayerSystem.Player != null);
         Transform player = PlayerSystem.Player.transform;
+        
         while (true)
         {
-            foreach (WrongAnswerData wrongAnswer in wrongAnswers)
+            if (!IsPlayerNearby(player))
             {
-                if (wrongAnswer.platform.IsBroken)
-                {
-                    Failed();
-                    yield break;
-                }
+                if (questionAsked)
+                    OnQuestionEnded();
+                
+                yield return new WaitForFixedUpdate();
             }
+            else
+            {
+                if (!questionAsked)
+                    AskQuestion();
+                
+                CheckQuestionStatus(player);
+                yield return new WaitForEndOfFrame();
+            }
+        }
+    }
 
-            if (correctAnswer.platform.bounds.Contains(player.position))
+    private bool IsPlayerNearby(Transform player) => Vector3.SqrMagnitude(transform.position - player.position) < triggerRadius * triggerRadius;
+
+    private void AskQuestion()
+    {
+        QuestionSystem.OnQuestionAsked(this);
+        questionAsked = true;
+    }
+    
+    private void OnQuestionEnded()
+    {
+        questionAsked = false;
+        QuestionSystem.OnQuestionEnded();
+    }
+
+    private void CheckQuestionStatus(Transform player)
+    {
+        foreach (WrongAnswerData wrongAnswer in wrongAnswers)
+        {
+            if (wrongAnswer.platform.IsBroken)
             {
-                Succeeded();
-                yield break;
+                Failed();
+                break;
             }
-            
-            yield return new WaitForFixedUpdate();
+        }
+
+        if (correctAnswer.platform.bounds.Contains(player.position))
+        {
+            Succeeded();
         }
     }
 
     private void Failed()
     {
         failedEvent.Invoke();
-        SetActivateQuestions(false);
     }
 
     private void Succeeded()
     {
         succeededEvent.Invoke();
-        SetActivateWrongPlatforms(false);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireSphere(transform.position, triggerRadius);
     }
 }
