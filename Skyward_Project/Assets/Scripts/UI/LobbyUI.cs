@@ -6,6 +6,7 @@ public class LobbyUI : MonoBehaviour
 {
     public GameObject mainMenuScreen;
     public GameObject playScreen;
+    public GameObject leaderboardScreen;
 
     private void Start()
     {
@@ -16,17 +17,28 @@ public class LobbyUI : MonoBehaviour
     {
         mainMenuScreen.SetActive(false);
         playScreen.SetActive(true);
+        leaderboardScreen.SetActive(false);
+
     }
 
     public void OpenMainMenu()
     {
         mainMenuScreen.SetActive(true);
         playScreen.SetActive(false);
+        leaderboardScreen.SetActive(false);
     }
 
-    public void OpenLevel(int sceneIndex)
+    public void OpenLeaderBoardScreen()
     {
-        SceneManager.LoadScene("SCN_LevelSelect"); // Level seçim ekranına yönlendir
+        mainMenuScreen.SetActive(false);
+        playScreen.SetActive(false);
+        leaderboardScreen.SetActive(true);
+    }
+
+    public void OpenLevel(string sceneName)  // Changed from int to string
+    {
+        PlayerPrefs.SetString("NextScene", sceneName); // Store the next scene name
+        SceneManager.LoadScene("SCN_LoadingScene"); // Load the loading scene first
     }
 
     public void QuitGame()
