@@ -7,6 +7,9 @@ public class LobbyUI : MonoBehaviour
     public GameObject mainMenuScreen;
     public GameObject playScreen;
     public GameObject leaderboardScreen;
+    public GameObject settingsScreen;
+    public GameObject creditScreen;
+
 
     private void Start()
     {
@@ -18,6 +21,8 @@ public class LobbyUI : MonoBehaviour
         mainMenuScreen.SetActive(false);
         playScreen.SetActive(true);
         leaderboardScreen.SetActive(false);
+        settingsScreen.SetActive(false);
+        creditScreen.SetActive(false);
 
     }
 
@@ -26,6 +31,8 @@ public class LobbyUI : MonoBehaviour
         mainMenuScreen.SetActive(true);
         playScreen.SetActive(false);
         leaderboardScreen.SetActive(false);
+        settingsScreen.SetActive(false);
+        creditScreen.SetActive(false);
     }
 
     public void OpenLeaderBoardScreen()
@@ -33,6 +40,24 @@ public class LobbyUI : MonoBehaviour
         mainMenuScreen.SetActive(false);
         playScreen.SetActive(false);
         leaderboardScreen.SetActive(true);
+        settingsScreen.SetActive(false);
+        creditScreen.SetActive(false);
+    }
+    public void OpenSettingsScreen()
+    {
+        mainMenuScreen.SetActive(false);
+        playScreen.SetActive(false);
+        leaderboardScreen.SetActive(false);
+        settingsScreen.SetActive(true);
+        creditScreen.SetActive(false);
+    }
+    public void OpenCreditScreen()
+    {
+        mainMenuScreen.SetActive(false);
+        playScreen.SetActive(false);
+        leaderboardScreen.SetActive(false);
+        settingsScreen.SetActive(false);
+        creditScreen.SetActive(true);
     }
 
     public void OpenLevel(string sceneName)  // Changed from int to string
