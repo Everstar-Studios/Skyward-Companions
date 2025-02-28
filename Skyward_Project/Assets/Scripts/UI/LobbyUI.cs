@@ -26,6 +26,11 @@ public class LobbyUI : MonoBehaviour
 
     public void OpenLevel(int sceneIndex)
     {
-        GameSystem.LaunchLevel(sceneIndex);
+        SceneManager.LoadScene("SCN_LevelSelect"); // Level seçim ekranına yönlendir
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }
