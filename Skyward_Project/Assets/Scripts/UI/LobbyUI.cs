@@ -60,11 +60,14 @@ public class LobbyUI : MonoBehaviour
         creditScreen.SetActive(true);
     }
 
-    public void OpenLevel(int sceneName)  // Changed from int to string
+    public void OpenLevel(string sceneName) // Scene name comes from UI
     {
-        PlayerPrefs.SetInt("NextScene", sceneName); // Store the next scene name
-        SceneManager.LoadScene("SCN_LoadingSceen"); // Load the loading screen first
+        Debug.Log("Selected Scene: " + sceneName); // Debugging log
+        PlayerPrefs.SetString("NextScene", sceneName); // Save selected scene
+        PlayerPrefs.Save(); // Ensure it gets written
+        SceneManager.LoadScene("SCN_LoadingScene"); // Go to Loading Screen first
     }
+
 
     public void QuitGame()
     {
