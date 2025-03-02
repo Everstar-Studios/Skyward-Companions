@@ -29,7 +29,7 @@ public class GameHUDComponent : MonoBehaviour
 
     public void OpenQuitScreen()
     {
-        pauseScreen.SetActive(true);
+        pauseScreen.SetActive(false);
         playerUIScreen.SetActive(false);
         quitScreen.SetActive(true);
     }
