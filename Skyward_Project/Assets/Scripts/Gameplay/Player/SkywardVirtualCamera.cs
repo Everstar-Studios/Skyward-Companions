@@ -6,18 +6,20 @@ using UnityEngine.InputSystem;
 
 public class SkywardVirtualCamera : MonoBehaviour
 {
-    public InputActionReference inputActionReference;
-    
     private Vector2 lastInput;
     private float lastX;
     private float lastY;
     
     private CinemachineCamera cinemachineCamera;
     private CinemachineOrbitalFollow orbitalFollowComponent;
+    private CinemachineInputAxisController controller;
+    
+    private bool IsTouchingScreen => Touchscreen.current != null && Touchscreen.current.primaryTouch.press.isPressed;
 
     private void Awake()
     {
         orbitalFollowComponent = GetComponent<CinemachineOrbitalFollow>();
+        controller = GetComponent<CinemachineInputAxisController>();
         lastX = orbitalFollowComponent.HorizontalAxis.Value;
         lastY = orbitalFollowComponent.VerticalAxis.Value;
     }
@@ -35,11 +37,7 @@ public class SkywardVirtualCamera : MonoBehaviour
 
     private void UpdateTouchInput()
     {
-        bool isUsingTouch = Touchscreen.current != null && Touchscreen.current.primaryTouch.press.isPressed;
-        if (isUsingTouch == false)
-            return;
-        
-        Vector2 input = inputActionReference.action.ReadValue<Vector2>();
+        Vector2 input = new Vector2(controller.Controllers[0].InputValue, controller.Controllers[1].InputValue);
         
         Vector2 movementDelta = input - lastInput;
         lastInput = input;
@@ -51,6 +49,9 @@ public class SkywardVirtualCamera : MonoBehaviour
             lastY = orbitalFollowComponent.VerticalAxis.Value;
             return;
         }
+        
+        if (!IsTouchingScreen)
+            return;
 
         orbitalFollowComponent.HorizontalAxis.Value = lastX;
         orbitalFollowComponent.VerticalAxis.Value = lastY;
