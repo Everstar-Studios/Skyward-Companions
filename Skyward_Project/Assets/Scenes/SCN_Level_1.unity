@@ -5912,7 +5912,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1030984428, guid: abc00000000004454125165798773093, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1189902800}
   m_SourcePrefab: {fileID: 100100000, guid: abc00000000004454125165798773093, type: 3}
 --- !u!4 &210509965 stripped
 Transform:
@@ -20542,13 +20545,35 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1030984428, guid: abc00000000004454125165798773093, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 697738957}
   m_SourcePrefab: {fileID: 100100000, guid: abc00000000004454125165798773093, type: 3}
 --- !u!4 &697738955 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1030984429, guid: abc00000000004454125165798773093, type: 3}
   m_PrefabInstance: {fileID: 697738954}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &697738956 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1030984428, guid: abc00000000004454125165798773093, type: 3}
+  m_PrefabInstance: {fileID: 697738954}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &697738957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697738956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af0c8b75e17dfa489d362bea3e65e20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: 30
+  rotationAxis: {x: 0, y: 0, z: 1}
 --- !u!1001 &700563833
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30309,7 +30334,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1030984428, guid: abc00000000004454125165798773093, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1521935668}
   m_SourcePrefab: {fileID: 100100000, guid: abc00000000004454125165798773093, type: 3}
 --- !u!4 &1037821198 stripped
 Transform:
@@ -35370,6 +35398,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5222692528940599503, guid: 6ce972da2f0adc74e962a02ccfd6e85e, type: 3}
   m_PrefabInstance: {fileID: 1184710716}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1189902799 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1030984428, guid: abc00000000004454125165798773093, type: 3}
+  m_PrefabInstance: {fileID: 210509964}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1189902800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1189902799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af0c8b75e17dfa489d362bea3e65e20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: 40
+  rotationAxis: {x: 0, y: 0, z: -1}
 --- !u!1001 &1190932224
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43596,6 +43643,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5222692528940599503, guid: 6ce972da2f0adc74e962a02ccfd6e85e, type: 3}
   m_PrefabInstance: {fileID: 1520924989}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1521935667 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1030984428, guid: abc00000000004454125165798773093, type: 3}
+  m_PrefabInstance: {fileID: 1037821197}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1521935668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1521935667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af0c8b75e17dfa489d362bea3e65e20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: 60
+  rotationAxis: {x: 0, y: 0, z: 1}
 --- !u!1001 &1522378942
 PrefabInstance:
   m_ObjectHideFlags: 0
