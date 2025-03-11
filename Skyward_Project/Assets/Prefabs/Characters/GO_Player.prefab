@@ -5945,7 +5945,7 @@ MonoBehaviour:
   playQuickStopAnimation: 0
   runToStopThreshhold: 0.4
   groundCheckRadius: 0.2
-  groundCheckOffset: {x: 0, y: 0, z: 0.02}
+  groundCheckOffset: {x: 0, y: 0.1, z: 0.02}
   groundLayer:
     serializedVersion: 2
     m_Bits: 65
@@ -6150,9 +6150,9 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 1.7
+  m_Height: 1.55
   m_Radius: 0.2
-  m_SlopeLimit: 70
+  m_SlopeLimit: 90
   m_StepOffset: 0.5
   m_SkinWidth: 0.1
   m_MinMoveDistance: 0
