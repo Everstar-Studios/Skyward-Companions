@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Skyward.Characters;
 using Skyward.Core;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,13 +10,7 @@ public class QuestionComponent : MonoBehaviour, ISkywardComponent
     [Serializable]
     public class CorrectAnswerData
     {
-        public Collider platform;
-    }
-    
-    [Serializable]
-    public class WrongAnswerData
-    {
-        public BreakingPlatform platform;
+
     }
 
     [SerializeField]
@@ -26,9 +18,9 @@ public class QuestionComponent : MonoBehaviour, ISkywardComponent
     [SerializeField] 
     private float triggerRadius;
     [SerializeField]
-    private CorrectAnswerData correctAnswer;
+    public Collider correctPlatform;
     [SerializeField]
-    private List<WrongAnswerData> wrongAnswers;
+    private List<BreakingPlatform> wrongPlatforms;
     [SerializeField]
     private UnityEvent succeededEvent;
     [SerializeField]
@@ -82,16 +74,16 @@ public class QuestionComponent : MonoBehaviour, ISkywardComponent
 
     private void CheckQuestionStatus(Transform player)
     {
-        foreach (WrongAnswerData wrongAnswer in wrongAnswers)
+        foreach (BreakingPlatform wrongPlatform in wrongPlatforms)
         {
-            if (wrongAnswer.platform.IsBroken)
+            if (wrongPlatform.IsBroken)
             {
                 Failed();
                 break;
             }
         }
 
-        if (correctAnswer.platform.bounds.Contains(player.position))
+        if (correctPlatform.bounds.Contains(player.position))
         {
             Succeeded();
         }
