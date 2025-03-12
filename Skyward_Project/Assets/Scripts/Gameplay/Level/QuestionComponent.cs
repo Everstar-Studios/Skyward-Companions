@@ -7,16 +7,10 @@ using UnityEngine.Events;
 
 public class QuestionComponent : MonoBehaviour, ISkywardComponent
 {
-    [Serializable]
-    public class CorrectAnswerData
-    {
-
-    }
-
     [SerializeField]
     public string question;
     [SerializeField] 
-    private float triggerRadius;
+    private float triggerRadius = 5f;
     [SerializeField]
     public Collider correctPlatform;
     [SerializeField]
