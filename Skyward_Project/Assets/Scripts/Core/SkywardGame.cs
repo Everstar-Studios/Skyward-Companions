@@ -150,9 +150,9 @@ public class SkywardGame : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        foreach (var system in systemsGameObject.GetComponents<ISystem>())
+        foreach (var skywardComponent in ComponentSystem.GetAllComponents<ISkywardComponent>())
         {
-            system.Cleanup();
+            skywardComponent.Cleanup();
         }
     }
 }
