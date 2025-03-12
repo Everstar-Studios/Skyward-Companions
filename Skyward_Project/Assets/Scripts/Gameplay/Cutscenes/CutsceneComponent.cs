@@ -43,22 +43,9 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     void ISkywardComponent.WorldLoaded()
     {
         if (cutsceneType == ECutsceneType.Timeline && Timeline != null)
-        {
-            director = gameObject.AddComponent<PlayableDirector>();
-            director.playOnAwake = playOnAwake;
-            director.playableAsset = Timeline;
-            director.stopped += OnCutsceneEnd;
-        }
+            SetupPlayableDirector();
         else if (cutsceneType == ECutsceneType.Video && VideoClip != null)
-        {
-            videoPlayer = gameObject.AddComponent<VideoPlayer>();
-            videoPlayer.playOnAwake = playOnAwake;
-            videoPlayer.clip = VideoClip;
-            videoPlayer.seekCompleted += OnVideoEnded;
-            videoPlayer.renderMode = VideoRenderMode.CameraNearPlane;
-            videoPlayer.targetCamera = CameraSystem.Camera;
-            videoPlayer.Prepare();
-        }
+            SetupVideoPlayer();
 
         if (!playOnAwake && trigger == null)
             Debug.LogError($"The Cutscene on the object {gameObject.name} will not play because {nameof(playOnAwake)} is false and collider is not set.");
@@ -67,6 +54,27 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
             Play();
         else if (trigger != null)
             recognitionCoroutine = StartCoroutine(RecognizePlayer());
+    }
+
+    private void SetupPlayableDirector()
+    {
+        director = gameObject.AddComponent<PlayableDirector>();
+        director.playOnAwake = playOnAwake;
+        director.playableAsset = Timeline;
+        director.stopped += OnCutsceneEnd;
+    }
+
+    private void SetupVideoPlayer()
+    {
+        videoPlayer = gameObject.AddComponent<VideoPlayer>();
+        videoPlayer.playOnAwake = playOnAwake;
+        videoPlayer.clip = VideoClip;
+        videoPlayer.loopPointReached += OnVideoEnded;
+        // TODO Omer: To be changed to Render Texture soon
+        videoPlayer.renderMode = VideoRenderMode.CameraNearPlane;
+        videoPlayer.aspectRatio = VideoAspectRatio.Stretch;
+        videoPlayer.targetCamera = CameraSystem.Camera;
+        videoPlayer.Prepare();
     }
 
     void ISkywardComponent.Cleanup()
@@ -119,16 +127,18 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     private void OnCutsceneEnd(PlayableDirector _)
     {
         onCutsceneStopped?.Invoke();
+        director.Stop();
+        CutsceneSystem.OnCutsceneEnded(director);
         
         if (disableInput)
             GameInputSystem.EnableInput();
-        
-        CameraSystem.EnableCamera();
     }
     
     private void OnVideoEnded(VideoPlayer _)
     {
         onCutsceneStopped?.Invoke();
+        videoPlayer.Stop();
+        CutsceneSystem.OnVideoEnded(videoPlayer);
         
         if (disableInput)
             GameInputSystem.EnableInput();

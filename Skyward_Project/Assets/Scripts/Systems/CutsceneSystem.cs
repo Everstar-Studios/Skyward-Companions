@@ -27,26 +27,21 @@ public class CutsceneSystem : BaseSystem<CutsceneSystem>
     {
         Instance.cutsceneStarted?.Invoke(Instance, EventArgs.Empty);
         director.Play();
-        director.stopped += OnCutsceneEnded;
     }
     
     public static void Play(VideoPlayer videoPlayer)
     {
         Instance.cutsceneStarted?.Invoke(Instance, EventArgs.Empty);
         videoPlayer.Play();
-        videoPlayer.loopPointReached += OnVideoEnded;
     }
 
-    private static void OnCutsceneEnded(PlayableDirector director)
+    public static void OnCutsceneEnded(PlayableDirector director)
     {
-        director.stopped -= OnCutsceneEnded;
         Instance.cutsceneStopped?.Invoke(director, EventArgs.Empty);
-
     }
     
-    private static void OnVideoEnded(VideoPlayer videoPlayer)
+    public static void OnVideoEnded(VideoPlayer videoPlayer)
     {
-        videoPlayer.loopPointReached -= OnVideoEnded;
         Instance.cutsceneStopped?.Invoke(Instance, EventArgs.Empty);
 
     }
