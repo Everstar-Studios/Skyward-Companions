@@ -33,6 +33,14 @@ namespace Skyward.Systems
 
         private event EventHandler<DeathZoneReachedEventArgs> deathZoneReached;
         
+        public static event EventHandler CheckpointReached
+        {
+            add => Instance.checkPointReached += value;
+            remove => Instance.checkPointReached -= value;
+        }
+
+        private event EventHandler checkPointReached;
+        
         void ISkywardComponent.WorldLoaded()
         {
             worldLoaded = true;
@@ -43,6 +51,7 @@ namespace Skyward.Systems
         public static void OnCheckpointReached(PlayerController player)
         {
             Instance.lastCheckpointPosition = player.transform.position;
+            Instance.checkPointReached?.Invoke(Instance, EventArgs.Empty);
         }
 
         private void RespawnFromLastCheckpoint()

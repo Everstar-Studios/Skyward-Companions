@@ -1,11 +1,14 @@
-using System;
 using Skyward.Characters;
 using Skyward.Systems;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CheckpointComponent : MonoBehaviour
 {
     public Collider trigger;
+    public UnityEvent checkpointReachedEvent;
+
+    private bool activated;
 
     private void Awake()
     {
@@ -14,9 +17,13 @@ public class CheckpointComponent : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (activated)
+            return;
         if (!other.TryGetComponent(out PlayerController player))
             return;
 
         CheckpointSystem.OnCheckpointReached(player);
+        checkpointReachedEvent.Invoke();
+        activated = true;
     }
 }
