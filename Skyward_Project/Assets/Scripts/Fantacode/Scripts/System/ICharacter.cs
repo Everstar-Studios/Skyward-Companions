@@ -16,6 +16,7 @@ namespace Skyward.Characters
         /// Animator of the controller
         /// </summary>
         public Animator Animator { get; set; }
+        public Collider Collider { get; }
 
         /// <summary>
         /// While true, the root motion of the animation will be applied to the character

@@ -20,6 +20,8 @@ namespace Skyward.Characters
 
     public class LocomotionController : SystemBase, ICharacter
     {
+        public Collider Collider => characterController;
+        
         [Header("Movement Parameters")]
 
         [SerializeField] float sprintSpeed = 6.5f;

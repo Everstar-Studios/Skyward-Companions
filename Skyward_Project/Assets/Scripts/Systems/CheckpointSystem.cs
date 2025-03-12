@@ -24,6 +24,8 @@ namespace Skyward.Systems
 
         private bool worldLoaded = false;
         private bool respawningInProgress = false;
+
+        private Vector3 PlayerColliderCenter => PlayerSystem.Player.player.Collider.bounds.center;
         
         public static event EventHandler<DeathZoneReachedEventArgs> DeathZoneReached
         {
@@ -48,15 +50,15 @@ namespace Skyward.Systems
             lastCheckpointPosition = player.position;
         }
         
-        public static void OnCheckpointReached(PlayerController player)
+        public static void OnCheckpointReached(CheckpointComponent checkpoint, PlayerController player)
         {
-            Instance.lastCheckpointPosition = player.transform.position;
+            Instance.lastCheckpointPosition = checkpoint.checkpointPositionOverride != null ? checkpoint.checkpointPositionOverride.position : player.transform.position;
             Instance.checkPointReached?.Invoke(Instance, EventArgs.Empty);
         }
 
-        private void RespawnFromLastCheckpoint()
+        public static void RespawnFromLastCheckpoint()
         {
-            Instance.StartCoroutine(RespawnFlow());
+            Instance.StartCoroutine(Instance.RespawnFlow());
         }
 
         private IEnumerator RespawnFlow()
@@ -81,9 +83,11 @@ namespace Skyward.Systems
             if (respawningInProgress || !worldLoaded)
                 return;
 
+            Vector3 playerPosition = player.position;
             foreach (DeathZoneComponent deathZone in deathZoneComponents)
             {
-                bool enteredDeathZone = deathZone.trigger.bounds.Contains(player.position);
+                Vector3 closestPoint = deathZone.trigger.ClosestPoint(playerPosition);
+                bool enteredDeathZone = Vector3.Distance(closestPoint, PlayerColliderCenter) < 0.5f;
                 if (enteredDeathZone)
                 {
                     RespawnFromLastCheckpoint();

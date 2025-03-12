@@ -1,3 +1,4 @@
+using System;
 using Skyward.Characters;
 using Skyward.Systems;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine.Events;
 
 public class CheckpointComponent : MonoBehaviour
 {
+    public Transform checkpointPositionOverride;
     public Collider trigger;
     public UnityEvent checkpointReachedEvent;
 
@@ -22,7 +24,7 @@ public class CheckpointComponent : MonoBehaviour
         if (!other.TryGetComponent(out PlayerController player))
             return;
 
-        CheckpointSystem.OnCheckpointReached(player);
+        CheckpointSystem.OnCheckpointReached(this, player);
         checkpointReachedEvent.Invoke();
         activated = true;
     }
