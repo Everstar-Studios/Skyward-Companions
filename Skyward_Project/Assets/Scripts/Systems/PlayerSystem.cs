@@ -8,9 +8,11 @@ public class PlayerSystem : BaseSystem<PlayerSystem>, ISkywardComponent
     public static PlayerController Player => Instance.player;
     private PlayerController player;
     private GameContext gameContext;
-    
-    void ISkywardComponent.WorldLoaded()
+
+    protected override void Awake()
     {
+        base.Awake();
+        
         player = FindAnyObjectByType<PlayerController>();
     }
 }

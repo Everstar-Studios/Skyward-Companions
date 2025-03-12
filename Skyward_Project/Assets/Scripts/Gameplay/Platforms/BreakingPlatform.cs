@@ -28,17 +28,11 @@ public class BreakingPlatform : MonoBehaviour, ISkywardComponent
 
     void ISkywardComponent.WorldLoaded()
     {
-        worldLoaded = true;
-    }
-
-    private void OnEnable()
-    {
         StartCoroutine(CheckForPlayer());
     }
 
     private IEnumerator CheckForPlayer()
     {
-        yield return new WaitUntil(() => worldLoaded);
         player = PlayerSystem.Player.transform;
         while (true)
         {

@@ -35,14 +35,13 @@ public class QuestionComponent : MonoBehaviour, ISkywardComponent
     private UnityEvent failedEvent;
     private bool questionAsked = false;
 
-    private IEnumerator Start()
+    void ISkywardComponent.WorldLoaded()
     {
-        yield return RecognizePlayer();
+        StartCoroutine(RecognizePlayer());
     }
 
     private IEnumerator RecognizePlayer()
     {
-        yield return new WaitUntil(() => PlayerSystem.Player != null);
         Transform player = PlayerSystem.Player.transform;
         
         while (true)
