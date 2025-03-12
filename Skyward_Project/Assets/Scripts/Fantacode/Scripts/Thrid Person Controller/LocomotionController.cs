@@ -592,12 +592,6 @@ namespace Skyward.Characters
             animator.SetBool(AnimatorParameters.IsGrounded, isGrounded);
         }
 
-        private void OnDrawGizmosSelected()
-        {
-            Gizmos.color = new Color(0, 1, 0, 0.5f);
-            Gizmos.DrawSphere(transform.TransformPoint(groundCheckOffset), groundCheckRadius);
-        }
-
         public void HandleTurningAnimation(bool enable)
         {
             enableTurningAnim = enable;
