@@ -14,5 +14,10 @@ namespace Skyward.Systems
         {
             Instance.lastCheckpointPosition = player.transform.position;
         }
+
+        public static void AddDeathZone(DeathZoneComponent deathZoneComponent)
+        {
+            Instance.deathZoneComponents.Add(deathZoneComponent);
+        }
     }
 }
