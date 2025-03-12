@@ -92,5 +92,20 @@ namespace Skyward.Utils
         }
 
         public static Transform GetRoot(this GameObject target) => GetRoot(target.transform);
+        
+        public static bool TryGetComponentInParent<T>(this Transform target, out T comp) where T : Component
+        {
+            comp = null;
+            Transform current = target;
+            while (current != null)
+            {
+                Transform root = current;
+                current = current.parent;
+                if (root.TryGetComponent(out comp))
+                    return true;
+            }
+
+            return false;
+        }
     }
 }
