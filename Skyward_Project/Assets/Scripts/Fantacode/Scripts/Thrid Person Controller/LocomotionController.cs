@@ -398,7 +398,7 @@ namespace Skyward.Characters
 
             currentSpeed.y = ySpeed;
 
-            if (isGrounded && groundColliders[0].transform.GetRoot().TryGetComponent(out MovingPlatform platform))
+            if (isGrounded && groundColliders[0].transform.TryGetComponentInParent(out MovingPlatform platform))
             {
                 currentSpeed.y = 0;
                 if (!isParentedToPlatform)
