@@ -1,7 +1,6 @@
 using System;
 using Skyward.Core;
-using UnityEngine;
-
+using Skyward.Systems;
 
 [RequiredSystem]
 public class UISystem : BaseSystem, ISkywardComponent
@@ -13,6 +12,13 @@ public class UISystem : BaseSystem, ISkywardComponent
 
         CutsceneSystem.CutsceneStarted += OnCutsceneStarted;
         CutsceneSystem.CutsceneStopped += OnCutsceneStopped;
+        CheckpointSystem.DeathZoneReached += OnDeathZoneReached;
+    }
+
+    private void OnDeathZoneReached(object sender, DeathZoneReachedEventArgs args)
+    {
+        float waitTime = gameHUD.FadeOutAndIn();
+        args.waitTime = waitTime;
     }
 
     void ISkywardComponent.Cleanup()
@@ -21,6 +27,7 @@ public class UISystem : BaseSystem, ISkywardComponent
         
         CutsceneSystem.CutsceneStarted -= OnCutsceneStarted;
         CutsceneSystem.CutsceneStopped -= OnCutsceneStopped;
+        CheckpointSystem.DeathZoneReached -= OnDeathZoneReached;
     }
     
     private void OnCutsceneStarted(object sender, EventArgs e)
