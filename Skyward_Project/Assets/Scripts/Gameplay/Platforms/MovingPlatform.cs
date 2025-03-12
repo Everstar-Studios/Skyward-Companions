@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -21,6 +22,10 @@ public class MovingPlatform : Platform
     internal EMovementType movementType;
     [SerializeField] 
     internal float movementSpeed = 1.5f;
+    [SerializeField] 
+    internal bool waitForPlayerToStart;
+    [SerializeField] 
+    internal float delayBeforeMoving = 0.25f;
 
     [Header("Linear Movement")] 
     [SerializeField]
@@ -43,6 +48,8 @@ public class MovingPlatform : Platform
     private bool movingForward = true;
     private float circularAngle = 0f;
 
+    private bool hasPlayerStepped;
+
     private void Start()
     {
         if (movementType == EMovementType.Circular)
@@ -59,6 +66,9 @@ public class MovingPlatform : Platform
 
     private void FixedUpdate()
     {
+        if (waitForPlayerToStart && !hasPlayerStepped)
+            return;
+        
         if (movementType == EMovementType.Circular)
         {
             circularAngle += movementSpeed * Time.fixedDeltaTime;
@@ -170,6 +180,26 @@ public class MovingPlatform : Platform
     }
 
 #endif
+    public void OnPlayerStepped()
+    {
+        if (hasPlayerStepped)
+            return;
+        
+        StartCoroutine(StepFlow());
+    }
+
+    private IEnumerator StepFlow()
+    {
+        if (waitForPlayerToStart && delayBeforeMoving > float.Epsilon)
+            yield return new WaitForSeconds(delayBeforeMoving);
+
+        hasPlayerStepped = true;
+    }
+
+    public void OnPlayerLeft()
+    {
+        
+    }
 }
 
 #if UNITY_EDITOR
@@ -177,6 +207,8 @@ public class MovingPlatform : Platform
 public class MovingPlatformEditor : Editor
 {
     private SerializedProperty movementTypeProp;
+    private SerializedProperty waitForPlayerToStartProp;
+    private SerializedProperty delayBeforeMovingProp;
     private SerializedProperty pointsProp;
     private SerializedProperty movementSpeedProp;
     private SerializedProperty lineColorProp;
@@ -194,6 +226,8 @@ public class MovingPlatformEditor : Editor
     private void OnEnable()
     {
         movementTypeProp = serializedObject.FindProperty(nameof(MovingPlatform.movementType));
+        waitForPlayerToStartProp = serializedObject.FindProperty(nameof(MovingPlatform.waitForPlayerToStart));
+        delayBeforeMovingProp = serializedObject.FindProperty(nameof(MovingPlatform.delayBeforeMoving));
         pointsProp = serializedObject.FindProperty(nameof(MovingPlatform.points));
         movementSpeedProp = serializedObject.FindProperty(nameof(MovingPlatform.movementSpeed));
         lineColorProp = serializedObject.FindProperty(nameof(MovingPlatform.lineColor));
@@ -246,6 +280,9 @@ public class MovingPlatformEditor : Editor
 
         EditorGUILayout.PropertyField(movementTypeProp);
         EditorGUILayout.PropertyField(movementSpeedProp);
+        EditorGUILayout.PropertyField(waitForPlayerToStartProp);
+        if (waitForPlayerToStartProp.boolValue)
+            EditorGUILayout.PropertyField(delayBeforeMovingProp);
 
         MovingPlatform.EMovementType movementType = (MovingPlatform.EMovementType)movementTypeProp.enumValueIndex;
 
