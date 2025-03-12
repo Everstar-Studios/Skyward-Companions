@@ -404,12 +404,16 @@ namespace Skyward.Characters
                 if (!isParentedToPlatform)
                 {
                     transform.parent = platform.transform;
+                    lastPlatform = platform;
+                    platform.OnPlayerStepped();
                     isParentedToPlatform = true;
                 }
             }
             else if (isParentedToPlatform)
             {
                 transform.parent = null;
+                lastPlatform.OnPlayerLeft();
+                lastPlatform = null;
                 isParentedToPlatform = false;
             }
             
@@ -435,6 +439,7 @@ namespace Skyward.Characters
         }
 
         private bool isParentedToPlatform;
+        private MovingPlatform lastPlatform;
         
         void setTargetRotation(Vector3 moveDir, ref Quaternion targetRotation)
         {
