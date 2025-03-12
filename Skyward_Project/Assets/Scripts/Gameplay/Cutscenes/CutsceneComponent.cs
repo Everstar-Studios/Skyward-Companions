@@ -6,6 +6,7 @@ using Skyward.Systems;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Playables;
+using UnityEngine.Timeline;
 using UnityEngine.Video;
 
 public class CutsceneComponent : MonoBehaviour, ISkywardComponent
@@ -21,9 +22,9 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     [SerializeField]
     private ECutsceneType cutsceneType;
     [field: SerializeField, ShowIf("@cutsceneType == ECutsceneType.Timeline")]
-    public PlayableDirector Director { get; private set; }
+    public TimelineAsset Timeline { get; private set; }
     [field: SerializeField, ShowIf("@cutsceneType == ECutsceneType.Video")]
-    public VideoPlayer VideoPlayer { get; private set; }
+    public VideoClip VideoClip { get; private set; }
     [SerializeField] 
     private Collider trigger;
     [SerializeField] 
@@ -36,14 +37,27 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     private Coroutine recognitionCoroutine;
     private bool hasPlayed;
 
+    private PlayableDirector director;
+    private VideoPlayer videoPlayer;
+
     void ISkywardComponent.WorldLoaded()
     {
-        if (Director != null)
-            Director.stopped += OnCutsceneEnd;
-        else if (VideoPlayer != null)
+        if (cutsceneType == ECutsceneType.Timeline && Timeline != null)
         {
-            VideoPlayer.loopPointReached += OnVideoEnded;
-            VideoPlayer.targetCamera = CameraSystem.Camera;
+            director = gameObject.AddComponent<PlayableDirector>();
+            director.playOnAwake = playOnAwake;
+            director.playableAsset = Timeline;
+            director.stopped += OnCutsceneEnd;
+        }
+        else if (cutsceneType == ECutsceneType.Video && VideoClip != null)
+        {
+            videoPlayer = gameObject.AddComponent<VideoPlayer>();
+            videoPlayer.playOnAwake = playOnAwake;
+            videoPlayer.clip = VideoClip;
+            videoPlayer.seekCompleted += OnVideoEnded;
+            videoPlayer.renderMode = VideoRenderMode.CameraNearPlane;
+            videoPlayer.targetCamera = CameraSystem.Camera;
+            videoPlayer.Prepare();
         }
 
         if (!playOnAwake && trigger == null)
@@ -63,10 +77,10 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
             recognitionCoroutine = null;
         }
         
-        if (Director != null)
-            Director.stopped -= OnCutsceneEnd;
-        else if (VideoPlayer != null)
-            VideoPlayer.loopPointReached -= OnVideoEnded;
+        if (director != null)
+            director.stopped -= OnCutsceneEnd;
+        else if (videoPlayer != null)
+            videoPlayer.loopPointReached -= OnVideoEnded;
 
         hasPlayed = false;
     }
@@ -81,10 +95,7 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
                 yield break;
             
             if (IsPlayerInColliderBounds(trigger))
-            {
                 Play();
-                hasPlayed = true;
-            }
 
             yield return new WaitForFixedUpdate();
         }
@@ -92,18 +103,19 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
 
     private void Play()
     {
-        if (Director != null)
-            CutsceneSystem.Play(Director);
-        else if (VideoPlayer != null)
-            CutsceneSystem.Play(VideoPlayer);
+        hasPlayed = true;
+        
+        if (director != null)
+            CutsceneSystem.Play(director);
+        else if (videoPlayer != null)
+            CutsceneSystem.Play(videoPlayer);
 
         if (disableInput)
             GameInputSystem.DisableInput();
         
         onCutsceneStarted?.Invoke();
-        CameraSystem.DisableCamera();
     }
-
+    
     private void OnCutsceneEnd(PlayableDirector _)
     {
         onCutsceneStopped?.Invoke();
@@ -120,8 +132,6 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
         
         if (disableInput)
             GameInputSystem.EnableInput();
-        
-        CameraSystem.EnableCamera();
     }
     
     private static bool IsPlayerInColliderBounds(Collider collider)
