@@ -35,6 +35,8 @@ public class QuestionComponent : MonoBehaviour, ISkywardComponent
     private UnityEvent failedEvent;
     private bool questionAsked = false;
 
+    private bool questionAddressed = false;
+
     void ISkywardComponent.WorldLoaded()
     {
         StartCoroutine(RecognizePlayer());
@@ -44,7 +46,7 @@ public class QuestionComponent : MonoBehaviour, ISkywardComponent
     {
         Transform player = PlayerSystem.Player.transform;
         
-        while (true)
+        while (!questionAddressed)
         {
             if (!IsPlayerNearby(player))
             {
@@ -98,11 +100,15 @@ public class QuestionComponent : MonoBehaviour, ISkywardComponent
     private void Failed()
     {
         failedEvent.Invoke();
+        questionAddressed = true;
+        OnQuestionEnded();
     }
 
     private void Succeeded()
     {
         succeededEvent.Invoke();
+        questionAddressed = true;
+        OnQuestionEnded();
     }
 
     private void OnDrawGizmosSelected()

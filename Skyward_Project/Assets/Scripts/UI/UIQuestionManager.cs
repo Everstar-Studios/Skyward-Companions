@@ -6,8 +6,6 @@ using UnityEngine.Events;
 
 public class UIQuestionManager : MonoBehaviour, ISkywardComponent
 {
-    [SerializeField] 
-    private GameObject panel;
     [SerializeField]
     private TMP_Text questionText;
     
@@ -16,6 +14,11 @@ public class UIQuestionManager : MonoBehaviour, ISkywardComponent
         QuestionSystem.QuestionAsked += OnQuestionAsked;
         QuestionSystem.QuestionEnded += OnQuestionEnded;
     }
+    void ISkywardComponent.Cleanup()
+    {
+        QuestionSystem.QuestionAsked -= OnQuestionAsked;
+        QuestionSystem.QuestionEnded -= OnQuestionEnded;
+    }
 
     private void OnQuestionEnded(object sender, EventArgs args)
     {
@@ -23,11 +26,6 @@ public class UIQuestionManager : MonoBehaviour, ISkywardComponent
         questionText.text = String.Empty;
     }
 
-    void ISkywardComponent.Cleanup()
-    {
-        QuestionSystem.QuestionAsked -= OnQuestionAsked;
-        QuestionSystem.QuestionEnded -= OnQuestionEnded;
-    }
 
     private void OnQuestionAsked(object sender, QuestionSystem.QuestionArgs args)
     {
