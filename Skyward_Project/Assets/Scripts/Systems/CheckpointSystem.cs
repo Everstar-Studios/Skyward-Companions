@@ -74,10 +74,11 @@ namespace Skyward.Systems
 
             foreach (DeathZoneComponent deathZone in deathZoneComponents)
             {
-                bool isPlayerNear = deathZone.trigger.bounds.Contains(player.position);
-                if (isPlayerNear)
+                bool enteredDeathZone = deathZone.trigger.bounds.Contains(player.position);
+                if (enteredDeathZone)
                 {
                     RespawnFromLastCheckpoint();
+                    break;
                 }
             }
         }
