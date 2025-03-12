@@ -20,6 +20,8 @@ namespace Skyward.Characters
 
     public class LocomotionController : SystemBase, ICharacter
     {
+        public Collider Collider => characterController;
+        
         [Header("Movement Parameters")]
 
         [SerializeField] float sprintSpeed = 6.5f;
@@ -404,12 +406,16 @@ namespace Skyward.Characters
                 if (!isParentedToPlatform)
                 {
                     transform.parent = platform.transform;
+                    lastPlatform = platform;
+                    platform.OnPlayerStepped();
                     isParentedToPlatform = true;
                 }
             }
             else if (isParentedToPlatform)
             {
                 transform.parent = null;
+                lastPlatform.OnPlayerLeft();
+                lastPlatform = null;
                 isParentedToPlatform = false;
             }
             
@@ -435,6 +441,7 @@ namespace Skyward.Characters
         }
 
         private bool isParentedToPlatform;
+        private MovingPlatform lastPlatform;
         
         void setTargetRotation(Vector3 moveDir, ref Quaternion targetRotation)
         {
@@ -590,12 +597,6 @@ namespace Skyward.Characters
             //isGrounded = Physics.SphereCast(origin, groundCheckRadius, direction, out hit, groundCheckRadius, groundLayer);
             isGrounded = Physics.OverlapSphereNonAlloc(origin, groundCheckRadius, groundColliders, groundLayer) > 0;
             animator.SetBool(AnimatorParameters.IsGrounded, isGrounded);
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-            Gizmos.color = new Color(0, 1, 0, 0.5f);
-            Gizmos.DrawSphere(transform.TransformPoint(groundCheckOffset), groundCheckRadius);
         }
 
         public void HandleTurningAnimation(bool enable)
@@ -886,6 +887,14 @@ namespace Skyward.Characters
             targetRotation = transform.rotation;
             preventLocomotion = false;
         }
+
+        public void Teleport(Vector3 position)
+        {
+            characterController.enabled = false;
+            transform.position = position;
+            characterController.enabled = true;
+        }
+
         public Vector3 MoveDir { get { return desiredMoveDir; } set { desiredMoveDir = value; } }
         public bool IsGrounded => isGrounded;
         public bool PreventAllSystems { get; set; } = false;
