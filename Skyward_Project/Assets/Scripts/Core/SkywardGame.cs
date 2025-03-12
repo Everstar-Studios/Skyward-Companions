@@ -76,6 +76,7 @@ public class SkywardGame : MonoBehaviour
         context = new GameContext(this);
         
         CreateSystems();
+        CreateGameManager();
         yield break;
     }
     

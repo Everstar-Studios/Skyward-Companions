@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Linq;
+using Skyward.Utils;
 using UnityEngine;
 namespace Skyward.Characters
 {
@@ -397,7 +398,7 @@ namespace Skyward.Characters
 
             currentSpeed.y = ySpeed;
 
-            if (isGrounded && groundColliders[0].TryGetComponent(out MovingPlatform platform))
+            if (isGrounded && groundColliders[0].transform.GetRoot().TryGetComponent(out MovingPlatform platform))
             {
                 currentSpeed.y = 0;
                 if (!isParentedToPlatform)
