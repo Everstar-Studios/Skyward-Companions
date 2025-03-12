@@ -1,8 +1,8 @@
 using System;
+using Skyward.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
-public class GameHUDComponent : MonoBehaviour
+public class GameHUDComponent : MonoBehaviour, ISkywardComponent
 {
     public GameObject pauseScreen;
     public GameObject playerUIScreen;

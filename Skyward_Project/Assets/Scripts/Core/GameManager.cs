@@ -1,11 +1,11 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
+using Skyward.Core;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, ISkywardComponent
 {
+    public GameObject gameHUD;
+    
     public static GameManager Instance { get; private set; }
     
     private SkywardGame game;
@@ -25,6 +25,13 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        gameHUD.SetActive(false);
+    }
+
+    void ISkywardComponent.WorldLoaded()
+    {
+        gameHUD.SetActive(true);
     }
     
     private IEnumerator FactoryCoroutine()
