@@ -50,5 +50,7 @@ namespace Skyward.Characters
         /// </summary>
         void OnEndSystem(SystemBase systemBase = null);
 
+        void Teleport(Vector3 position);
+
     }
 }

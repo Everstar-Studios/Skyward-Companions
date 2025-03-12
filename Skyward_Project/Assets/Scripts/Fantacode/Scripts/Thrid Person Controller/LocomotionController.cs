@@ -880,6 +880,14 @@ namespace Skyward.Characters
             targetRotation = transform.rotation;
             preventLocomotion = false;
         }
+
+        public void Teleport(Vector3 position)
+        {
+            characterController.enabled = false;
+            transform.position = position;
+            characterController.enabled = true;
+        }
+
         public Vector3 MoveDir { get { return desiredMoveDir; } set { desiredMoveDir = value; } }
         public bool IsGrounded => isGrounded;
         public bool PreventAllSystems { get; set; } = false;
