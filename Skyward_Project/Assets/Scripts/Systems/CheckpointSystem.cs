@@ -9,7 +9,8 @@ namespace Skyward.Systems
 {
     public class DeathZoneReachedEventArgs : EventArgs
     {
-        public float waitTime = 0f;
+        public float timeToTeleportPlayer = 0f;
+        public float timeToReEnableInput = 0f;
     }
     
     [RequiredSystem]
@@ -63,13 +64,19 @@ namespace Skyward.Systems
 
         private IEnumerator RespawnFlow()
         {
+            GameInputSystem.DisableInput();
             respawningInProgress = true;
             var args = new DeathZoneReachedEventArgs();
             deathZoneReached?.Invoke(this, args);
-            if (args.waitTime > float.Epsilon)
-                yield return new WaitForSeconds(args.waitTime);
+            if (args.timeToTeleportPlayer > float.Epsilon)
+                yield return new WaitForSeconds(args.timeToTeleportPlayer);
             
             PlayerSystem.Player.player.Teleport(lastCheckpointPosition);
+            
+            if (args.timeToReEnableInput > float.Epsilon)
+                yield return new WaitForSeconds(args.timeToReEnableInput);
+            
+            GameInputSystem.EnableInput();
             respawningInProgress = false;
         }
 

@@ -17,8 +17,9 @@ public class UISystem : BaseSystem, ISkywardComponent
 
     private void OnDeathZoneReached(object sender, DeathZoneReachedEventArgs args)
     {
-        float waitTime = gameHUD.FadeOutAndIn();
-        args.waitTime = waitTime;
+        gameHUD.FadeOutAndIn();
+        args.timeToTeleportPlayer = gameHUD.fadeOutDuration;
+        args.timeToReEnableInput = gameHUD.durationBetweenFade + gameHUD.fadeInDuration;
     }
 
     void ISkywardComponent.Cleanup()

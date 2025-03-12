@@ -55,10 +55,9 @@ public class GameHUDComponent : MonoBehaviour, ISkywardComponent
         Application.Quit();
     }
 
-    public float FadeOutAndIn()
+    public void FadeOutAndIn()
     {
         StartCoroutine(FadeLoop());
-        return fadeOutDuration;
     }
 
     IEnumerator FadeLoop()
