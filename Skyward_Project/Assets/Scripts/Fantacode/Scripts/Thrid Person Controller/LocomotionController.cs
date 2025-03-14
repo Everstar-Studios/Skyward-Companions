@@ -405,10 +405,12 @@ namespace Skyward.Characters
                 currentSpeed.y = 0;
                 if (!isParentedToPlatform)
                 {
-                    transform.parent = platform.transform;
-                    lastPlatform = platform;
-                    platform.OnPlayerStepped();
-                    isParentedToPlatform = true;
+                    SteppedOnPlatform(platform);
+                }
+                else if (platform != lastPlatform)
+                {
+                    lastPlatform.OnPlayerLeft();
+                    SteppedOnPlatform(platform);
                 }
             }
             else if (isParentedToPlatform)
@@ -438,6 +440,14 @@ namespace Skyward.Characters
             }
             else
                 targetRotation = transform.rotation;
+        }
+
+        private void SteppedOnPlatform(MovingPlatform platform)
+        {
+            transform.parent = platform.transform;
+            lastPlatform = platform;
+            platform.OnPlayerStepped();
+            isParentedToPlatform = true;
         }
 
         private bool isParentedToPlatform;
