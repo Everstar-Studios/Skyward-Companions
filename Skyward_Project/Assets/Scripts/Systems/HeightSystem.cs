@@ -11,7 +11,6 @@ public class HeightSystem : BaseSystem<HeightSystem>, ISkywardComponent
     private float height;
     public static float Height => Instance.height;
     private float startingY;
-    public float divident = 3f;
 
     private Coroutine coroutine;
     void ISkywardComponent.WorldLoaded()
