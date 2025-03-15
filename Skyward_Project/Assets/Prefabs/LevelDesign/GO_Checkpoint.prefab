@@ -62,9 +62,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2097284560406408442}
-  - {fileID: 2855549816549547787}
   - {fileID: 7086571005983224210}
+  - {fileID: 2855549816549547787}
+  - {fileID: 2097284560406408442}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7577176842761389183
@@ -79,7 +79,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b511dcdc4de18684aa9bdef764786b7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathZone: {fileID: 0}
   checkpointPositionOverride: {fileID: 2855549816549547787}
   trigger: {fileID: 1976725043840315414}
   checkpointReachedEvent:
