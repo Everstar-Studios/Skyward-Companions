@@ -24,7 +24,7 @@ namespace Skyward.Systems
 
         private static Transform player;
 
-        private bool worldLoaded = false;
+        private bool canUpdate = false;
         private bool respawningInProgress = false;
 
         private Vector3 PlayerColliderCenter => PlayerSystem.Player.player.Collider.bounds.center;
@@ -52,7 +52,6 @@ namespace Skyward.Systems
         
         void ISkywardComponent.WorldLoaded()
         {
-            worldLoaded = true;
             player = PlayerSystem.Player.transform;
             playerSpawnPosition = player.position;
             foreach (var checkpoint in ComponentSystem.GetAllComponents<CheckpointComponent>())
@@ -75,8 +74,10 @@ namespace Skyward.Systems
             if (defaultCounter != 1)
             {
                 string part = defaultCounter == 0 ? "no death zones" : "more than one death zones";
-                Debug.LogException(new Exception($"There are {part} with 'isDefault' boolean set to true in the scene!! Ensure there is one"));
+                Debug.LogError($"There are {part} with 'isDefault' boolean set to true in the scene!! Ensure there is one");
             }
+            
+            canUpdate = activeDeathZone != null;
         }
         
         public static void OnCheckpointReached(CheckpointComponent checkpoint, PlayerController player)
@@ -115,11 +116,10 @@ namespace Skyward.Systems
 
         private void Update()
         {
-            if (respawningInProgress || !worldLoaded)
+            if (!canUpdate || respawningInProgress)
                 return;
-
-            Vector3 playerPosition = player.position;
-            Vector3 closestPoint = activeDeathZone.trigger.ClosestPoint(playerPosition);
+            
+            Vector3 closestPoint = activeDeathZone.trigger.ClosestPoint(player.position);
             bool enteredDeathZone = Vector3.Distance(closestPoint, PlayerColliderCenter) < 0.5f;
             if (enteredDeathZone)
                 RespawnFromLastCheckpoint();
