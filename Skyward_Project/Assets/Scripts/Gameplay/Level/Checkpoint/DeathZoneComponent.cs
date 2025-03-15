@@ -7,5 +7,4 @@ using UnityEngine;
 public class DeathZoneComponent : MonoBehaviour, ISkywardComponent
 {
     [SerializeField] public Collider trigger;
-    public bool isDefault;
 }

@@ -58,14 +58,14 @@ namespace Skyward.Systems
             foreach (var checkpoint in ComponentSystem.GetAllComponents<CheckpointComponent>())
             {
                 checkpoints.Add(checkpoint);
-                checkpoint.deathZone.gameObject.SetActive(false);
+                checkpoint.DeathZone.gameObject.SetActive(false);
             }
 
             int defaultCounter = 0;
             foreach (var deathZone in ComponentSystem.GetAllComponents<DeathZoneComponent>())
             {
                 deathZoneComponents.Add(deathZone);
-                if (deathZone.isDefault)
+                if (deathZone.transform.parent == null)
                 {
                     activeDeathZone = deathZone;
                     defaultCounter++;
@@ -86,7 +86,7 @@ namespace Skyward.Systems
             Instance.deathZoneComponents.ForEach(d => d.gameObject.SetActive(false));
             
             Instance.activeCheckpoint = checkpoint;
-            Instance.activeDeathZone = checkpoint.deathZone;
+            Instance.activeDeathZone = checkpoint.DeathZone;
             checkpoint.ActivateDeathZone();
         }
 
