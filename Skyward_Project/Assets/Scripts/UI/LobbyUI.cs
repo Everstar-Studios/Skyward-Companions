@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,67 +11,49 @@ public class LobbyUI : MonoBehaviour
     public GameObject settingsScreen;
     public GameObject creditScreen;
 
+    private List<GameObject> menus = new();
+
 
     private void Start()
     {
+        menus.Add(mainMenuScreen);
+        menus.Add(playScreen);
+        menus.Add(leaderboardScreen);
+        menus.Add(settingsScreen);
+        menus.Add(creditScreen);
         OpenMainMenu();
     }
 
     public void OpenPlayScreen()
     {
-        mainMenuScreen.SetActive(false);
+        menus.ForEach(g => g.SetActive(false));
         playScreen.SetActive(true);
-        leaderboardScreen.SetActive(false);
-        settingsScreen.SetActive(false);
-        creditScreen.SetActive(false);
-
     }
 
     public void OpenMainMenu()
     {
+        menus.ForEach(g => g.SetActive(false));
         mainMenuScreen.SetActive(true);
-        playScreen.SetActive(false);
-        leaderboardScreen.SetActive(false);
-        settingsScreen.SetActive(false);
-        creditScreen.SetActive(false);
     }
 
     public void OpenLeaderBoardScreen()
     {
-        mainMenuScreen.SetActive(false);
-        playScreen.SetActive(false);
+        menus.ForEach(g => g.SetActive(false));
         leaderboardScreen.SetActive(true);
-        settingsScreen.SetActive(false);
-        creditScreen.SetActive(false);
     }
     public void OpenSettingsScreen()
     {
-        mainMenuScreen.SetActive(false);
-        playScreen.SetActive(false);
-        leaderboardScreen.SetActive(false);
+        menus.ForEach(g => g.SetActive(false));
         settingsScreen.SetActive(true);
-        creditScreen.SetActive(false);
     }
     public void OpenCreditScreen()
     {
-        mainMenuScreen.SetActive(false);
-        playScreen.SetActive(false);
-        leaderboardScreen.SetActive(false);
-        settingsScreen.SetActive(false);
+        menus.ForEach(g => g.SetActive(false));
         creditScreen.SetActive(true);
     }
 
-    public void OpenLevel(string sceneName) // Scene name comes from UI
+    public void OpenLevel(string sceneName)
     {
-        Debug.Log("Selected Scene: " + sceneName); // Debugging log
-        PlayerPrefs.SetString("NextScene", sceneName); // Save selected scene
-        PlayerPrefs.Save(); // Ensure it gets written
-        SceneManager.LoadScene("SCN_LoadingScene"); // Go to Loading Screen first
-    }
-
-
-    public void QuitGame()
-    {
-        Application.Quit();
+        GameSystem.LaunchLevel(sceneName);
     }
 }

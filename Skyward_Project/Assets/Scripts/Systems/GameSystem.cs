@@ -1,12 +1,37 @@
+using System;
 using Skyward.Core;
+using Skyward.Systems;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [RequiredSystem]
 public class GameSystem : BaseSystem<GameSystem>
 {
-    public static void LaunchLevel(int sceneIndex)
+    private SkywardGame gameInstance;
+    
+    public static event EventHandler LevelCompleted
     {
-        Instance.GameContext.game.LaunchLevel(sceneIndex);
+        add => Instance.levelCompleted += value;
+        remove => Instance.levelCompleted -= value;
+    }
+
+    private event EventHandler levelCompleted;
+    protected override void Initialize(GameContext context)
+    {
+        base.Initialize(context);
+
+        gameInstance = Instance.GameContext.game;
+    }
+
+    public static void LaunchLevel(string sceneName)
+    {
+        Instance.GameContext.game.LaunchLevel(sceneName);
+    }
+
+    public static void OnLevelCompleted()
+    {
+        GameInputSystem.DisableInput();
+        Instance.levelCompleted?.Invoke(Instance, EventArgs.Empty);
+        Instance.gameInstance.OnLevelCompleted();
     }
 }

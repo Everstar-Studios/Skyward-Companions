@@ -42,17 +42,7 @@ public class GameHUDComponent : MonoBehaviour, ISkywardComponent
 
     public void QuitToMainMenu()
     {
-        SceneManager.LoadScene("SCN_Lobby"); // Ana menü sahnesini yükle
-    }
-
-    public void CancelQuit()
-    {
-        OpenPauseScreen(); // Quit menüsünden pause menüsüne dön
-    }
-
-    public void QuitGame()
-    {
-        Application.Quit();
+        GameSystem.OnLevelCompleted();
     }
 
     public void FadeOutAndIn()
