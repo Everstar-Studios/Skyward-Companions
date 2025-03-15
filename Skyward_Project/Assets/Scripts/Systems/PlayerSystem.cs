@@ -11,10 +11,16 @@ public class PlayerSystem : BaseSystem<PlayerSystem>, ISkywardComponent
     private PlayerController player;
     private GameContext gameContext;
 
-    protected override void Awake()
+    protected override void Initialize(GameContext context)
     {
-        base.Awake();
-        
+        base.Initialize(context);
         player = FindAnyObjectByType<PlayerController>();
+    }
+
+    protected override void Cleanup()
+    {
+        base.Cleanup();
+        
+        Destroy(player.gameObject);
     }
 }

@@ -28,7 +28,7 @@ namespace Skyward.Systems
         {
             base.Cleanup();
             
-            DestroyImmediate(mainCamera.gameObject);
+            Destroy(mainCamera.gameObject);
         }
 
         public static void SetCamera(CinemachineCamera cinemachineCamera)

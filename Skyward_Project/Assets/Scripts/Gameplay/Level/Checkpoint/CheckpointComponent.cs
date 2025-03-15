@@ -17,6 +17,8 @@ public class CheckpointComponent : MonoBehaviour, ISkywardComponent
     public DeathZoneComponent DeathZone { get; private set; }
     public Vector3 Position => checkpointPositionOverride != null ? checkpointPositionOverride.position : transform.position;
 
+    private Coroutine coroutine;
+
     private void Awake()
     {
         DeathZone = GetComponentInChildren<DeathZoneComponent>();
@@ -25,7 +27,13 @@ public class CheckpointComponent : MonoBehaviour, ISkywardComponent
 
     void ISkywardComponent.WorldLoaded()
     {
-        StartCoroutine(CheckForPlayer());
+        coroutine = StartCoroutine(CheckForPlayer());
+    }
+
+    void ISkywardComponent.Cleanup()
+    {
+        StopCoroutine(coroutine);
+        coroutine = null;
     }
 
     private IEnumerator CheckForPlayer()
