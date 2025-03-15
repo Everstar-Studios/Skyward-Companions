@@ -25,8 +25,6 @@ public class GameSystem : BaseSystem<GameSystem>
 
     public static void LaunchLevel(string sceneName)
     {
-        PlayerPrefs.SetString("NextScene", sceneName);
-        PlayerPrefs.Save();
         Instance.GameContext.game.LaunchLevel(sceneName);
     }
 
