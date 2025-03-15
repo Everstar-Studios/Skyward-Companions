@@ -17,9 +17,10 @@ namespace Skyward.Systems
     public class CheckpointSystem : BaseSystem<CheckpointSystem>, ISkywardComponent
     {
         private List<DeathZoneComponent> deathZoneComponents = new();
+
+        private Vector3 playerSpawnPosition;
         
-        private Vector3 lastCheckpointPosition;
-        public static Vector3 LastCheckpointPosition => Instance.lastCheckpointPosition;
+        public Vector3 LastCheckpointPosition => activeCheckpoint != null ? activeCheckpoint.Position : playerSpawnPosition;
 
         private static Transform player;
 
@@ -35,6 +36,11 @@ namespace Skyward.Systems
         }
 
         private event EventHandler<DeathZoneReachedEventArgs> deathZoneReached;
+
+        private List<CheckpointComponent> checkpoints = new();
+        private CheckpointComponent activeCheckpoint;
+        private DeathZoneComponent activeDeathZone;
+        public static CheckpointComponent ActiveCheckpoint => Instance.activeCheckpoint;
         
         public static event EventHandler CheckpointReached
         {
@@ -48,16 +54,43 @@ namespace Skyward.Systems
         {
             worldLoaded = true;
             player = PlayerSystem.Player.transform;
-            lastCheckpointPosition = player.position;
+            playerSpawnPosition = player.position;
+            foreach (var checkpoint in ComponentSystem.GetAllComponents<CheckpointComponent>())
+            {
+                checkpoints.Add(checkpoint);
+                checkpoint.DeathZone.gameObject.SetActive(false);
+            }
+
+            int defaultCounter = 0;
+            foreach (var deathZone in ComponentSystem.GetAllComponents<DeathZoneComponent>())
+            {
+                deathZoneComponents.Add(deathZone);
+                if (deathZone.transform.parent == null)
+                {
+                    activeDeathZone = deathZone;
+                    defaultCounter++;
+                }
+            }
+
+            if (defaultCounter != 1)
+            {
+                string part = defaultCounter == 0 ? "no death zones" : "more than one death zones";
+                Debug.LogException(new Exception($"There are {part} with 'isDefault' boolean set to true in the scene!! Ensure there is one"));
+            }
         }
         
         public static void OnCheckpointReached(CheckpointComponent checkpoint, PlayerController player)
         {
-            Instance.lastCheckpointPosition = checkpoint.checkpointPositionOverride != null ? checkpoint.checkpointPositionOverride.position : player.transform.position;
             Instance.checkPointReached?.Invoke(Instance, EventArgs.Empty);
+
+            Instance.deathZoneComponents.ForEach(d => d.gameObject.SetActive(false));
+            
+            Instance.activeCheckpoint = checkpoint;
+            Instance.activeDeathZone = checkpoint.DeathZone;
+            checkpoint.ActivateDeathZone();
         }
 
-        public static void RespawnFromLastCheckpoint()
+        private static void RespawnFromLastCheckpoint()
         {
             Instance.StartCoroutine(Instance.RespawnFlow());
         }
@@ -71,7 +104,7 @@ namespace Skyward.Systems
             if (args.timeToTeleportPlayer > float.Epsilon)
                 yield return new WaitForSeconds(args.timeToTeleportPlayer);
             
-            PlayerSystem.Player.player.Teleport(lastCheckpointPosition);
+            PlayerSystem.Player.player.Teleport(LastCheckpointPosition);
             
             if (args.timeToReEnableInput > float.Epsilon)
                 yield return new WaitForSeconds(args.timeToReEnableInput);
@@ -80,27 +113,16 @@ namespace Skyward.Systems
             respawningInProgress = false;
         }
 
-        public static void AddDeathZone(DeathZoneComponent deathZoneComponent)
-        {
-            Instance.deathZoneComponents.Add(deathZoneComponent);
-        }
-
         private void Update()
         {
             if (respawningInProgress || !worldLoaded)
                 return;
 
             Vector3 playerPosition = player.position;
-            foreach (DeathZoneComponent deathZone in deathZoneComponents)
-            {
-                Vector3 closestPoint = deathZone.trigger.ClosestPoint(playerPosition);
-                bool enteredDeathZone = Vector3.Distance(closestPoint, PlayerColliderCenter) < 0.5f;
-                if (enteredDeathZone)
-                {
-                    RespawnFromLastCheckpoint();
-                    break;
-                }
-            }
+            Vector3 closestPoint = activeDeathZone.trigger.ClosestPoint(playerPosition);
+            bool enteredDeathZone = Vector3.Distance(closestPoint, PlayerColliderCenter) < 0.5f;
+            if (enteredDeathZone)
+                RespawnFromLastCheckpoint();
         }
     }
 }

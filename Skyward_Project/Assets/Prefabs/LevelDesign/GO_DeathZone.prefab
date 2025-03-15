@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5784652469679841159}
   - component: {fileID: 3076218955004031029}
   - component: {fileID: 4129332349306307373}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: GO_DeathZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trigger: {fileID: 4129332349306307373}
+  isDefault: 0
 --- !u!65 &4129332349306307373
 BoxCollider:
   m_ObjectHideFlags: 0

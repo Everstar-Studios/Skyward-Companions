@@ -1,19 +1,24 @@
 using System;
 using Skyward.Characters;
+using Skyward.Core;
 using Skyward.Systems;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class CheckpointComponent : MonoBehaviour
+public class CheckpointComponent : MonoBehaviour, ISkywardComponent
 {
     public Transform checkpointPositionOverride;
     public Collider trigger;
     public UnityEvent checkpointReachedEvent;
+    
+    public DeathZoneComponent DeathZone { get; private set; }
+    public Vector3 Position => checkpointPositionOverride != null ? checkpointPositionOverride.position : transform.position;
 
     private bool activated;
 
     private void Awake()
     {
+        DeathZone = GetComponentInChildren<DeathZoneComponent>();
         trigger.isTrigger = true;
     }
 
@@ -28,4 +33,6 @@ public class CheckpointComponent : MonoBehaviour
         checkpointReachedEvent.Invoke();
         activated = true;
     }
+
+    public void ActivateDeathZone() => DeathZone.gameObject.SetActive(true);
 }
