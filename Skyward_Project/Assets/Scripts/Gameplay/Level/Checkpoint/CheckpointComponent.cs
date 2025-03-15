@@ -1,7 +1,9 @@
-using System;
 using Skyward.Characters;
 using Skyward.Core;
 using Skyward.Systems;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -36,3 +38,33 @@ public class CheckpointComponent : MonoBehaviour, ISkywardComponent
 
     public void ActivateDeathZone() => DeathZone.gameObject.SetActive(true);
 }
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(CheckpointComponent))]
+public class CheckpointEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+
+        if (GUILayout.Button("Teleport character"))
+        {
+            var checkpoint = (CheckpointComponent)target;
+            if (PlayerSystem.Instance != null && PlayerSystem.Player != null)
+            {
+                Undo.RecordObject(PlayerSystem.Player.transform, "Character teleported");
+                CheckpointSystem.OnCheckpointReached(checkpoint, PlayerSystem.Player);
+            }
+            else
+            {
+                var player = FindAnyObjectByType<LocomotionController>();
+                if (player != null)
+                { 
+                    Undo.RecordObject(player.transform, "Character teleported");
+                    player.transform.position = checkpoint.Position;
+                }
+            }
+        }
+    }
+}
+#endif
