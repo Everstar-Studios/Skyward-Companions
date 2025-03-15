@@ -64,7 +64,8 @@ namespace Skyward.Systems
             foreach (var deathZone in ComponentSystem.GetAllComponents<DeathZoneComponent>())
             {
                 deathZoneComponents.Add(deathZone);
-                if (!deathZone.transform.parent.TryGetComponent(out CheckpointComponent _))
+                Transform parent = deathZone.transform.parent;
+                if (parent == null || !parent.TryGetComponent(out CheckpointComponent _))
                 {
                     // Default death zone
                     activeDeathZone = deathZone;
