@@ -97,8 +97,7 @@ public class SkywardGame : MonoBehaviour
 
     private void CreateGameManager()
     {
-        if (GameManager == null)
-            GameManager = Instantiate(gameManagerPrefab);
+        GameManager = Instantiate(gameManagerPrefab);
     }
     
     private void TrackPrespawnedObjects()
@@ -172,7 +171,7 @@ public class SkywardGame : MonoBehaviour
     public void OnLevelCompleted()
     {
         CleanupAllComponents();
-        DestroyImmediate(GameManager.gameObject);
+        DestroyImmediate(GameManager);
         ComponentSystem.UntrackAll();
         SceneManager.LoadScene("SCN_Lobby");
     }
