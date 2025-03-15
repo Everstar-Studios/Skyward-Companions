@@ -17,4 +17,11 @@ public class PlayerSystem : BaseSystem<PlayerSystem>, ISkywardComponent
         
         player = FindAnyObjectByType<PlayerController>();
     }
+
+    protected override void Cleanup()
+    {
+        base.Cleanup();
+        
+        Destroy(player.gameObject);
+    }
 }

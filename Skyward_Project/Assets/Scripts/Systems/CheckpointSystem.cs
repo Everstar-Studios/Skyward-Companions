@@ -49,8 +49,8 @@ namespace Skyward.Systems
         }
 
         private event EventHandler checkPointReached;
-        
-        void ISkywardComponent.WorldLoaded()
+
+        protected override void Initialize(GameContext context)
         {
             player = PlayerSystem.Player.transform;
             playerSpawnPosition = player.position;
@@ -81,7 +81,14 @@ namespace Skyward.Systems
             
             canUpdate = activeDeathZone != null;
         }
-        
+
+        protected override void Cleanup()
+        {
+            base.Cleanup();
+
+            canUpdate = false;
+        }
+
         public static void OnCheckpointReached(CheckpointComponent checkpoint, PlayerController player)
         {
             Instance.checkPointReached?.Invoke(Instance, EventArgs.Empty);

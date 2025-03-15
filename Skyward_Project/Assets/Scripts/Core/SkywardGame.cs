@@ -44,8 +44,6 @@ public class SkywardGame : MonoBehaviour
     
     public void LaunchLevel(int sceneIndex)
     {
-        InitializeSystems();
-        
         var async = SceneManager.LoadSceneAsync(sceneIndex);
         async.completed += OnLevelLoaded;
     }
@@ -62,6 +60,7 @@ public class SkywardGame : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         
         TrackPrespawnedObjects();
+        InitializeSystems();
         NotifyWorldLoaded();
     }
 
@@ -112,6 +111,19 @@ public class SkywardGame : MonoBehaviour
             }
         }
     }
+    
+    private void CleanupAllComponents()
+    {
+        foreach (ISkywardComponent component in ComponentSystem.GetAllComponents<ISkywardComponent>(true))
+        {
+            component.Cleanup();
+        }
+        
+        foreach (ISystem system in ComponentSystem.GetAllComponents<ISystem>(true))
+        {
+            system.Cleanup();
+        }
+    }
 
     void CreateSystems()
     {
@@ -155,5 +167,13 @@ public class SkywardGame : MonoBehaviour
         {
             skywardComponent.Cleanup();
         }
+    }
+
+    public void OnLevelCompleted()
+    {
+        CleanupAllComponents();
+        Destroy(GameManager.gameObject);
+        ComponentSystem.UntrackAll();
+        SceneManager.LoadScene("SCN_Lobby");
     }
 }
