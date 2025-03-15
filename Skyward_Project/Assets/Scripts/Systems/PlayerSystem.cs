@@ -6,6 +6,8 @@ using UnityEngine;
 public class PlayerSystem : BaseSystem<PlayerSystem>, ISkywardComponent
 {
     public static PlayerController Player => Instance.player;
+    public static Vector3 PlayerColliderCenter => Player.player.Collider.bounds.center;
+    
     private PlayerController player;
     private GameContext gameContext;
 

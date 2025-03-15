@@ -26,8 +26,8 @@ namespace Skyward.Systems
 
         private bool canUpdate = false;
         private bool respawningInProgress = false;
-
-        private Vector3 PlayerColliderCenter => PlayerSystem.Player.player.Collider.bounds.center;
+        
+        public static bool IsReady => Instance.canUpdate;
         
         public static event EventHandler<DeathZoneReachedEventArgs> DeathZoneReached
         {
@@ -122,7 +122,7 @@ namespace Skyward.Systems
                 return;
             
             Vector3 closestPoint = activeDeathZone.trigger.ClosestPoint(player.position);
-            bool enteredDeathZone = Vector3.Distance(closestPoint, PlayerColliderCenter) < 0.5f;
+            bool enteredDeathZone = Vector3.Distance(closestPoint, PlayerSystem.PlayerColliderCenter) < 0.5f;
             if (enteredDeathZone)
                 RespawnFromLastCheckpoint();
         }
