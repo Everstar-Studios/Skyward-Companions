@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: ee66c68e9af4fe044ba237c680c86bdc, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -188,15 +188,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2335962086821572181, guid: ce6b54a94da02704f8e768c537ab5108, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.172
+      value: 0.07
       objectReference: {fileID: 0}
     - target: {fileID: 2335962086821572181, guid: ce6b54a94da02704f8e768c537ab5108, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 112.85622
+      value: 24.192823
       objectReference: {fileID: 0}
     - target: {fileID: 2335962086821572181, guid: ce6b54a94da02704f8e768c537ab5108, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 328.8041
+      value: 14.979133
       objectReference: {fileID: 0}
     - target: {fileID: 2335962086821572181, guid: ce6b54a94da02704f8e768c537ab5108, type: 3}
       propertyPath: m_LocalRotation.w
@@ -7298,6 +7298,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 636577180538032019, guid: 3ce30ba71805ac24483aa2ccbd2264bb, type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -11465,6 +11469,7 @@ Transform:
   - {fileID: 1552503758}
   - {fileID: 1273977302}
   - {fileID: 644488086}
+  - {fileID: 814353193}
   - {fileID: 1663744570}
   - {fileID: 1347736168}
   - {fileID: 1706147006}
@@ -15632,15 +15637,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5209498071287124412, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.172
+      value: 0.07
       objectReference: {fileID: 0}
     - target: {fileID: 5209498071287124412, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 111.6534
+      value: 22.99
       objectReference: {fileID: 0}
     - target: {fileID: 5209498071287124412, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 332.619
+      value: 18.794
       objectReference: {fileID: 0}
     - target: {fileID: 5209498071287124412, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
       propertyPath: m_LocalRotation.w
@@ -26142,6 +26147,68 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 5222692528940599503, guid: 6ce972da2f0adc74e962a02ccfd6e85e, type: 3}
   m_PrefabInstance: {fileID: 813500530}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &814353192
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 365896975}
+    m_Modifications:
+    - target: {fileID: 1030984428, guid: abc00000000004454125165798773093, type: 3}
+      propertyPath: m_Name
+      value: PF_WoodenPlanks_02 (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1030984429, guid: abc00000000004454125165798773093, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -67.856
+      objectReference: {fileID: 0}
+    - target: {fileID: 1030984429, guid: abc00000000004454125165798773093, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -63.516037
+      objectReference: {fileID: 0}
+    - target: {fileID: 1030984429, guid: abc00000000004454125165798773093, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.5790834
+      objectReference: {fileID: 0}
+    - target: {fileID: 1030984429, guid: abc00000000004454125165798773093, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.62018746
+      objectReference: {fileID: 0}
+    - target: {fileID: 1030984429, guid: abc00000000004454125165798773093, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.19842365
+      objectReference: {fileID: 0}
+    - target: {fileID: 1030984429, guid: abc00000000004454125165798773093, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.740527
+      objectReference: {fileID: 0}
+    - target: {fileID: 1030984429, guid: abc00000000004454125165798773093, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.16617878
+      objectReference: {fileID: 0}
+    - target: {fileID: 1030984429, guid: abc00000000004454125165798773093, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1030984429, guid: abc00000000004454125165798773093, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -88.874
+      objectReference: {fileID: 0}
+    - target: {fileID: 1030984429, guid: abc00000000004454125165798773093, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -30
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: abc00000000004454125165798773093, type: 3}
+--- !u!4 &814353193 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1030984429, guid: abc00000000004454125165798773093, type: 3}
+  m_PrefabInstance: {fileID: 814353192}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &815456914
 PrefabInstance:
@@ -52250,11 +52317,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1030984607, guid: abc00000000004987433121041550194, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 40.7004
+      value: 39.48
       objectReference: {fileID: 0}
     - target: {fileID: 1030984607, guid: abc00000000004987433121041550194, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 16.844124
+      value: 16.64
       objectReference: {fileID: 0}
     - target: {fileID: 1030984607, guid: abc00000000004987433121041550194, type: 3}
       propertyPath: m_LocalPosition.z
@@ -52288,6 +52355,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1030984615, guid: abc00000000004987433121041550194, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.05
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -52314,13 +52385,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementType: 2
-  movementSpeed: 0.7
+  movementSpeed: 1.2
   waitForPlayerToStart: 0
   delayBeforeMoving: 0.25
   points: []
-  circularCenter: {x: 21.659998, y: 121.499214, z: 330.581}
-  circularRadius: 3
-  circularAxis: {x: 0, y: 0, z: 1}
+  circularCenter: {x: 20.439596, y: 121.29509, z: 330.581}
+  circularRadius: 1
+  circularAxis: {x: 0, y: 0, z: -1}
   circularAngleOffset: 0
   lineThickness: 2
   lineColor: {r: 0, g: 1, b: 0, a: 1}
@@ -61468,11 +61539,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1030984607, guid: abc00000000004987433121041550194, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 34.750404
+      value: 34.63
       objectReference: {fileID: 0}
     - target: {fileID: 1030984607, guid: abc00000000004987433121041550194, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 14.667572
+      value: 15.18
       objectReference: {fileID: 0}
     - target: {fileID: 1030984607, guid: abc00000000004987433121041550194, type: 3}
       propertyPath: m_LocalPosition.z
@@ -61532,7 +61603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementType: 2
-  movementSpeed: 0.7
+  movementSpeed: 0.6
   waitForPlayerToStart: 0
   delayBeforeMoving: 0.25
   points:
@@ -61540,8 +61611,8 @@ MonoBehaviour:
   - {x: 18.665737, y: 119.32266, z: 333.36264}
   - {x: 18.563751, y: 119.32266, z: 326.45697}
   - {x: 14.780574, y: 119.32266, z: 326.7853}
-  circularCenter: {x: 15.710001, y: 119.32266, z: 330.44}
-  circularRadius: 3
+  circularCenter: {x: 15.589598, y: 119.83509, z: 330.44}
+  circularRadius: 2
   circularAxis: {x: 0, y: 0, z: 1}
   circularAngleOffset: 0
   lineThickness: 2
