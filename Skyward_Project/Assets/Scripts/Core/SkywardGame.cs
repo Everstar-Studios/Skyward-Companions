@@ -42,9 +42,9 @@ public class SkywardGame : MonoBehaviour
         }
     }
     
-    public void LaunchLevel(int sceneIndex)
+    public void LaunchLevel(string sceneName)
     {
-        var async = SceneManager.LoadSceneAsync(sceneIndex);
+        var async = SceneManager.LoadSceneAsync(sceneName);
         async.completed += OnLevelLoaded;
     }
 
@@ -172,7 +172,7 @@ public class SkywardGame : MonoBehaviour
     public void OnLevelCompleted()
     {
         CleanupAllComponents();
-        Destroy(GameManager.gameObject);
+        DestroyImmediate(GameManager.gameObject);
         ComponentSystem.UntrackAll();
         SceneManager.LoadScene("SCN_Lobby");
     }

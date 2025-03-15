@@ -23,9 +23,11 @@ public class GameSystem : BaseSystem<GameSystem>
         gameInstance = Instance.GameContext.game;
     }
 
-    public static void LaunchLevel(int sceneIndex)
+    public static void LaunchLevel(string sceneName)
     {
-        Instance.GameContext.game.LaunchLevel(sceneIndex);
+        PlayerPrefs.SetString("NextScene", sceneName);
+        PlayerPrefs.Save();
+        Instance.GameContext.game.LaunchLevel(sceneName);
     }
 
     public static void OnLevelCompleted()

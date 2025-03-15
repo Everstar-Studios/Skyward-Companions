@@ -23,8 +23,12 @@ public class HeightSystem : BaseSystem<HeightSystem>, ISkywardComponent
 
     void ISkywardComponent.Cleanup()
     {
-        Instance.StopCoroutine(coroutine);
-        coroutine = null;
+        if (coroutine != null)
+        {
+            Instance.StopCoroutine(coroutine);
+            coroutine = null;
+            
+        }
     }
 
     private IEnumerator UpdateHeight()

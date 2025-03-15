@@ -62,10 +62,7 @@ public class LobbyUI : MonoBehaviour
 
     public void OpenLevel(string sceneName) // Scene name comes from UI
     {
-        Debug.Log("Selected Scene: " + sceneName); // Debugging log
-        PlayerPrefs.SetString("NextScene", sceneName); // Save selected scene
-        PlayerPrefs.Save(); // Ensure it gets written
-        SceneManager.LoadScene("SCN_LoadingScene"); // Go to Loading Screen first
+        GameSystem.LaunchLevel(sceneName);
     }
 
 
