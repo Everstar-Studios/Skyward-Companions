@@ -23,7 +23,7 @@ public class HeightSystem : BaseSystem<HeightSystem>, ISkywardComponent
     {
         while (true)
         {
-            height = (player.position.y - startingY) / divident;
+            height = (player.position.y - startingY) / Configs.PlayerConfig.heightIndicatorDivident;
             yield return null;
         }
     }
