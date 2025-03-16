@@ -13,25 +13,15 @@ public class CheckpointComponent : MonoBehaviour, ISkywardComponent
     public Transform checkpointPositionOverride;
     public Collider trigger;
     public UnityEvent checkpointReachedEvent;
-
-    private DeathZoneComponent deathZone;
-    public DeathZoneComponent DeathZone
-    {
-        get
-        {
-            if (deathZone == null)
-                deathZone = GetComponentInChildren<DeathZoneComponent>();
-
-            return deathZone;
-        }
-    }
     
+    public DeathZoneComponent DeathZone { get; private set; }
     public Vector3 Position => checkpointPositionOverride != null ? checkpointPositionOverride.position : transform.position;
 
     private Coroutine coroutine;
 
     private void Awake()
     {
+        DeathZone = GetComponentInChildren<DeathZoneComponent>();
         trigger.isTrigger = true;
     }
 
