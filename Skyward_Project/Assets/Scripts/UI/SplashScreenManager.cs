@@ -1,61 +1,60 @@
+using System;
 using UnityEngine;
 using UnityEngine.Video;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
 
+[RequireComponent(typeof(VideoPlayer))]
 public class SplashScreenManager : MonoBehaviour
 {
     public VideoPlayer videoPlayer; 
-    public Slider progressBar;  // **Loading ekranında slider için**
-    public string nextSceneName = "SCN_Lobby"; // Sonraki sahne adı
-    public float waitingTime = 1.0f; // **Loading ekranı için bekleme süresi**
-
-    private bool isVideoPlaying = false;
+    public string nextSceneName = "SCN_SplashLoadingScene";
+    public Slider loadingSlider;
+    public float waitTime;
 
     void Start()
     {
-        if (videoPlayer != null && videoPlayer.clip != null) // **Eğer Video varsa**
-        {
-            isVideoPlaying = true;
-            videoPlayer.loopPointReached += OnVideoEnd;
-            videoPlayer.Play();
-        }
-        else // **Eğer Video yoksa, doğrudan yükleme ekranı çalışsın**
-        {
-            if (progressBar != null) 
-            {
-                StartCoroutine(LoadSceneWithProgress(nextSceneName));
-            }
-            else // **Splash Screen'deysek beklemeden direkt geç**
-            {
-                SceneManager.LoadScene(nextSceneName);
-            }
-        }
+        videoPlayer.loopPointReached += OnVideoEnd;
+        videoPlayer.Play();
+    }
+
+    private void OnDestroy()
+    {
+        videoPlayer.loopPointReached -= OnVideoEnd;
     }
 
     private void OnVideoEnd(VideoPlayer vp)
     {
-        SceneManager.LoadScene(nextSceneName); // **Video bitince direkt geç**
+        StartCoroutine(LoadScene());
     }
 
-    IEnumerator LoadSceneWithProgress(string sceneToLoad)
+    private IEnumerator LoadScene()
     {
-        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneToLoad);
-        operation.allowSceneActivation = false; // Sahne hemen açılmasın
-
-        while (!operation.isDone)
+        var async = SceneManager.LoadSceneAsync(nextSceneName);
+        async.allowSceneActivation = false;
+        loadingSlider.transform.parent.gameObject.SetActive(true);
+        while (!async.isDone)
         {
-            float progress = Mathf.Clamp01(operation.progress / 0.9f);
-            progressBar.value = progress; // **Slider Güncelle**
-
-            if (operation.progress >= 0.9f) // **Yükleme tamamlandıysa**
+            float progress = Mathf.Clamp01(async.progress / 0.9f);
+            loadingSlider.value = progress;
+            
+            if (async.progress >= 0.9f)
             {
-                yield return new WaitForSeconds(waitingTime); // **Editörden ayarlanabilen bekleme süresi**
-                operation.allowSceneActivation = true; // **Sahneye geç**
+                yield return new WaitForSeconds(waitTime);
+                async.allowSceneActivation = true;
             }
 
             yield return null;
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            videoPlayer.Stop();
+            OnVideoEnd(videoPlayer);
         }
     }
 }
