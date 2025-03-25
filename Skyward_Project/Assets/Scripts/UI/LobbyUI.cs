@@ -1,10 +1,13 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using Skyward.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LobbyUI : MonoBehaviour
 {
+    public GameSettings gameSettings = new();
     public GameObject mainMenuScreen;
     public GameObject playScreen;
     public GameObject leaderboardScreen;
@@ -13,9 +16,17 @@ public class LobbyUI : MonoBehaviour
 
     private List<GameObject> menus = new();
 
+    private SkywardGame game;
 
-    private void Start()
+    private void Awake()
     {
+        game = GetComponent<SkywardGame>();
+    }
+    
+    private IEnumerator Start()
+    {
+        yield return game.Initialize(gameSettings);
+        
         menus.Add(mainMenuScreen);
         menus.Add(playScreen);
         menus.Add(leaderboardScreen);
