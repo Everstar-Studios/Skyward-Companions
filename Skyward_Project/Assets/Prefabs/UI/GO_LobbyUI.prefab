@@ -120,7 +120,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1016110788720789302}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: LobbyUI, Assembly-CSharp
         m_MethodName: OpenLeaderBoardScreen
         m_Mode: 1
@@ -461,7 +461,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1016110788720789302}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: LobbyUI, Assembly-CSharp
         m_MethodName: OpenMainMenu
         m_Mode: 1
@@ -1072,7 +1072,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1016110788720789302}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: LobbyUI, Assembly-CSharp
         m_MethodName: OpenMainMenu
         m_Mode: 1
@@ -1436,7 +1436,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1016110788720789302}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: LobbyUI, Assembly-CSharp
         m_MethodName: OpenMainMenu
         m_Mode: 1
@@ -1854,7 +1854,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1016110788720789302}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: LobbyUI, Assembly-CSharp
         m_MethodName: OpenPlayScreen
         m_Mode: 1
@@ -1984,7 +1984,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1016110788720789302}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: LobbyUI, Assembly-CSharp
         m_MethodName: OpenSettingsScreen
         m_Mode: 1
@@ -3911,7 +3911,6 @@ GameObject:
   - component: {fileID: 8108771499012817216}
   - component: {fileID: 447761258688348468}
   - component: {fileID: 2400755147488417277}
-  - component: {fileID: 1016110788720789302}
   m_Layer: 5
   m_Name: GO_LobbyUI
   m_TagString: Untagged
@@ -4002,23 +4001,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4087
---- !u!114 &1016110788720789302
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2487135238612570118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b08c26ba1cb0b0469868959d8d173cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainMenuScreen: {fileID: 6378220540808642528}
-  playScreen: {fileID: 4691251872923686254}
-  leaderboardScreen: {fileID: 4898661769643617943}
-  settingsScreen: {fileID: 1091029422265630773}
-  creditScreen: {fileID: 8718896138953415240}
 --- !u!1 &2556888612066097770
 GameObject:
   m_ObjectHideFlags: 0
@@ -4214,7 +4196,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1016110788720789302}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: LobbyUI, Assembly-CSharp
         m_MethodName: OpenCreditScreen
         m_Mode: 1
@@ -4576,7 +4558,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1016110788720789302}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: LobbyUI, Assembly-CSharp
         m_MethodName: OpenLevel
         m_Mode: 5
@@ -8927,7 +8909,7 @@ RectTransform:
   m_Father: {fileID: 728059222808819001}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -9969,7 +9951,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1016110788720789302}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: LobbyUI, Assembly-CSharp
         m_MethodName: OpenLevel
         m_Mode: 5
@@ -10618,7 +10600,7 @@ RectTransform:
   m_Father: {fileID: 1630833831791283790}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -10785,7 +10767,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1016110788720789302}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: LobbyUI, Assembly-CSharp
         m_MethodName: OpenLevel
         m_Mode: 5
@@ -11327,7 +11309,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1016110788720789302}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: LobbyUI, Assembly-CSharp
         m_MethodName: OpenMainMenu
         m_Mode: 1
@@ -11834,7 +11816,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1016110788720789302}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: LobbyUI, Assembly-CSharp
         m_MethodName: OpenSettingsScreen
         m_Mode: 1
@@ -11954,7 +11936,7 @@ RectTransform:
   m_Father: {fileID: 2741443130775151520}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -12119,7 +12101,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1016110788720789302}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: LobbyUI, Assembly-CSharp
         m_MethodName: OpenLevel
         m_Mode: 5
@@ -13895,7 +13877,7 @@ RectTransform:
   m_Father: {fileID: 1226636081639501988}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
