@@ -1,6 +1,7 @@
+using Skyward.UI;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Launch Game Button", menuName = "Skyward/Button Assets/LaunchGameButton")]
+[CreateAssetMenu(fileName = "Launch Game Button", menuName = "Skyward/UI/LaunchGameButton")]
 public class LaunchGameButtonAsset : ButtonAsset
 {
     public string levelName;

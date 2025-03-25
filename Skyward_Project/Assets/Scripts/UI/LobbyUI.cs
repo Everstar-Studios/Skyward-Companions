@@ -2,11 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Skyward.Core;
+using Skyward.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LobbyUI : MonoBehaviour
 {
+    public RootAsset rootAsset;
+    public MenuAsset menuAsset;
+    public MenuAsset loadingMenuAsset;
+    
     public GameSettings gameSettings = new();
     public GameObject mainMenuScreen;
     public GameObject playScreen;
@@ -25,6 +30,9 @@ public class LobbyUI : MonoBehaviour
     
     private IEnumerator Start()
     {
+        UIGameMenu.ShowUI(rootAsset);
+        UIGameMenu.ShowUI(menuAsset);
+        
         yield return game.Initialize(gameSettings);
         
         menus.Add(mainMenuScreen);
@@ -32,7 +40,7 @@ public class LobbyUI : MonoBehaviour
         menus.Add(leaderboardScreen);
         menus.Add(settingsScreen);
         menus.Add(creditScreen);
-        OpenMainMenu();
+        //OpenMainMenu();
     }
 
     public void OpenPlayScreen()
