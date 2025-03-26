@@ -14,8 +14,9 @@ public class HeightSystem : BaseSystem<HeightSystem>, ISkywardComponent
     private float startingY;
 
     private Coroutine coroutine;
-    void ISkywardComponent.WorldLoaded(GameContext context)
+    protected override void Initialize(GameContext context)
     {
+        base.Initialize(context);
         PlayerSystem.PlayerFound += PlayerSpawned;
 
     }

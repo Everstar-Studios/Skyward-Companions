@@ -140,30 +140,29 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     
     private void OnCutsceneEnd(PlayableDirector _)
     {
-        onCutsceneStopped?.Invoke();
+        OnEnd();
+        CutsceneSystem.OnCutsceneEnded(director);
         director.Stop();
         Destroy(director);
-        CutsceneSystem.OnCutsceneEnded(director);
-        
+    }
+    
+    private void OnVideoEnded(VideoPlayer _)
+    {
+        OnEnd();
+        CutsceneSystem.OnVideoEnded(videoPlayer);
+        videoPlayer.Stop();
+        Destroy(videoPlayer);
+    }
+
+    private void OnEnd()
+    {
+        onCutsceneStopped?.Invoke();
         if (disableInput)
             GameInputSystem.EnableInput();
         
         CameraSystem.EnableCamera();
     }
-    
-    private void OnVideoEnded(VideoPlayer _)
-    {
-        onCutsceneStopped?.Invoke();
-        videoPlayer.Stop();
-        Destroy(videoPlayer);
-        CutsceneSystem.OnVideoEnded(videoPlayer);
-        
-        if (disableInput)
-            GameInputSystem.EnableInput();
-        
-        
-    }
-    
+
     private static bool IsPlayerInColliderBounds(Collider collider)
     {
         return collider.bounds.Contains(PlayerSystem.Player.transform.position);
