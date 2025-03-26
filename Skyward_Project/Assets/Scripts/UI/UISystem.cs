@@ -6,8 +6,9 @@ using Skyward.Systems;
 public class UISystem : BaseSystem, ISkywardComponent
 {
     private GameHUDComponent gameHUD;
-    void ISkywardComponent.WorldLoaded()
+    protected override void Initialize(GameContext context)
     {
+        base.Initialize(context);
         gameHUD = ComponentSystem<GameHUDComponent>.Instance;
 
         CutsceneSystem.CutsceneStarted += OnCutsceneStarted;
@@ -33,11 +34,11 @@ public class UISystem : BaseSystem, ISkywardComponent
     
     private void OnCutsceneStarted(object sender, EventArgs e)
     {
-        gameHUD.gameObject.SetActive(false);
+        GameManager.SetEnableGameHUD(false);
     }
     
     private void OnCutsceneStopped(object sender, EventArgs e)
     {
-        gameHUD.gameObject.SetActive(true);
+        GameManager.SetEnableGameHUD(true);
     }
 }

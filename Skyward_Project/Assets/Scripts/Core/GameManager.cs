@@ -1,10 +1,12 @@
 using System.Collections;
 using Skyward.Core;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour, ISkywardComponent
 {
     public GameObject gameHUD;
+    private bool gameHUDDisabled;
     
     public static GameManager Instance { get; private set; }
     
@@ -31,7 +33,14 @@ public class GameManager : MonoBehaviour, ISkywardComponent
 
     void ISkywardComponent.WorldLoaded()
     {
-        gameHUD.SetActive(true);
+        if (!Instance.gameHUDDisabled)
+            gameHUD.SetActive(true);
+    }
+
+    public static void SetEnableGameHUD(bool enable)
+    {
+        Instance.gameHUDDisabled = !enable;
+        Instance.gameHUD.SetActive(enable);
     }
     
     private IEnumerator FactoryCoroutine()
