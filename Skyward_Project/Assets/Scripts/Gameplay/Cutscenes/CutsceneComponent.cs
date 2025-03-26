@@ -133,6 +133,8 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
         if (disableInput)
             GameInputSystem.DisableInput();
         
+        CameraSystem.DisableCamera();
+        
         onCutsceneStarted?.Invoke();
     }
     
@@ -145,6 +147,8 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
         
         if (disableInput)
             GameInputSystem.EnableInput();
+        
+        CameraSystem.EnableCamera();
     }
     
     private void OnVideoEnded(VideoPlayer _)

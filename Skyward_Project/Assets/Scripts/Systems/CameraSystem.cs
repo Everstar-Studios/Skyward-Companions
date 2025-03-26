@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Skyward.Systems
 {
-    public class CameraSystem : BaseSystem<CameraSystem>, ISkywardComponent
+    public class CameraSystem : BaseSystem<CameraSystem>
     {
         private Camera mainCamera;
         public static Camera Camera => Instance.mainCamera;
@@ -37,12 +37,12 @@ namespace Skyward.Systems
 
         public static void EnableCamera()
         {
-            MainVirtualCamera.gameObject.SetActive(true);
+            Instance.mainCamera.enabled = true;
         }
 
         public static void DisableCamera()
         {
-            MainVirtualCamera.gameObject.SetActive(false);
+            Instance.mainCamera.enabled = false;
         }
 
         public static void SetupFollowTarget(Transform follow)
