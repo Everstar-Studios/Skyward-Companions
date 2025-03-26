@@ -1,6 +1,7 @@
 using System;
 using Skyward.Core;
 using Skyward.Systems;
+using UnityEngine;
 using UnityEngine.UI;
 
 [RequiredSystem]
@@ -34,13 +35,15 @@ public class UISystem : BaseSystem, ISkywardComponent
     
     private void OnCutsceneStarted(object sender, EventArgs e)
     {
-        GameManager.Instance.GetComponentInChildren<RawImage>(true).gameObject.SetActive(true);
+        var renderTexture = GameManager.Instance.GetComponentInChildren<RawImage>(true);
+        renderTexture.color = new Color(1, 1, 1, 1);
         GameManager.SetEnableGameHUD(false);
     }
     
     private void OnCutsceneStopped(object sender, EventArgs e)
     {
-        GameManager.Instance.GetComponentInChildren<RawImage>().gameObject.SetActive(false);
+        var renderTexture = GameManager.Instance.GetComponentInChildren<RawImage>(true);
+        renderTexture.color = new Color(1, 1, 1, 0);
         GameManager.SetEnableGameHUD(true);
     }
 }
