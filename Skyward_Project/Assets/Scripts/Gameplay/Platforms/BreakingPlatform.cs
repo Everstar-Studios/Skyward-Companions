@@ -6,7 +6,7 @@ using Skyward.Utils;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class BreakingPlatform : MonoBehaviour, ISkywardComponent
+public class BreakingPlatform : Platform, ISkywardComponent
 {
     [SerializeField] 
     private Collider collider;
@@ -22,25 +22,9 @@ public class BreakingPlatform : MonoBehaviour, ISkywardComponent
     private bool isBroken = false;
     public bool IsBroken => isBroken;
 
-    private Transform player;
-
-    private bool worldLoaded = false;
-
-    void ISkywardComponent.WorldLoaded(GameContext context)
+    protected override IEnumerator OnPlayerLanded(PlayerController player)
     {
-        StartCoroutine(CheckForPlayer());
-    }
-
-    private IEnumerator CheckForPlayer()
-    {
-        player = PlayerSystem.Player.transform;
-        while (true)
-        {
-            if (!collider.bounds.Contains(player.position))
-                yield return new WaitForFixedUpdate();
-            else
-                yield return PrepareBreakFlow();
-        }
+        yield return PrepareBreakFlow();
     }
     
     private IEnumerator PrepareBreakFlow()
