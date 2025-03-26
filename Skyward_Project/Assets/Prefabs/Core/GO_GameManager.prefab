@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bb55e42b8d7bc244a788324032d186e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameHUD: {fileID: 4003784899512588578}
+  gameHUD: {fileID: 6870017295924064000}
 --- !u!1001 &8143845264941659048
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3338280348396018856, guid: 3f7a78c58144dfe4a83854ad872c49fe, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5085845159155690122, guid: 3f7a78c58144dfe4a83854ad872c49fe, type: 3}
       propertyPath: m_Name
       value: GO_GameHUD
@@ -143,9 +147,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f7a78c58144dfe4a83854ad872c49fe, type: 3}
---- !u!1 &4003784899512588578 stripped
+--- !u!1 &6870017295924064000 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 5085845159155690122, guid: 3f7a78c58144dfe4a83854ad872c49fe, type: 3}
+  m_CorrespondingSourceObject: {fileID: 3338280348396018856, guid: 3f7a78c58144dfe4a83854ad872c49fe, type: 3}
   m_PrefabInstance: {fileID: 8143845264941659048}
   m_PrefabAsset: {fileID: 0}
 --- !u!224 &8308954794600747623 stripped

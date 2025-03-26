@@ -26,14 +26,11 @@ namespace FS_ParkourSystem
 
 #if inputsystem
         ParkourInputAction input;
-        private void OnEnable()
+        
+        void Awake()
         {
             input = new ParkourInputAction();
             input.Enable();
-        }
-        
-        void ISkywardComponent.WorldLoaded()
-        {
             GameInputSystem.AddInputAction(input);
         }
         

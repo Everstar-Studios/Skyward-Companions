@@ -22,6 +22,8 @@ public class LevelEndComponent : MonoBehaviour, ISkywardComponent
 
     private IEnumerator CheckForPlayer()
     {
+        yield return new WaitUntil(() => PlayerSystem.Player != null);
+        
         var player = PlayerSystem.Player;
         while (true)
         {

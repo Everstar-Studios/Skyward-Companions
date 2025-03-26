@@ -22,7 +22,7 @@ namespace Skyward.Systems
         
         public Vector3 LastCheckpointPosition => activeCheckpoint != null ? activeCheckpoint.Position : playerSpawnPosition;
 
-        private static Transform player;
+        private Transform player;
 
         private bool canUpdate = false;
         private bool respawningInProgress = false;
@@ -50,10 +50,23 @@ namespace Skyward.Systems
 
         private event EventHandler checkPointReached;
 
-        void ISkywardComponent.WorldLoaded()
+        protected override void Initialize(GameContext context)
         {
-            player = PlayerSystem.Player.transform;
-            playerSpawnPosition = player.position;
+            base.Initialize(context);
+
+            PlayerSystem.PlayerFound += OnPlayerSpawned;
+        }
+        
+        void ISkywardComponent.Cleanup()
+        {
+            PlayerSystem.PlayerFound -= OnPlayerSpawned;
+            canUpdate = false;
+        }
+
+        private void OnPlayerSpawned(object sender, PlayerController player)
+        {
+            this.player = player.transform;
+            playerSpawnPosition = this.player.position;
             foreach (var checkpoint in ComponentSystem.GetAllComponents<CheckpointComponent>())
             {
                 checkpoints.Add(checkpoint);
@@ -80,11 +93,6 @@ namespace Skyward.Systems
             }
             
             canUpdate = activeDeathZone != null;
-        }
-
-        void ISkywardComponent.Cleanup()
-        {
-            canUpdate = false;
         }
 
         public static void OnCheckpointReached(CheckpointComponent checkpoint, PlayerController player)

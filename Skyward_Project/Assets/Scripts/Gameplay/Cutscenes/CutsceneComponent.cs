@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
+using UnityEngine.UI;
 using UnityEngine.Video;
 
 public class CutsceneComponent : MonoBehaviour, ISkywardComponent
@@ -40,7 +41,9 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     private PlayableDirector director;
     private VideoPlayer videoPlayer;
 
-    void ISkywardComponent.WorldLoaded()
+    private RenderTexture renderTexture;
+
+    void Awake()
     {
         if (cutsceneType == ECutsceneType.Timeline && Timeline != null)
             SetupPlayableDirector();
@@ -70,10 +73,7 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
         videoPlayer.playOnAwake = playOnAwake;
         videoPlayer.clip = VideoClip;
         videoPlayer.loopPointReached += OnVideoEnded;
-        // TODO Omer: To be changed to Render Texture soon
-        videoPlayer.renderMode = VideoRenderMode.CameraNearPlane;
-        videoPlayer.aspectRatio = VideoAspectRatio.Stretch;
-        videoPlayer.targetCamera = CameraSystem.Camera;
+        videoPlayer.targetTexture = renderTexture;
         videoPlayer.Prepare();
     }
 
@@ -116,7 +116,19 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
         if (director != null)
             CutsceneSystem.Play(director);
         else if (videoPlayer != null)
+        {
+            if (renderTexture != null)
+            {
+                renderTexture.Release();
+                Destroy(renderTexture);
+            }
+            
+            renderTexture = new RenderTexture(Screen.width, Screen.height, 0);
+            renderTexture.Create();
+            videoPlayer.targetTexture = renderTexture;
+            GameManager.Instance.GetComponentInChildren<RawImage>(true).texture = renderTexture;
             CutsceneSystem.Play(videoPlayer);
+        }
 
         if (disableInput)
             GameInputSystem.DisableInput();
@@ -128,6 +140,7 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     {
         onCutsceneStopped?.Invoke();
         director.Stop();
+        Destroy(director);
         CutsceneSystem.OnCutsceneEnded(director);
         
         if (disableInput)
@@ -138,10 +151,13 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     {
         onCutsceneStopped?.Invoke();
         videoPlayer.Stop();
+        Destroy(videoPlayer);
         CutsceneSystem.OnVideoEnded(videoPlayer);
         
         if (disableInput)
             GameInputSystem.EnableInput();
+        
+        
     }
     
     private static bool IsPlayerInColliderBounds(Collider collider)

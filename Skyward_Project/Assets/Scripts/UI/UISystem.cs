@@ -1,6 +1,7 @@
 using System;
 using Skyward.Core;
 using Skyward.Systems;
+using UnityEngine.UI;
 
 [RequiredSystem]
 public class UISystem : BaseSystem, ISkywardComponent
@@ -9,7 +10,6 @@ public class UISystem : BaseSystem, ISkywardComponent
     protected override void Initialize(GameContext context)
     {
         base.Initialize(context);
-        gameHUD = ComponentSystem<GameHUDComponent>.Instance;
 
         CutsceneSystem.CutsceneStarted += OnCutsceneStarted;
         CutsceneSystem.CutsceneStopped += OnCutsceneStopped;
@@ -34,11 +34,13 @@ public class UISystem : BaseSystem, ISkywardComponent
     
     private void OnCutsceneStarted(object sender, EventArgs e)
     {
+        GameManager.Instance.GetComponentInChildren<RawImage>(true).gameObject.SetActive(true);
         GameManager.SetEnableGameHUD(false);
     }
     
     private void OnCutsceneStopped(object sender, EventArgs e)
     {
+        GameManager.Instance.GetComponentInChildren<RawImage>().gameObject.SetActive(false);
         GameManager.SetEnableGameHUD(true);
     }
 }

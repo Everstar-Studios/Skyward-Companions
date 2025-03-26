@@ -44,13 +44,14 @@ namespace Skyward.Characters
         LocomotionInputAction input;
         private void OnEnable()
         {
-            input = new LocomotionInputAction();
-            input.Enable();
+
 
         }
 
-        void ISkywardComponent.WorldLoaded()
+        void Awake()
         {
+            input = new LocomotionInputAction();
+            input.Enable();
             GameInputSystem.AddInputAction(input);
         }
 
