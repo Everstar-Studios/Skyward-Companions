@@ -44,6 +44,7 @@ public class SkywardGame : MonoBehaviour
     
     public void LaunchLevel(string sceneName)
     {
+        InitializeSystems();
         var async = SceneManager.LoadSceneAsync(sceneName);
         async.completed += OnLevelLoaded;
     }
@@ -60,7 +61,6 @@ public class SkywardGame : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         
         TrackPrespawnedObjects();
-        InitializeSystems();
         NotifyWorldLoaded();
     }
 
@@ -142,6 +142,9 @@ public class SkywardGame : MonoBehaviour
                 system.gamecontext = context;
             }
         }
+
+        foreach (BaseSystem system in systemsGameObject.GetComponents<BaseSystem>())
+            ComponentSystem.TrackComponent(system);
         
         DontDestroyOnLoad(systemsGameObject);
     }
