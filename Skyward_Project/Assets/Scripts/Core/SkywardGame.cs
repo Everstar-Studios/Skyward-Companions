@@ -175,8 +175,9 @@ public class SkywardGame : MonoBehaviour
     public void OnLevelCompleted()
     {
         CleanupAllComponents();
-        DestroyImmediate(GameManager.gameObject);
         ComponentSystem.UntrackAll();
+        DestroyImmediate(GameManager.gameObject);
+        Destroy(systemsGameObject);
         SceneManager.LoadScene("SCN_Lobby");
     }
 }
