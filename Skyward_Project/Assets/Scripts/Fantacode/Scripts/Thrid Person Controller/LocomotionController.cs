@@ -692,16 +692,24 @@ namespace Skyward.Characters
                 StartCoroutine(HandleVerticalJump());
         }
 
-        public IEnumerator HandleVerticalJump()
+        public IEnumerator ForceJump(float force)
+        {
+            yield return HandleVerticalJump(force);
+        }
+
+        public IEnumerator HandleVerticalJump(float force = 0f)
         {
             yield return new WaitForFixedUpdate();
 
             if (playerController.CurrentSystemState != State) yield break;
-
+            
+            if (force <= float.Epsilon)
+                force = Mathf.Abs(Gravity);
+                
             jumpMaxPosY = transform.position.y - 1;
             var velocity = Vector3.zero;
             //Calculates the initial vertical velocity required for jumping
-            var velocityY = Mathf.Abs(Gravity) * timeToJump;
+            var velocityY = Mathf.Abs(force) * timeToJump;
             preventLocomotion = true;
             currentSpeed *= 0.1f;
 
