@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Skyward.Characters;
 using Skyward.Core;
 using UnityEngine;
 
@@ -13,7 +14,13 @@ public class HeightSystem : BaseSystem<HeightSystem>, ISkywardComponent
     private float startingY;
 
     private Coroutine coroutine;
-    void ISkywardComponent.WorldLoaded()
+    void ISkywardComponent.WorldLoaded(GameContext context)
+    {
+        PlayerSystem.PlayerFound += PlayerSpawned;
+
+    }
+
+    private void PlayerSpawned(object sender, PlayerController e)
     {
         player = PlayerSystem.Player.transform;
         startingY = player.position.y;
@@ -22,6 +29,7 @@ public class HeightSystem : BaseSystem<HeightSystem>, ISkywardComponent
 
     void ISkywardComponent.Cleanup()
     {
+        PlayerSystem.PlayerFound -= PlayerSpawned;
         if (coroutine != null)
         {
             Instance.StopCoroutine(coroutine);

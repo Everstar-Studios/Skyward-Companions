@@ -9,7 +9,7 @@ namespace Skyward.Core
 
     public interface ISkywardComponent : ICoreComponent
     {
-        void WorldLoaded() {}
+        void WorldLoaded(GameContext context) {}
         void Cleanup() { }
     }
     
@@ -28,9 +28,12 @@ namespace Skyward.Core
         {
             this.game = game;
         }
+
+        public void AddInstruction(FactoryInstruction instruction)
+        {
+            game.Factory.AddInstruction(instruction);
+        }
     }
-    
-    
     
     [System.Serializable]
     public class GameSettings

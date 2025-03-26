@@ -23,7 +23,7 @@ public class QuestionComponent : MonoBehaviour, ISkywardComponent
 
     private bool questionAddressed = false;
 
-    void ISkywardComponent.WorldLoaded()
+    void ISkywardComponent.WorldLoaded(GameContext context)
     {
         StartCoroutine(RecognizePlayer());
     }

@@ -21,7 +21,7 @@ public class PlayerSystem : BaseSystem<PlayerSystem>, ISkywardComponent
 
     private event EventHandler<PlayerController> playerFound;
 
-    void ISkywardComponent.WorldLoaded()
+    void ISkywardComponent.WorldLoaded(GameContext context)
     {
         player = FindAnyObjectByType<PlayerController>();
         playerFound?.Invoke(this, player);

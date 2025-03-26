@@ -25,7 +25,7 @@ public class CheckpointComponent : MonoBehaviour, ISkywardComponent
         trigger.isTrigger = true;
     }
 
-    void ISkywardComponent.WorldLoaded()
+    void ISkywardComponent.WorldLoaded(GameContext context)
     {
         coroutine = StartCoroutine(CheckForPlayer());
     }

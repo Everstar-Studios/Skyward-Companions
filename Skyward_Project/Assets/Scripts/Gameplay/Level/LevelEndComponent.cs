@@ -10,7 +10,7 @@ public class LevelEndComponent : MonoBehaviour, ISkywardComponent
 
     private Coroutine coroutine;
     
-    void ISkywardComponent.WorldLoaded()
+    void ISkywardComponent.WorldLoaded(GameContext context)
     {
         coroutine = StartCoroutine(CheckForPlayer());
     }

@@ -5,8 +5,7 @@ using UnityEngine;
 
 namespace Skyward.Systems
 {
-    // [RequiredSystem]
-    public class CameraSystem : BaseSystem<CameraSystem>
+    public class CameraSystem : BaseSystem<CameraSystem>, ISkywardComponent
     {
         private Camera mainCamera;
         public static Camera Camera => Instance.mainCamera;
@@ -20,7 +19,7 @@ namespace Skyward.Systems
         protected override void Awake()
         {
             base.Awake();
-            
+
             mainCamera = GetComponent<Camera>();
         }
 

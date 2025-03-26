@@ -67,14 +67,15 @@ public class SkywardGame : MonoBehaviour
     private void NotifyWorldLoaded()
     {
         foreach (var comp in ComponentSystem.GetAllComponents<ISkywardComponent>())
-            comp.WorldLoaded();
+            comp.WorldLoaded(context);
     }
 
     public IEnumerator Initialize(GameSettings settings)
     {
         context = new GameContext(this);
-        
+
         Configs.Init();
+        CreateFactory();
         CreateSystems();
         CreateGameManager();
         yield break;

@@ -31,10 +31,14 @@ public class GameManager : MonoBehaviour, ISkywardComponent
         gameHUD.SetActive(false);
     }
 
-    void ISkywardComponent.WorldLoaded()
+    void ISkywardComponent.WorldLoaded(GameContext context)
     {
         if (!Instance.gameHUDDisabled)
             gameHUD.SetActive(true);
+
+        game = context.game;
+
+        StartCoroutine(FactoryCoroutine());
     }
 
     public static void SetEnableGameHUD(bool enable)

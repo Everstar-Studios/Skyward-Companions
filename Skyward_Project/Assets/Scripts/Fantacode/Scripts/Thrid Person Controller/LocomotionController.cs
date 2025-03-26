@@ -184,6 +184,7 @@ namespace Skyward.Characters
             _walkSpeed = walkSpeed;
             _runSpeed = runSpeed;
             _sprintSpeed = sprintSpeed;
+            characterController = GetComponent<CharacterController>();
         }
 
         void Start()
@@ -192,7 +193,7 @@ namespace Skyward.Characters
             cameraGameObject = playerController.cameraGameObject;
             animator = GetComponent<Animator>();
             environmentScanner = GetComponent<EnvironmentScanner>();
-            characterController = GetComponent<CharacterController>();
+
             inputManager = GetComponent<LocomotionInputManager>();
             controllerDefaultHeight = characterController.height;
             controllerDefaultYOffset = characterController.center.y;

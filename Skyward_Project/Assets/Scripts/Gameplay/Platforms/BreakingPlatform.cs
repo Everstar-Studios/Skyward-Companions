@@ -26,7 +26,7 @@ public class BreakingPlatform : MonoBehaviour, ISkywardComponent
 
     private bool worldLoaded = false;
 
-    void ISkywardComponent.WorldLoaded()
+    void ISkywardComponent.WorldLoaded(GameContext context)
     {
         StartCoroutine(CheckForPlayer());
     }
