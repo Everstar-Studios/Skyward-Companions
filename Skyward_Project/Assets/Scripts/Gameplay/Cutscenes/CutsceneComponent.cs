@@ -37,6 +37,7 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     
     private Coroutine recognitionCoroutine;
     private bool hasPlayed;
+    private bool isPlaying;
 
     private PlayableDirector director;
     private VideoPlayer videoPlayer;
@@ -112,6 +113,7 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     private void Play()
     {
         hasPlayed = true;
+        isPlaying = true;
         
         if (director != null)
             CutsceneSystem.Play(director);
@@ -128,6 +130,7 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
             videoPlayer.targetTexture = renderTexture;
             GameManager.Instance.GetComponentInChildren<RawImage>(true).texture = renderTexture;
             CutsceneSystem.Play(videoPlayer);
+            CutsceneSystem.CutsceneSkipped += SkipCutscene;
         }
 
         if (disableInput)
@@ -142,6 +145,7 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     {
         OnEnd();
         CutsceneSystem.OnCutsceneEnded(director);
+        CutsceneSystem.CutsceneSkipped -= SkipCutscene;
         director.Stop();
         Destroy(director);
     }
@@ -156,6 +160,7 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
 
     private void OnEnd()
     {
+        isPlaying = false;
         onCutsceneStopped?.Invoke();
         if (disableInput)
             GameInputSystem.EnableInput();
@@ -166,5 +171,13 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     private static bool IsPlayerInColliderBounds(Collider collider)
     {
         return collider.bounds.Contains(PlayerSystem.Player.transform.position);
+    }
+
+    private void SkipCutscene(object sender, EventArgs args)
+    {
+        if (videoPlayer != null)
+            OnVideoEnded(videoPlayer);
+        else if (director != null)
+            OnCutsceneEnd(director);
     }
 }

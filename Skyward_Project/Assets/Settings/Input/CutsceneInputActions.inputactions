@@ -1,0 +1,51 @@
+{
+    "name": "CutsceneInputActions",
+    "maps": [
+        {
+            "name": "Cutscene",
+            "id": "1588ba84-82aa-4aed-bec6-010f4768aadb",
+            "actions": [
+                {
+                    "name": "SkipCutscene",
+                    "type": "Button",
+                    "id": "d8d22046-4de2-45b9-854e-ee25a5f2c876",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Hold",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "22b3a9c5-42b9-4944-967f-6596f84886e7",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SkipCutscene",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bad96c70-8c06-4ffb-a601-69bbc83ddfb6",
+                    "path": "<Touchscreen>/Press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SkipCutscene",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Cutscene",
+            "bindingGroup": "Cutscene",
+            "devices": []
+        }
+    ]
+}
