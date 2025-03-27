@@ -5,17 +5,17 @@ using UnityEngine;
 
 public abstract class Platform : MonoBehaviour
 {
-    protected Collider collider;
+    protected Collider Collider;
     protected bool playerLanded;
 
     private void Awake()
     {
-        collider = GetComponentInChildren<Collider>();
+        Collider = GetComponentInChildren<Collider>();
     }
 
     protected virtual IEnumerator Start()
     {
-        if (collider != null)
+        if (Collider != null)
             yield return CheckPlayer();
 
         yield break;
@@ -28,7 +28,7 @@ public abstract class Platform : MonoBehaviour
         var playerTransform = player.transform;
         while (true)
         {
-            if (!collider.bounds.Contains(playerTransform.position))
+            if (!Collider.bounds.Contains(playerTransform.position))
             {
                 if (playerLanded)
                     yield return OnPlayerExited(player);
