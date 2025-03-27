@@ -36,6 +36,7 @@ public class SplashScreenManager : MonoBehaviour
     {
         videoPlayer.loopPointReached -= OnVideoEnd;
         inputAction.Cutscene.SkipCutscene.performed -= CutsceneSkipped;
+        inputAction.Disable();
     }
 
     private void OnVideoEnd(VideoPlayer vp)
