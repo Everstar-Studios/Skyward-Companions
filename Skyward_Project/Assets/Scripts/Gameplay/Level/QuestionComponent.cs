@@ -30,6 +30,7 @@ public class QuestionComponent : MonoBehaviour, ISkywardComponent
 
     private IEnumerator RecognizePlayer()
     {
+        yield return new WaitUntil(() => PlayerSystem.Player != null);
         Transform player = PlayerSystem.Player.transform;
         
         while (!questionAddressed)

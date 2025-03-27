@@ -103,7 +103,7 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
             if (hasPlayed)
                 yield break;
             
-            if (IsPlayerInColliderBounds(trigger))
+            if (IsPlayerInColliderBounds())
                 Play();
 
             yield return new WaitForFixedUpdate();
@@ -168,9 +168,9 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
         CameraSystem.EnableCamera();
     }
 
-    private static bool IsPlayerInColliderBounds(Collider collider)
+    private bool IsPlayerInColliderBounds()
     {
-        return collider.bounds.Contains(PlayerSystem.Player.transform.position);
+        return trigger.bounds.Contains(PlayerSystem.Player.transform.position);
     }
 
     private void SkipCutscene(object sender, EventArgs args)
