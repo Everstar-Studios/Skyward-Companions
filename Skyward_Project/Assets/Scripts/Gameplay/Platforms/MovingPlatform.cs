@@ -26,6 +26,10 @@ public class MovingPlatform : Platform
     internal bool waitForPlayerToStart;
     [SerializeField] 
     internal float delayBeforeMoving = 0.25f;
+    [SerializeField] 
+    internal bool stopWhenReachingEnd = false;
+    [SerializeField] 
+    internal float delayToMoveWhenReachingEnd = 0f;
 
     [Header("Linear Movement")] 
     [SerializeField]
@@ -49,6 +53,7 @@ public class MovingPlatform : Platform
     private float circularAngle = 0f;
 
     private bool hasPlayerStepped;
+    private bool canMove = true;
 
     private void Start()
     {
@@ -66,6 +71,8 @@ public class MovingPlatform : Platform
 
     private void FixedUpdate()
     {
+        if (!canMove)
+            return;
         if (waitForPlayerToStart && !hasPlayerStepped)
             return;
         
@@ -105,8 +112,19 @@ public class MovingPlatform : Platform
                     currentIndex++;
                     if (currentIndex >= points.Count)
                     {
-                        currentIndex = points.Count - 2;
                         movingForward = false;
+                        if (stopWhenReachingEnd)
+                        {
+                            canMove = false;
+                        }
+                        else if (delayToMoveWhenReachingEnd > float.Epsilon)
+                        {
+                            StartCoroutine(WaitBeforeMovingBack(points.Count - 2));
+                        }
+                        else
+                        {
+                            currentIndex = points.Count - 2;
+                        }
                     }
                 }
                 else
@@ -114,12 +132,27 @@ public class MovingPlatform : Platform
                     currentIndex--;
                     if (currentIndex < 0)
                     {
-                        currentIndex = 1;
                         movingForward = true;
+                        if (delayToMoveWhenReachingEnd > float.Epsilon)
+                        {
+                            StartCoroutine(WaitBeforeMovingBack(1));
+                        }
+                        else
+                        {
+                            currentIndex = 1;
+                        }
                     }
                 }
             }
         }
+    }
+
+    private IEnumerator WaitBeforeMovingBack(int nextIndex)
+    {
+        canMove = false;
+        yield return new WaitForSeconds(delayToMoveWhenReachingEnd);
+        currentIndex = nextIndex;
+        canMove = true;
     }
 
 #if UNITY_EDITOR
@@ -209,6 +242,8 @@ public class MovingPlatformEditor : Editor
     private SerializedProperty movementTypeProp;
     private SerializedProperty waitForPlayerToStartProp;
     private SerializedProperty delayBeforeMovingProp;
+    private SerializedProperty stopWhenReachingEndProp;
+    private SerializedProperty delayToMoveWhenReachingEndProp;
     private SerializedProperty pointsProp;
     private SerializedProperty movementSpeedProp;
     private SerializedProperty lineColorProp;
@@ -228,6 +263,8 @@ public class MovingPlatformEditor : Editor
         movementTypeProp = serializedObject.FindProperty(nameof(MovingPlatform.movementType));
         waitForPlayerToStartProp = serializedObject.FindProperty(nameof(MovingPlatform.waitForPlayerToStart));
         delayBeforeMovingProp = serializedObject.FindProperty(nameof(MovingPlatform.delayBeforeMoving));
+        stopWhenReachingEndProp = serializedObject.FindProperty(nameof(MovingPlatform.stopWhenReachingEnd));
+        delayToMoveWhenReachingEndProp = serializedObject.FindProperty(nameof(MovingPlatform.delayToMoveWhenReachingEnd));
         pointsProp = serializedObject.FindProperty(nameof(MovingPlatform.points));
         movementSpeedProp = serializedObject.FindProperty(nameof(MovingPlatform.movementSpeed));
         lineColorProp = serializedObject.FindProperty(nameof(MovingPlatform.lineColor));
@@ -283,6 +320,11 @@ public class MovingPlatformEditor : Editor
         EditorGUILayout.PropertyField(waitForPlayerToStartProp);
         if (waitForPlayerToStartProp.boolValue)
             EditorGUILayout.PropertyField(delayBeforeMovingProp);
+        
+        EditorGUILayout.PropertyField(stopWhenReachingEndProp);
+        if (!stopWhenReachingEndProp.boolValue)
+            EditorGUILayout.PropertyField(delayToMoveWhenReachingEndProp);
+            
 
         MovingPlatform.EMovementType movementType = (MovingPlatform.EMovementType)movementTypeProp.enumValueIndex;
 
