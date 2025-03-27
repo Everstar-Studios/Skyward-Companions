@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour, ISkywardComponent
 {
-    public GameObject gameHUD;
+    private GameHUDComponent gameHUD;
+    public GameHUDComponent GameHUD => gameHUD;
     private bool gameHUDDisabled;
     
     public static GameManager Instance { get; private set; }
@@ -28,13 +29,14 @@ public class GameManager : MonoBehaviour, ISkywardComponent
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        gameHUD.SetActive(false);
+        gameHUD = GetComponentInChildren<GameHUDComponent>(true);
+        gameHUD.gameObject.SetActive(false);
     }
 
     void ISkywardComponent.WorldLoaded(GameContext context)
     {
         if (!Instance.gameHUDDisabled)
-            gameHUD.SetActive(true);
+            gameHUD.gameObject.SetActive(true);
 
         game = context.game;
 
@@ -44,7 +46,7 @@ public class GameManager : MonoBehaviour, ISkywardComponent
     public static void SetEnableGameHUD(bool enable)
     {
         Instance.gameHUDDisabled = !enable;
-        Instance.gameHUD.SetActive(enable);
+        Instance.gameHUD.gameObject.SetActive(enable);
     }
     
     private IEnumerator FactoryCoroutine()

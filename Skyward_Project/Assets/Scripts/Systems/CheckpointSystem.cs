@@ -134,8 +134,7 @@ namespace Skyward.Systems
             if (!canUpdate || respawningInProgress)
                 return;
             
-            Vector3 closestPoint = activeDeathZone.trigger.ClosestPoint(player.position);
-            bool enteredDeathZone = Vector3.Distance(closestPoint, PlayerSystem.PlayerColliderCenter) < 0.5f;
+            bool enteredDeathZone = activeDeathZone.trigger.bounds.Contains(player.position);
             if (enteredDeathZone)
                 RespawnFromLastCheckpoint();
         }

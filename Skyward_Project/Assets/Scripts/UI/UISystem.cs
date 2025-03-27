@@ -1,4 +1,5 @@
 using System;
+using Skyward.Characters;
 using Skyward.Core;
 using Skyward.Systems;
 using UnityEngine;
@@ -11,6 +12,8 @@ public class UISystem : BaseSystem, ISkywardComponent
     protected override void Initialize(GameContext context)
     {
         base.Initialize(context);
+
+        gameHUD = GameManager.Instance.GameHUD;
 
         CutsceneSystem.CutsceneStarted += OnCutsceneStarted;
         CutsceneSystem.CutsceneStopped += OnCutsceneStopped;
