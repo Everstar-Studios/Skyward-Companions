@@ -4,6 +4,7 @@ using UnityEngine.Video;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(VideoPlayer))]
 public class SplashScreenManager : MonoBehaviour
@@ -13,15 +14,28 @@ public class SplashScreenManager : MonoBehaviour
     public Slider loadingSlider;
     public float waitTime;
 
+    private CutsceneInputAction inputAction;
+
     void Start()
     {
+        inputAction = new();
+        inputAction.Enable();
+        inputAction.Cutscene.SkipCutscene.performed += CutsceneSkipped;
+        
         videoPlayer.loopPointReached += OnVideoEnd;
         videoPlayer.Play();
+    }
+
+    private void CutsceneSkipped(InputAction.CallbackContext obj)
+    {
+        videoPlayer.Stop();
+        OnVideoEnd(videoPlayer);
     }
 
     private void OnDestroy()
     {
         videoPlayer.loopPointReached -= OnVideoEnd;
+        inputAction.Cutscene.SkipCutscene.performed -= CutsceneSkipped;
     }
 
     private void OnVideoEnd(VideoPlayer vp)
@@ -46,15 +60,6 @@ public class SplashScreenManager : MonoBehaviour
             }
 
             yield return null;
-        }
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            videoPlayer.Stop();
-            OnVideoEnd(videoPlayer);
         }
     }
 }
