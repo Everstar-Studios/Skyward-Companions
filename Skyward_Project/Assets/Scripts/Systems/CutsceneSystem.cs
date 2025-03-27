@@ -43,6 +43,13 @@ public class CutsceneSystem : BaseSystem<CutsceneSystem>
         cutceneInput.Cutscene.SkipCutscene.performed += OnCutsceneSkipped;
     }
 
+    protected override void Cleanup()
+    {
+        base.Cleanup();
+        
+        cutceneInput.Cutscene.SkipCutscene.performed -= OnCutsceneSkipped;
+    }
+
     private void OnCutsceneSkipped(InputAction.CallbackContext obj)
     {
         cutsceneSkipped?.Invoke(this, EventArgs.Empty);
