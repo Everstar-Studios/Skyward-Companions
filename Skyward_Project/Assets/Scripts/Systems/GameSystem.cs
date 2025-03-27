@@ -41,7 +41,7 @@ public class GameSystem : BaseSystem<GameSystem>
 
     public static void OnLevelCompleted()
     {
-        Instance.sceneInfo.MarkComplete(SceneManager.GetActiveScene());
+        Instance.sceneInfo.MarkComplete();
         GameInputSystem.DisableInput();
         Instance.levelCompleted?.Invoke(Instance, EventArgs.Empty);
         MainMenu();
@@ -78,7 +78,7 @@ public class GameSystem : BaseSystem<GameSystem>
             }
         }
         
-        public void MarkComplete(Scene scene)
+        public void MarkComplete()
         {
             if (TryGetNextSceneName(out string nextSceneName))
                 unlockedLevels.Add(nextSceneName);
