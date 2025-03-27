@@ -78,6 +78,7 @@ public class SkywardGame : MonoBehaviour
         CreateFactory();
         CreateSystems();
         CreateGameManager();
+        context.Load();
         yield break;
     }
     
@@ -130,6 +131,7 @@ public class SkywardGame : MonoBehaviour
         if (systemsGameObject == null)
             systemsGameObject = new GameObject("Systems");
 
+        List<ISystem> iSystems = new List<ISystem>();
         foreach (Type systemType in AllRequiredSystems())
         {
             if (systemsGameObject.TryGetComponent(systemType, out _))
@@ -138,14 +140,20 @@ public class SkywardGame : MonoBehaviour
             systemsGameObject.AddComponent(systemType);
             
             Component systemComponent = (Component)FindAnyObjectByType(systemType);
-            if (systemComponent is BaseSystem system)
+            if (systemComponent is BaseSystem baseSystem)
             {
-                system.gamecontext = context;
+                baseSystem.gamecontext = context;
             }
+            
+            if (systemComponent is ISystem system)
+                iSystems.Add(system);
         }
-
         foreach (BaseSystem system in systemsGameObject.GetComponents<BaseSystem>())
             ComponentSystem.TrackComponent(system);
+        
+        foreach (ISystem system in iSystems)
+            system.Preload(context);
+
         
         DontDestroyOnLoad(systemsGameObject);
     }
@@ -164,20 +172,17 @@ public class SkywardGame : MonoBehaviour
         }
     }
 
-    private void OnApplicationQuit()
+    public void Quit()
     {
-        foreach (var skywardComponent in ComponentSystem.GetAllComponents<ISkywardComponent>())
-        {
-            skywardComponent.Cleanup();
-        }
+        context.Save();
+        DestroyAll();
     }
 
-    public void OnLevelCompleted()
+    private void DestroyAll()
     {
         CleanupAllComponents();
         ComponentSystem.UntrackAll();
         DestroyImmediate(GameManager.gameObject);
         Destroy(systemsGameObject);
-        SceneManager.LoadScene("SCN_Lobby");
     }
 }
