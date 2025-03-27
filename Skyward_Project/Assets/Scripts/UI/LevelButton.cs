@@ -17,9 +17,7 @@ public class LevelButton : MonoBehaviour, ISkywardComponent
         button = GetComponent<Button>();
         button.onClick.AddListener(OnClick);
         
-        bool isUnlocked = unlockedByDefault || GameSystem.IsLevelUnlocked(sceneName);
-        button.interactable = isUnlocked;
-        lockIcon.SetActive(!isUnlocked);
+        Unlock();
     }
 
     private void OnClick()
@@ -27,7 +25,28 @@ public class LevelButton : MonoBehaviour, ISkywardComponent
         if (!unlockedByDefault && !GameSystem.IsLevelUnlocked(sceneName))
             return;
 
+        foreach (var levelButton in FindObjectsByType<LevelButton>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            levelButton.Disable();
+        
         GameSystem.LaunchLevel(sceneName);
+    }
+
+    private void Disable()
+    {
+        button.onClick.RemoveListener(OnClick);
+    }
+
+    public void Unlock()
+    {
+        bool isUnlocked = unlockedByDefault || GameSystem.IsLevelUnlocked(sceneName);
+        button.interactable = isUnlocked;
+        lockIcon.SetActive(!isUnlocked);
+    }
+
+    public void ForceUnlock()
+    {
+        unlockedByDefault = true;
+        Unlock();
     }
 }
 
