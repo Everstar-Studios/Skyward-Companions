@@ -27,7 +27,6 @@ public class LobbyUI : MonoBehaviour
         menus.Add(playScreen);
         menus.Add(leaderboardScreen);
         menus.Add(settingsScreen);
-        menus.Add(creditScreen);
         menus.ForEach(g => g.SetActive(false));
         yield return new WaitUntil(() => PlayerSystem.Instance != null);
         bool hasName = !string.IsNullOrEmpty(PlayerSystem.PlayerName);
@@ -78,15 +77,11 @@ public class LobbyUI : MonoBehaviour
         menus.ForEach(g => g.SetActive(false));
         leaderboardScreen.SetActive(true);
     }
+    
     public void OpenSettingsScreen()
     {
         menus.ForEach(g => g.SetActive(false));
         settingsScreen.SetActive(true);
-    }
-    public void OpenCreditScreen()
-    {
-        menus.ForEach(g => g.SetActive(false));
-        creditScreen.SetActive(true);
     }
     
     public void OpenNameScreen()
