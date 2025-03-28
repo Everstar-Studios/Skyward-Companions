@@ -161,7 +161,7 @@ public class SkywardGame : MonoBehaviour
     void InitializeSystems()
     {
         foreach (var system in ComponentSystem<ISystem>.Components)
-            system.Initialize(context);
+            system.OnWorldLoading(context);
     }
     
     private static IEnumerable<Type> AllRequiredSystems()
@@ -184,5 +184,10 @@ public class SkywardGame : MonoBehaviour
         ComponentSystem.UntrackAll();
         DestroyImmediate(GameManager.gameObject);
         Destroy(systemsGameObject);
+    }
+
+    private void OnApplicationQuit()
+    {
+        Quit();
     }
 }

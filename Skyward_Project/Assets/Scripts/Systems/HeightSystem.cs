@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.IO;
 using Skyward.Characters;
 using Skyward.Core;
 using UnityEngine;
@@ -14,11 +15,20 @@ public class HeightSystem : BaseSystem<HeightSystem>, ISkywardComponent
     private float startingY;
 
     private Coroutine coroutine;
-    protected override void Initialize(GameContext context)
-    {
-        base.Initialize(context);
-        PlayerSystem.PlayerFound += PlayerSpawned;
 
+    private HeightInfo heightInfo = new();
+    
+    protected override void Preload(GameContext context)
+    {
+        base.Preload(context);
+        
+        context.Store("HighestHeight", heightInfo);
+    }
+    
+    protected override void WorldLoading(GameContext context)
+    {
+        base.WorldLoading(context);
+        PlayerSystem.PlayerFound += PlayerSpawned;
     }
 
     private void PlayerSpawned(object sender, PlayerController e)
@@ -44,7 +54,24 @@ public class HeightSystem : BaseSystem<HeightSystem>, ISkywardComponent
         while (true)
         {
             height = (player.position.y - startingY) / Configs.PlayerConfig.heightConversionFactor;
+            if (height > heightInfo.highestHeight)
+                heightInfo.highestHeight = height;
+            
             yield return null;
+        }
+    }
+
+    private class HeightInfo : ISkywardSerializable
+    {
+        public float highestHeight;
+        public void Serialize(BinaryWriter writer)
+        {
+            writer.Write(highestHeight);
+        }
+
+        public void Deserialize(BinaryReader reader)
+        {
+            highestHeight = reader.ReadSingle();
         }
     }
 }

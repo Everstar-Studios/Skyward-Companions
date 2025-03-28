@@ -50,9 +50,9 @@ namespace Skyward.Systems
 
         private event EventHandler checkPointReached;
 
-        protected override void Initialize(GameContext context)
+        protected override void WorldLoading(GameContext context)
         {
-            base.Initialize(context);
+            base.WorldLoading(context);
 
             PlayerSystem.PlayerFound += OnPlayerSpawned;
         }
