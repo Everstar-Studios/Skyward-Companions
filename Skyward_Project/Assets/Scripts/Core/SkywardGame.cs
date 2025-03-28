@@ -42,11 +42,10 @@ public class SkywardGame : MonoBehaviour
         }
     }
     
-    public void LaunchLevel(int sceneIndex)
+    public void LaunchLevel(string sceneName)
     {
         InitializeSystems();
-        
-        var async = SceneManager.LoadSceneAsync(sceneIndex);
+        var async = SceneManager.LoadSceneAsync(sceneName);
         async.completed += OnLevelLoaded;
     }
 
@@ -58,8 +57,10 @@ public class SkywardGame : MonoBehaviour
 
     private void OnLevelLoaded()
     {
+        #if UNITY_EDITOR
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        #endif
         
         TrackPrespawnedObjects();
         NotifyWorldLoaded();
@@ -68,15 +69,18 @@ public class SkywardGame : MonoBehaviour
     private void NotifyWorldLoaded()
     {
         foreach (var comp in ComponentSystem.GetAllComponents<ISkywardComponent>())
-            comp.WorldLoaded();
+            comp.WorldLoaded(context);
     }
 
     public IEnumerator Initialize(GameSettings settings)
     {
         context = new GameContext(this);
-        
+
+        Configs.Init();
+        CreateFactory();
         CreateSystems();
         CreateGameManager();
+        context.Load();
         yield break;
     }
     
@@ -97,8 +101,7 @@ public class SkywardGame : MonoBehaviour
 
     private void CreateGameManager()
     {
-        if (GameManager == null)
-            GameManager = Instantiate(gameManagerPrefab);
+        GameManager = Instantiate(gameManagerPrefab);
     }
     
     private void TrackPrespawnedObjects()
@@ -111,12 +114,26 @@ public class SkywardGame : MonoBehaviour
             }
         }
     }
+    
+    private void CleanupAllComponents()
+    {
+        foreach (ISkywardComponent component in ComponentSystem.GetAllComponents<ISkywardComponent>(true))
+        {
+            component.Cleanup();
+        }
+        
+        foreach (ISystem system in ComponentSystem.GetAllComponents<ISystem>(true))
+        {
+            system.Cleanup();
+        }
+    }
 
     void CreateSystems()
     {
         if (systemsGameObject == null)
             systemsGameObject = new GameObject("Systems");
 
+        List<ISystem> iSystems = new List<ISystem>();
         foreach (Type systemType in AllRequiredSystems())
         {
             if (systemsGameObject.TryGetComponent(systemType, out _))
@@ -125,11 +142,20 @@ public class SkywardGame : MonoBehaviour
             systemsGameObject.AddComponent(systemType);
             
             Component systemComponent = (Component)FindAnyObjectByType(systemType);
-            if (systemComponent is BaseSystem system)
+            if (systemComponent is BaseSystem baseSystem)
             {
-                system.gamecontext = context;
+                baseSystem.gamecontext = context;
             }
+            
+            if (systemComponent is ISystem system)
+                iSystems.Add(system);
         }
+        foreach (BaseSystem system in systemsGameObject.GetComponents<BaseSystem>())
+            ComponentSystem.TrackComponent(system);
+        
+        foreach (ISystem system in iSystems)
+            system.Preload(context);
+
         
         DontDestroyOnLoad(systemsGameObject);
     }
@@ -137,7 +163,7 @@ public class SkywardGame : MonoBehaviour
     void InitializeSystems()
     {
         foreach (var system in ComponentSystem<ISystem>.Components)
-            system.Initialize(context);
+            system.OnWorldLoading(context);
     }
     
     private static IEnumerable<Type> AllRequiredSystems()
@@ -148,11 +174,22 @@ public class SkywardGame : MonoBehaviour
         }
     }
 
+    public void Quit()
+    {
+        context.Save();
+        DestroyAll();
+    }
+
+    private void DestroyAll()
+    {
+        CleanupAllComponents();
+        ComponentSystem.UntrackAll();
+        DestroyImmediate(GameManager.gameObject);
+        Destroy(systemsGameObject);
+    }
+
     private void OnApplicationQuit()
     {
-        foreach (var skywardComponent in ComponentSystem.GetAllComponents<ISkywardComponent>())
-        {
-            skywardComponent.Cleanup();
-        }
+        Quit();
     }
 }

@@ -23,13 +23,14 @@ public class QuestionComponent : MonoBehaviour, ISkywardComponent
 
     private bool questionAddressed = false;
 
-    void ISkywardComponent.WorldLoaded()
+    void ISkywardComponent.WorldLoaded(GameContext context)
     {
         StartCoroutine(RecognizePlayer());
     }
 
     private IEnumerator RecognizePlayer()
     {
+        yield return new WaitUntil(() => PlayerSystem.Player != null);
         Transform player = PlayerSystem.Player.transform;
         
         while (!questionAddressed)

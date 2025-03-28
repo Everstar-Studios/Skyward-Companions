@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace Skyward.Systems
 {
-    // [RequiredSystem]
     public class CameraSystem : BaseSystem<CameraSystem>
     {
         private Camera mainCamera;
@@ -20,7 +19,7 @@ namespace Skyward.Systems
         protected override void Awake()
         {
             base.Awake();
-            
+
             mainCamera = GetComponent<Camera>();
         }
 
@@ -28,7 +27,7 @@ namespace Skyward.Systems
         {
             base.Cleanup();
             
-            DestroyImmediate(mainCamera.gameObject);
+            Destroy(mainCamera.gameObject);
         }
 
         public static void SetCamera(CinemachineCamera cinemachineCamera)
@@ -38,12 +37,12 @@ namespace Skyward.Systems
 
         public static void EnableCamera()
         {
-            MainVirtualCamera.gameObject.SetActive(true);
+            Instance.mainCamera.enabled = true;
         }
 
         public static void DisableCamera()
         {
-            MainVirtualCamera.gameObject.SetActive(false);
+            Instance.mainCamera.enabled = false;
         }
 
         public static void SetupFollowTarget(Transform follow)

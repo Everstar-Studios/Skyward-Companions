@@ -9,7 +9,7 @@ public class UIQuestionManager : MonoBehaviour, ISkywardComponent
     [SerializeField]
     private TMP_Text questionText;
     
-    void ISkywardComponent.WorldLoaded()
+    void ISkywardComponent.WorldLoaded(GameContext context)
     {
         QuestionSystem.QuestionAsked += OnQuestionAsked;
         QuestionSystem.QuestionEnded += OnQuestionEnded;
