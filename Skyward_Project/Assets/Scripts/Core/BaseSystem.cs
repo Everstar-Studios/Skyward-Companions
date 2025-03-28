@@ -8,7 +8,7 @@ namespace Skyward.Core
         protected GameContext GameContext => gamecontext; 
         
         protected virtual void Preload(GameContext context) { }
-        protected virtual void Initialize(GameContext context) { }
+        protected virtual void WorldLoading(GameContext context) { }
         protected virtual void Cleanup() { }
 
         void ISystem.Preload(GameContext context)
@@ -16,9 +16,9 @@ namespace Skyward.Core
             Preload(context);
         }
         
-        void ISystem.Initialize(GameContext context)
+        void ISystem.OnWorldLoading(GameContext context)
         {
-            Initialize(context);
+            WorldLoading(context);
         }
 
         void ISystem.Cleanup()

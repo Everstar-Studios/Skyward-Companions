@@ -16,7 +16,7 @@ namespace Skyward.Core
     public interface ISystem : ICoreComponent
     {
         void Preload(GameContext context) { }
-        void Initialize(GameContext context) { }
+        void OnWorldLoading(GameContext context) { }
         void Cleanup() { }
     }
 

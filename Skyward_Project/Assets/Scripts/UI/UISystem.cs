@@ -9,9 +9,9 @@ using UnityEngine.UI;
 public class UISystem : BaseSystem, ISkywardComponent
 {
     private GameHUDComponent gameHUD;
-    protected override void Initialize(GameContext context)
+    protected override void WorldLoading(GameContext context)
     {
-        base.Initialize(context);
+        base.WorldLoading(context);
 
         gameHUD = GameManager.Instance.GameHUD;
 

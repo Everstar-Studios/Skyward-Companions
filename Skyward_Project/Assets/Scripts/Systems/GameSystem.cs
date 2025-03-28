@@ -12,6 +12,7 @@ public class GameSystem : BaseSystem<GameSystem>
     private SkywardGame gameInstance;
 
     private SceneInfo sceneInfo = new();
+    // TODO Omer: Send time
     public static event EventHandler LevelCompleted
     {
         add => Instance.levelCompleted += value;
@@ -27,9 +28,9 @@ public class GameSystem : BaseSystem<GameSystem>
         context.Store("Scene", sceneInfo);
     }
 
-    protected override void Initialize(GameContext context)
+    protected override void WorldLoading(GameContext context)
     {
-        base.Initialize(context);
+        base.WorldLoading(context);
 
         gameInstance = Instance.GameContext.game;
     }
@@ -58,6 +59,11 @@ public class GameSystem : BaseSystem<GameSystem>
         SceneManager.LoadScene("SCN_Lobby");
     }
 
+    public static string GetCurrentLevelName()
+    {
+        return SceneManager.GetActiveScene().name;
+    }
+
     private class SceneInfo : ISkywardSerializable
     {
         private HashSet<string> unlockedLevels = new();
@@ -82,6 +88,8 @@ public class GameSystem : BaseSystem<GameSystem>
         {
             if (TryGetNextSceneName(out string nextSceneName))
                 unlockedLevels.Add(nextSceneName);
+            
+            LeaderboardSystem.Instance.AddScoreWithMetadata("Skyward-Leaderboard", HeightSystem.Height);
         }
         
         private bool TryGetNextSceneName(out string nextSceneName)
