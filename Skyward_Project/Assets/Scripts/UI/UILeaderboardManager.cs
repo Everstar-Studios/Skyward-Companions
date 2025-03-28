@@ -11,9 +11,6 @@ public class UILeaderboardManager : MonoBehaviour
     [SerializeField] private LeaderboardPlayerItem playerItemPrefab;
     [SerializeField] private RectTransform container;
     [SerializeField] private TextMeshProUGUI pageText;
-    [Header("Debug")] 
-    [SerializeField] private int addScoreAmount = 10;
-    [SerializeField] private Button addScoreButton;
     
     [SerializeField] private Button nextButton;
     [SerializeField] private Button prevButton;
@@ -26,28 +23,10 @@ public class UILeaderboardManager : MonoBehaviour
         ClearPlayersList();
         nextButton.onClick.AddListener(NextPage);
         prevButton.onClick.AddListener(PreviousPage);
-        addScoreButton.onClick.AddListener(AddScore);
 
         currentPage = 1;
         totalPages = 0;
         LoadPlayers(1);
-    }
-
-    private void AddScore()
-    {
-        AddScore(addScoreAmount);
-    }
-
-    private static int multiplier = 1;
-    public async void AddScore(int score)
-    {
-        addScoreButton.interactable = false;
-        
-
-        multiplier++;
-        LoadPlayers(currentPage);
-        
-        addScoreButton.interactable = true;
     }
     
     public async void LoadPlayers(int page)
