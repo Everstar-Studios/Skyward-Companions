@@ -32,15 +32,6 @@ public class SkywardGame : MonoBehaviour
 
         Instance = this;
     }
-
-    private IEnumerator Start()
-    {
-        if (FindAnyObjectByType<Lobby>() == null)
-        {
-            yield return Initialize(new GameSettings());
-            OnLevelLoaded();
-        }
-    }
     
     public void LaunchLevel(string sceneName)
     {
