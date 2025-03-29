@@ -129,17 +129,10 @@ namespace Skyward.Systems
             respawningInProgress = false;
         }
 
-        private void Update()
+        public static void EnteredDeathZone()
         {
-            if (!canUpdate || respawningInProgress)
-                return;
-            
-            bool enteredDeathZone = Vector3.Distance(activeDeathZone.trigger.bounds.ClosestPoint(player.position), player.position) < 0.5f;
-            if (enteredDeathZone)
-            {
-                AudioSystem.PlayRandom(Configs.PlayerConfig.deathSoudns);
-                RespawnFromLastCheckpoint();
-            }
+            AudioSystem.PlayRandom(Configs.PlayerConfig.deathSoudns);
+            RespawnFromLastCheckpoint();
         }
     }
 }
