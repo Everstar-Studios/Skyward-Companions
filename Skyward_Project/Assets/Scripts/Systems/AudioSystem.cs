@@ -15,15 +15,15 @@ public class AudioSystem : BaseSystem<AudioSystem>, ISkywardComponent
         audioSource = gameObject.AddComponent<AudioSource>();
     }
 
-    public static void Play(AudioClip clip)
+    public static void Play(AudioClip clip, float volume = 1f)
     {
-        Instance.audioSource.PlayOneShot(clip);
+        Instance.audioSource.PlayOneShot(clip, volume);
     }
 
     public static void PlayRandom(AudioClip[] clips)
     {
         var clip = clips[UnityEngine.Random.Range(0, clips.Length)];
-        Play(clip);
+        Play(clip, 1f);
     }
 
     public static void Stop()

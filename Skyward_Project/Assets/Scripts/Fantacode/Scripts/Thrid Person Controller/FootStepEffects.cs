@@ -95,13 +95,11 @@ namespace Skyward.Characters
         {
             GameObject sfx = new GameObject();
             sfx.transform.position = transform.position;
-            var audioSource = sfx.AddComponent<AudioSource>();
-            audioSource.clip = clip;
-
+            
             if (adjustVolumeBasedOnSpeed)
-                audioSource.volume = Mathf.Clamp(volume, minVolume, audioSource.volume);
+                volume = Mathf.Clamp(volume, minVolume, volume);
 
-            audioSource.Play();
+            AudioSystem.Play(clip);
             Destroy(sfx, 1.5f);
         }
 
