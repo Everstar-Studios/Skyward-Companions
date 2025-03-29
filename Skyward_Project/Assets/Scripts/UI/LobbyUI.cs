@@ -20,8 +20,6 @@ public class LobbyUI : MonoBehaviour
 
     [SerializeField] private TMP_InputField nameField;
 
-    public AudioClip backgroundMusic;
-
     private IEnumerator Start()
     {
         menus.Add(mainMenuScreen);
@@ -33,7 +31,6 @@ public class LobbyUI : MonoBehaviour
         yield return new WaitUntil(() => PlayerSystem.Instance != null);
         bool hasName = !string.IsNullOrEmpty(PlayerSystem.PlayerName);
         
-        AudioSystem.Play(backgroundMusic);
         if (hasName)
         {
             OpenMainMenu();

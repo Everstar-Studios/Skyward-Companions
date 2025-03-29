@@ -1,16 +1,21 @@
 using System;
+using System.Collections;
 using Skyward.Core;
 using UnityEngine;
+using UnityEngine.Audio;
 
-[RequireComponent(typeof(AudioSource))]
 public class AmbientSoundPlayer : MonoBehaviour, ISkywardComponent
 {
+    public AudioResource audioResource;
     private AudioSource source;
 
     private void Awake()
     {
-        source = GetComponent<AudioSource>();
-        AudioSystem.AddAmbientPlayer(this);
+        source = gameObject.AddComponent<AudioSource>();
+        source.resource = audioResource;
+        source.loop = true;
+        source.playOnAwake = false;
+        source.spatialBlend = 0f;
         source.Play();
     }
     

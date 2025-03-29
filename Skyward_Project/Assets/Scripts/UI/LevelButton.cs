@@ -26,8 +26,7 @@ public class LevelButton : UIButton, ISkywardComponent
 
         foreach (var levelButton in FindObjectsByType<LevelButton>(FindObjectsInactive.Include, FindObjectsSortMode.None))
             levelButton.Disable();
-
-        AudioSystem.Stop();
+        
         GameSystem.LaunchLevel(sceneName);
     }
 

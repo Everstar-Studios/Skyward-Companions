@@ -7,18 +7,12 @@ using UnityEngine;
 public class AudioSystem : BaseSystem<AudioSystem>, ISkywardComponent
 {
     private AudioSource audioSource;
-    private List<AmbientSoundPlayer> ambientSoundPlayers = new();
 
     protected override void Awake()
     {
         base.Awake();
 
         audioSource = gameObject.AddComponent<AudioSource>();
-    }
-
-    public static void AddAmbientPlayer(AmbientSoundPlayer player)
-    {
-        Instance.ambientSoundPlayers.Add(player);
     }
 
     public static void Play(AudioClip clip)
@@ -40,12 +34,14 @@ public class AudioSystem : BaseSystem<AudioSystem>, ISkywardComponent
     public static void Pause()
     {
         Instance.audioSource.Pause();
-        Instance.ambientSoundPlayers.ForEach(p => p.Pause());
+        foreach (var ambient in ComponentSystem.GetAllComponents<AmbientSoundPlayer>())
+            ambient.Pause();
     }
     
     public static void Unpause()
     {
         Instance.audioSource.UnPause();
-        Instance.ambientSoundPlayers.ForEach(p => p.Unpause());
+        foreach (var ambient in ComponentSystem.GetAllComponents<AmbientSoundPlayer>())
+            ambient.Unpause();
     }
 }
