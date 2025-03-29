@@ -1318,6 +1318,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a33af46ad0b5ad4a8ce436203e7859c, type: 3}
+--- !u!1001 &37767942
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6809986116868472275, guid: d3e242226ab25b44aa0982b38024c338, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6809986116868472275, guid: d3e242226ab25b44aa0982b38024c338, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6809986116868472275, guid: d3e242226ab25b44aa0982b38024c338, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6809986116868472275, guid: d3e242226ab25b44aa0982b38024c338, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6809986116868472275, guid: d3e242226ab25b44aa0982b38024c338, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6809986116868472275, guid: d3e242226ab25b44aa0982b38024c338, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6809986116868472275, guid: d3e242226ab25b44aa0982b38024c338, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6809986116868472275, guid: d3e242226ab25b44aa0982b38024c338, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6809986116868472275, guid: d3e242226ab25b44aa0982b38024c338, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6809986116868472275, guid: d3e242226ab25b44aa0982b38024c338, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6908401926861977804, guid: d3e242226ab25b44aa0982b38024c338, type: 3}
+      propertyPath: m_Name
+      value: GO_AmbientSoundPlayer
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d3e242226ab25b44aa0982b38024c338, type: 3}
 --- !u!1001 &38084912
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2261,6 +2318,8 @@ MonoBehaviour:
   movementSpeed: 3
   waitForPlayerToStart: 1
   delayBeforeMoving: 0.25
+  stopWhenReachingEnd: 0
+  delayToMoveWhenReachingEnd: 0
   points:
   - {x: 14.25, y: 127.14, z: 44.25}
   - {x: 14.25, y: 145.14, z: 44.25}
@@ -9999,6 +10058,8 @@ MonoBehaviour:
   movementSpeed: 3
   waitForPlayerToStart: 1
   delayBeforeMoving: 0.25
+  stopWhenReachingEnd: 0
+  delayToMoveWhenReachingEnd: 0
   points:
   - {x: -20.79, y: 89.71, z: 111.91}
   - {x: -20.79, y: 104.71, z: 111.91}
@@ -11320,6 +11381,8 @@ MonoBehaviour:
   movementSpeed: 2
   waitForPlayerToStart: 1
   delayBeforeMoving: 0.25
+  stopWhenReachingEnd: 0
+  delayToMoveWhenReachingEnd: 0
   points:
   - {x: -52.917786, y: 60.1, z: 112.60123}
   - {x: -41.221004, y: 63.502636, z: 118.63421}
@@ -11848,19 +11911,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5171123544310534686, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9995573
+      value: 0.99954367
       objectReference: {fileID: 0}
     - target: {fileID: 5171123544310534686, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.026960086
+      value: -0.026959717
       objectReference: {fileID: 0}
     - target: {fileID: 5171123544310534686, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.012579647
+      value: 0.013621535
       objectReference: {fileID: 0}
     - target: {fileID: 5171123544310534686, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0003392986
+      value: 0.00036740035
       objectReference: {fileID: 0}
     - target: {fileID: 5209498071287124412, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11868,7 +11931,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5209498071287124412, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.8813171
+      value: 1.913
       objectReference: {fileID: 0}
     - target: {fileID: 5209498071287124412, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -13050,6 +13113,8 @@ MonoBehaviour:
   movementSpeed: 3
   waitForPlayerToStart: 0
   delayBeforeMoving: 0.25
+  stopWhenReachingEnd: 0
+  delayToMoveWhenReachingEnd: 0
   points:
   - {x: 0.47000027, y: 124.54, z: 52.8}
   - {x: 12.47, y: 124.54, z: 60.8}
@@ -19094,6 +19159,8 @@ MonoBehaviour:
   movementSpeed: 2
   waitForPlayerToStart: 1
   delayBeforeMoving: 0.25
+  stopWhenReachingEnd: 0
+  delayToMoveWhenReachingEnd: 0
   points:
   - {x: -25.288155, y: 112.54, z: 110.407814}
   - {x: -30.105593, y: 116.04748, z: 105.26317}
@@ -24311,6 +24378,8 @@ MonoBehaviour:
   movementSpeed: 3
   waitForPlayerToStart: 1
   delayBeforeMoving: 0.25
+  stopWhenReachingEnd: 0
+  delayToMoveWhenReachingEnd: 0
   points:
   - {x: -20.78, y: 74.14, z: 88.27}
   - {x: -20.78, y: 90.14, z: 88.27}
@@ -31607,6 +31676,8 @@ MonoBehaviour:
   movementSpeed: 4
   waitForPlayerToStart: 1
   delayBeforeMoving: 0.25
+  stopWhenReachingEnd: 0
+  delayToMoveWhenReachingEnd: 0
   points:
   - {x: 22.104944, y: 174.75, z: -7.8216877}
   - {x: 22.686262, y: 182.74637, z: 7.5606794}
@@ -32312,6 +32383,8 @@ MonoBehaviour:
   movementSpeed: 2
   waitForPlayerToStart: 0
   delayBeforeMoving: 0.25
+  stopWhenReachingEnd: 0
+  delayToMoveWhenReachingEnd: 0
   points:
   - {x: -47.23994, y: 34.89386, z: 100.784996}
   - {x: -47.123173, y: 29.594566, z: 100.63042}
@@ -33449,6 +33522,8 @@ MonoBehaviour:
   movementSpeed: 2
   waitForPlayerToStart: 0
   delayBeforeMoving: 0.25
+  stopWhenReachingEnd: 0
+  delayToMoveWhenReachingEnd: 0
   points:
   - {x: -54.26386, y: 35.33406, z: 108.423}
   - {x: -52.26386, y: 35.33406, z: 108.423}
@@ -33851,6 +33926,8 @@ MonoBehaviour:
   movementSpeed: 2
   waitForPlayerToStart: 0
   delayBeforeMoving: 0.25
+  stopWhenReachingEnd: 0
+  delayToMoveWhenReachingEnd: 0
   points:
   - {x: -54.26386, y: 35.33406, z: 108.423}
   - {x: -52.26386, y: 35.33406, z: 108.423}
@@ -38161,6 +38238,8 @@ MonoBehaviour:
   movementSpeed: 1
   waitForPlayerToStart: 0
   delayBeforeMoving: 0.25
+  stopWhenReachingEnd: 0
+  delayToMoveWhenReachingEnd: 0
   points:
   - {x: -53.341232, y: 34.06876, z: 109.72869}
   - {x: -56.67757, y: 34.06876, z: 109.43621}
@@ -41818,6 +41897,8 @@ MonoBehaviour:
   movementSpeed: 3
   waitForPlayerToStart: 0
   delayBeforeMoving: 0.25
+  stopWhenReachingEnd: 0
+  delayToMoveWhenReachingEnd: 0
   points:
   - {x: 13.22, y: 125.77, z: 55.12}
   - {x: 3.2200003, y: 125.77, z: 47.12}
@@ -42249,6 +42330,8 @@ MonoBehaviour:
   movementSpeed: 3
   waitForPlayerToStart: 0
   delayBeforeMoving: 0.25
+  stopWhenReachingEnd: 0
+  delayToMoveWhenReachingEnd: 0
   points:
   - {x: 31.02, y: 151.64508, z: 0.78}
   - {x: 26.585697, y: 143.04243, z: 5.374255}
@@ -42438,6 +42521,8 @@ MonoBehaviour:
   movementSpeed: 3
   waitForPlayerToStart: 0
   delayBeforeMoving: 0.25
+  stopWhenReachingEnd: 0
+  delayToMoveWhenReachingEnd: 0
   points:
   - {x: -10.12, y: 118.06, z: 91.04}
   - {x: -12.12, y: 118.06, z: 81.04}
@@ -47243,6 +47328,8 @@ MonoBehaviour:
   movementSpeed: 3
   waitForPlayerToStart: 0
   delayBeforeMoving: 0.25
+  stopWhenReachingEnd: 0
+  delayToMoveWhenReachingEnd: 0
   points:
   - {x: -5.39, y: 120.88, z: 81.34}
   - {x: -3.3899999, y: 120.88, z: 90.34}
@@ -47281,7 +47368,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2335962086821572181, guid: ce6b54a94da02704f8e768c537ab5108, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.0841403
+      value: 3.1158233
       objectReference: {fileID: 0}
     - target: {fileID: 2335962086821572181, guid: ce6b54a94da02704f8e768c537ab5108, type: 3}
       propertyPath: m_LocalPosition.z
@@ -47289,19 +47376,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2335962086821572181, guid: ce6b54a94da02704f8e768c537ab5108, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9995573
+      value: 0.99954367
       objectReference: {fileID: 0}
     - target: {fileID: 2335962086821572181, guid: ce6b54a94da02704f8e768c537ab5108, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.026960094
+      value: -0.026959721
       objectReference: {fileID: 0}
     - target: {fileID: 2335962086821572181, guid: ce6b54a94da02704f8e768c537ab5108, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.01257965
+      value: 0.013621537
       objectReference: {fileID: 0}
     - target: {fileID: 2335962086821572181, guid: ce6b54a94da02704f8e768c537ab5108, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.00033929868
+      value: 0.00036740047
       objectReference: {fileID: 0}
     - target: {fileID: 2335962086821572181, guid: ce6b54a94da02704f8e768c537ab5108, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -51959,6 +52046,8 @@ MonoBehaviour:
   movementSpeed: 3
   waitForPlayerToStart: 1
   delayBeforeMoving: 0.25
+  stopWhenReachingEnd: 0
+  delayToMoveWhenReachingEnd: 0
   points:
   - {x: 12.03, y: 156.38, z: 2.84}
   - {x: 12.432816, y: 167.73633, z: 4.8347483}
@@ -55224,6 +55313,8 @@ MonoBehaviour:
   movementSpeed: 3
   waitForPlayerToStart: 0
   delayBeforeMoving: 0.25
+  stopWhenReachingEnd: 0
+  delayToMoveWhenReachingEnd: 0
   points:
   - {x: -29.48, y: 91.09807, z: 114.67}
   - {x: -28.888636, y: 84.22412, z: 115.74229}
@@ -57178,6 +57269,8 @@ MonoBehaviour:
   movementSpeed: 2
   waitForPlayerToStart: 1
   delayBeforeMoving: 0.25
+  stopWhenReachingEnd: 0
+  delayToMoveWhenReachingEnd: 0
   points:
   - {x: -14.888183, y: 108.550995, z: 102.058914}
   - {x: -14.764328, y: 112.87473, z: 110.18697}
@@ -57936,6 +58029,8 @@ MonoBehaviour:
   movementSpeed: 5
   waitForPlayerToStart: 1
   delayBeforeMoving: 0.25
+  stopWhenReachingEnd: 0
+  delayToMoveWhenReachingEnd: 0
   points:
   - {x: 12.822404, y: 187.93001, z: -2.0718665}
   - {x: 14.822404, y: 215.93001, z: -2.0718665}
@@ -58305,6 +58400,8 @@ MonoBehaviour:
   movementSpeed: 2
   waitForPlayerToStart: 0
   delayBeforeMoving: 0.25
+  stopWhenReachingEnd: 0
+  delayToMoveWhenReachingEnd: 0
   points:
   - {x: -27.043133, y: 25.056095, z: 68.05256}
   - {x: -26.576126, y: 18.888329, z: 67.389435}
@@ -59969,6 +60066,7 @@ SceneRoots:
   - {fileID: 1506706646}
   - {fileID: 1503038269}
   - {fileID: 1835763380}
+  - {fileID: 37767942}
   - {fileID: 370886811}
   - {fileID: 1342836615}
   - {fileID: 1307436741}
