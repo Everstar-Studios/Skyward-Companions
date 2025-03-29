@@ -134,7 +134,7 @@ namespace Skyward.Systems
             if (!canUpdate || respawningInProgress)
                 return;
             
-            bool enteredDeathZone = activeDeathZone.trigger.bounds.Contains(player.position);
+            bool enteredDeathZone = Vector3.Distance(activeDeathZone.trigger.bounds.ClosestPoint(player.position), player.position) < 0.5f;
             if (enteredDeathZone)
             {
                 AudioSystem.PlayRandom(Configs.PlayerConfig.deathSoudns);
