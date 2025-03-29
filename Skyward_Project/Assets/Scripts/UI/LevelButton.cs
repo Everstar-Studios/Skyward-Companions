@@ -5,29 +5,29 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
-public class LevelButton : MonoBehaviour, ISkywardComponent
+public class LevelButton : UIButton, ISkywardComponent
 {
     public string sceneName;
     public bool unlockedByDefault = false;
-    private Button button;
     public GameObject lockIcon;
 
-    private void Awake()
+    protected override void Awake()
     {
-        button = GetComponent<Button>();
-        button.onClick.AddListener(OnClick);
-        
+        base.Awake();
         Unlock();
     }
 
-    private void OnClick()
+    public override void OnClick()
     {
         if (!unlockedByDefault && !GameSystem.IsLevelUnlocked(sceneName))
             return;
+        
+        base.OnClick();
 
         foreach (var levelButton in FindObjectsByType<LevelButton>(FindObjectsInactive.Include, FindObjectsSortMode.None))
             levelButton.Disable();
-        
+
+        AudioSystem.Stop();
         GameSystem.LaunchLevel(sceneName);
     }
 
@@ -45,6 +45,9 @@ public class LevelButton : MonoBehaviour, ISkywardComponent
 
     public void ForceUnlock()
     {
+        if (button == null)
+            button = GetComponent<Button>();
+        
         unlockedByDefault = true;
         Unlock();
     }

@@ -5859,6 +5859,7 @@ GameObject:
   - component: {fileID: 4714229603545159168}
   - component: {fileID: 3971569804270633727}
   - component: {fileID: 4931067122157093104}
+  - component: {fileID: 4070066163993933166}
   m_Layer: 2
   m_Name: GO_Player
   m_TagString: Untagged
@@ -6208,6 +6209,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19e1e13aa26baaa41b605a5e216c5a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4070066163993933166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2338293788737626659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c127b2031be937e438715f8ce6a271a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  footStepSounds:
+  - {fileID: 8300000, guid: dbdca68d3e91dce438e50a580944f109, type: 3}
+  - {fileID: 8300000, guid: 1db0ddb4016fedd4ebf3429952e476e0, type: 3}
+  - {fileID: 8300000, guid: 2ea9ebae353cfc94d8a4680fdda0c76c, type: 3}
+  - {fileID: 8300000, guid: 478fa7e4d9f0afa4692b3709afe45da2, type: 3}
+  footStepParticles:
+  - {fileID: 7340628589888034654, guid: 416233d292b77c140add74a052a71672, type: 3}
+  overrideStepEffects: []
+  overrideType: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 577
+  soundIgnoreStates: 050000000400000006000000
+  particleIgnoreStates: 040000000500000006000000
+  adjustVolumeBasedOnSpeed: 1
+  minVolume: 0.2
 --- !u!1 &2350896360766133419
 GameObject:
   m_ObjectHideFlags: 0

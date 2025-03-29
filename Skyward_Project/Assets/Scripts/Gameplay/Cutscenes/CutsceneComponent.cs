@@ -44,7 +44,7 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
 
     private RenderTexture renderTexture;
 
-    void Awake()
+    void Start()
     {
         if (cutsceneType == ECutsceneType.Timeline && Timeline != null)
             SetupPlayableDirector();
@@ -136,6 +136,7 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
         if (disableInput)
             GameInputSystem.DisableInput();
         
+        AudioSystem.Pause();
         CameraSystem.DisableCamera();
         
         onCutsceneStarted?.Invoke();
@@ -166,6 +167,7 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
             GameInputSystem.EnableInput();
         
         CameraSystem.EnableCamera();
+        AudioSystem.Unpause();
     }
 
     private bool IsPlayerInColliderBounds()
