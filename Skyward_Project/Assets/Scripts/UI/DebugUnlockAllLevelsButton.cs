@@ -3,19 +3,15 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
-public class DebugUnlockAllLevelsButton : MonoBehaviour
+public class DebugUnlockAllLevelsButton : UIButton
 {
-    private void Start()
+    public override void OnClick()
     {
-        GetComponent<Button>().onClick.AddListener(OnClick);       
-    }
-
-    private void OnClick()
-    {
-        GetComponent<Button>().onClick.RemoveListener(OnClick);
-        foreach (var button in FindObjectsByType<LevelButton>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        button.onClick.RemoveListener(OnClick);
+        foreach (var levelButton in FindObjectsByType<LevelButton>(FindObjectsInactive.Include, FindObjectsSortMode.None))
         {
-            button.ForceUnlock();
+            levelButton.ForceUnlock();
         }
+        button.interactable = false;
     }
 }

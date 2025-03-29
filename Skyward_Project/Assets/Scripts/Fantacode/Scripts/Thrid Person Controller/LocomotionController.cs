@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Skyward.Utils;
 using UnityEngine;
@@ -204,6 +205,9 @@ namespace Skyward.Characters
 
         private void OnAnimatorIK(int layerIndex)
         {
+            if (cameraGameObject == null)
+                return;
+            
             var hipPos = animator.GetBoneTransform(HumanBodyBones.Hips).transform;
             var headPos = animator.GetBoneTransform(HumanBodyBones.Head).transform.position;
 
@@ -697,12 +701,15 @@ namespace Skyward.Characters
             yield return HandleVerticalJump(force);
         }
 
+
         public IEnumerator HandleVerticalJump(float force = 0f)
         {
             yield return new WaitForFixedUpdate();
 
             if (playerController.CurrentSystemState != State) yield break;
-            
+
+            var jumpSounds = Configs.PlayerConfig.jumpSounds;
+            AudioSystem.PlayRandom(jumpSounds);
             if (force <= float.Epsilon)
                 force = Mathf.Abs(Gravity);
                 
@@ -757,6 +764,7 @@ namespace Skyward.Characters
             jumpHeightDiff = Mathf.Abs(jumpMaxPosY - transform.position.y);
             if (jumpHeightDiff > minJumpHeightForHardland)
             {
+                AudioSystem.PlayRandom(Configs.PlayerConfig.hardLandingSounds);
                 characterController.Move(Vector3.down);
                 var halfExtends = new Vector3(.3f, .9f, 0.01f);
                 var hasSpaceForRoll = Physics.BoxCast(transform.position + Vector3.up, halfExtends, transform.forward, Quaternion.LookRotation(transform.forward), 2.5f, environmentScanner.ObstacleLayer);
@@ -776,7 +784,10 @@ namespace Skyward.Characters
                 OnEndSystem(this);
             }
             else
+            {
+                AudioSystem.PlayRandom(Configs.PlayerConfig.softLandingSounds);
                 animator.CrossFadeInFixedTime("LandAndStepForward", .1f);
+            }
         }
         public bool isOnLedge { get; set; }
 

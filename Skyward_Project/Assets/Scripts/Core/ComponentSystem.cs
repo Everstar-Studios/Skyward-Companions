@@ -85,7 +85,7 @@ namespace Skyward.Core
                 var component = Instance.componentGroups[type].Components.ElementAt(i);
                 Component comp = component as Component;
                 if (comp == null)
-                    throw new Exception($"ComponentSystem - Illegal action on {component}: Attempting to get a component that does not inherit from Component");
+                    throw new Exception($"ComponentSystem - Illegal action on {component}: Attempting to get a component that does not inherit from Component on type {type}");
 
                 yield return component;
             }

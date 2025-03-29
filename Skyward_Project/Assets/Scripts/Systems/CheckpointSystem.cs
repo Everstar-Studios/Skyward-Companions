@@ -136,7 +136,10 @@ namespace Skyward.Systems
             
             bool enteredDeathZone = activeDeathZone.trigger.bounds.Contains(player.position);
             if (enteredDeathZone)
+            {
+                AudioSystem.PlayRandom(Configs.PlayerConfig.deathSoudns);
                 RespawnFromLastCheckpoint();
+            }
         }
     }
 }
