@@ -51,7 +51,7 @@ public class LeaderboardSystem : BaseSystem<LeaderboardSystem>
     {
         var options = new AddPlayerScoreOptions()
         {
-            Metadata = new ScoreMetadata { levelName = GameSystem.GetCurrentLevelName() + UnityEngine.Random.Range(0f, 5f), timeTaken = Time.timeSinceLevelLoad}
+            Metadata = new ScoreMetadata { levelName = GameSystem.GetCurrentLevelName(), timeTaken = Time.timeSinceLevelLoad}
         };
         await LeaderboardsService.Instance.AddPlayerScoreAsync("Skyward-Leaderboard", Time.timeSinceLevelLoad, options);
     }
