@@ -43,7 +43,8 @@ Material:
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses:
   - MOTIONVECTORS
   m_LockedProperties: 
@@ -108,13 +109,29 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _BUILTIN_AlphaClip: 0
+    - _BUILTIN_Blend: 0
+    - _BUILTIN_CullMode: 2
+    - _BUILTIN_DstBlend: 0
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
+    - _BUILTIN_SrcBlend: 1
+    - _BUILTIN_Surface: 0
+    - _BUILTIN_ZTest: 4
+    - _BUILTIN_ZWrite: 1
+    - _BUILTIN_ZWriteControl: 0
+    - _Blend: 0
+    - _BlendModePreserveSpecular: 0
+    - _CastShadows: 1
+    - _Cull: 0
     - _Dirt_Gradience_Feather: 1
     - _Dirt_Gradience_Height: 1
     - _Dirt_Mask_Contrast: 3.92
     - _Dirt_Mask_Growth: -0.18
     - _Dirt_Roughness: 1
+    - _DstBlend: 0
     - _Layer_01_AO_Multiplier: 1
     - _Layer_01_Flatten_Normal: 0.3
     - _Layer_01_Metallic_Multiplier: 1
@@ -134,12 +151,19 @@ Material:
     - _POM_Max_Steps: 32
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _SrcBlend: 1
+    - _Surface: 0
     - _USE_DIRT_MASK: 0
     - _USE_EMISSIVE: 0
     - _USE_LAYER_02: 0
     - _USE_POM: 0
     - _Use_Coverage_Gradient: 0
     - _Variation_Noise_Tiling: 1
+    - _WorkflowMode: 1
+    - _ZTest: 4
+    - _ZWrite: 1
+    - _ZWriteControl: 0
     m_Colors:
     - _Dirt_Color: {r: 0.48380733, g: 0.554717, b: 0.27107865, a: 1}
     - _Layer_01_Emissive_Tint_HDR: {r: 1, g: 1, b: 1, a: 0}
