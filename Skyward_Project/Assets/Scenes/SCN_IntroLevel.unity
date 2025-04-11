@@ -19318,17 +19318,37 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2009987380729733448, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
+      propertyPath: m_Renderers.Array.size
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 2009987380729733448, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
+      propertyPath: 'm_Renderers.Array.data[9]'
+      value: 
+      objectReference: {fileID: 446335857}
+    - target: {fileID: 2009987380729733448, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
+      propertyPath: 'm_Renderers.Array.data[10]'
+      value: 
+      objectReference: {fileID: 446335856}
     - target: {fileID: 2338293788737626659, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
       propertyPath: m_Name
       value: GO_Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2350896360766133419, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3498353022049518575, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
+      propertyPath: m_Blendshapes.Array.size
+      value: 45
+      objectReference: {fileID: 0}
     - target: {fileID: 5171123544310534686, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99954325
+      value: 0.9995433
       objectReference: {fileID: 0}
     - target: {fileID: 5171123544310534686, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.0269738
+      value: -0.026973799
       objectReference: {fileID: 0}
     - target: {fileID: 5171123544310534686, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
       propertyPath: m_LocalRotation.y
@@ -19336,7 +19356,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5171123544310534686, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0003675924
+      value: 0.0003675923
       objectReference: {fileID: 0}
     - target: {fileID: 5209498071287124412, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -19378,11 +19398,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7180312547643033398, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7691674243515577798, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7713103426380694819, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6973218520810920305, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
+--- !u!137 &446335856 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6104151146846829911, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
+  m_PrefabInstance: {fileID: 446335855}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &446335857 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1490875125598071216, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
+  m_PrefabInstance: {fileID: 446335855}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &446663650
 GameObject:
   m_ObjectHideFlags: 0
@@ -40905,7 +40948,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: This way
+  m_text: THIS WAY
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aca3b897f23f1f741bfd6895f28c35ae, type: 2}
   m_sharedMaterial: {fileID: -2396351578714992889, guid: aca3b897f23f1f741bfd6895f28c35ae, type: 2}
@@ -45862,7 +45905,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Hop on the moving platform to get across.
+  m_text: Hop on the movIng platform to get across.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aca3b897f23f1f741bfd6895f28c35ae, type: 2}
   m_sharedMaterial: {fileID: -2396351578714992889, guid: aca3b897f23f1f741bfd6895f28c35ae, type: 2}
@@ -63281,7 +63324,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2335962086821572181, guid: ce6b54a94da02704f8e768c537ab5108, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.00036778385
+      value: 0.00036778382
       objectReference: {fileID: 0}
     - target: {fileID: 2335962086821572181, guid: ce6b54a94da02704f8e768c537ab5108, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -64165,7 +64208,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: A towering castle lies ahead
+  m_text: A towerIng castle lIes ahead
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aca3b897f23f1f741bfd6895f28c35ae, type: 2}
   m_sharedMaterial: {fileID: -2396351578714992889, guid: aca3b897f23f1f741bfd6895f28c35ae, type: 2}
@@ -80732,7 +80775,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: You've reached a checkpoint. Rest easy and press on
+  m_text: You've reached a checkpoInt. Rest easy and press on
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aca3b897f23f1f741bfd6895f28c35ae, type: 2}
   m_sharedMaterial: {fileID: -2396351578714992889, guid: aca3b897f23f1f741bfd6895f28c35ae, type: 2}
@@ -82814,7 +82857,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Jump in the elevator
+  m_text: Jump In the elevator
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aca3b897f23f1f741bfd6895f28c35ae, type: 2}
   m_sharedMaterial: {fileID: -2396351578714992889, guid: aca3b897f23f1f741bfd6895f28c35ae, type: 2}
@@ -86605,7 +86648,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Keep Climbing!
+  m_text: KEEP CLIMBING!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aca3b897f23f1f741bfd6895f28c35ae, type: 2}
   m_sharedMaterial: {fileID: -2396351578714992889, guid: aca3b897f23f1f741bfd6895f28c35ae, type: 2}
@@ -104252,7 +104295,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "You\u2019re on the right path keep going."
+  m_text: "You\u2019re on the rIght path keep goIng."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aca3b897f23f1f741bfd6895f28c35ae, type: 2}
   m_sharedMaterial: {fileID: -2396351578714992889, guid: aca3b897f23f1f741bfd6895f28c35ae, type: 2}
