@@ -42,7 +42,7 @@ namespace Skyward.Characters
         
         LocomotionInputAction input;
 
-        void Awake()
+        void Start()
         {
             input = new LocomotionInputAction();
             input.Enable();

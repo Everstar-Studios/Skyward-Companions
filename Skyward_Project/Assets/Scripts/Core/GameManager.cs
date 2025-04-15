@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour, ISkywardComponent
 
         game = context.game;
 
-        StartCoroutine(FactoryCoroutine());
+        //StartCoroutine(FactoryCoroutine());
     }
 
     public static void SetEnableGameHUD(bool enable)

@@ -20,7 +20,7 @@ public class Lobby : MonoBehaviour
 
     private IEnumerator Initialize()
     {
-        yield return game.Initialize(gameSettings);
+        yield return game.Initialize();
     }
 
     public void StartScene(TMP_InputField field)

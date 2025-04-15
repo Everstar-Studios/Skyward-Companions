@@ -34,9 +34,9 @@ public class CutsceneSystem : BaseSystem<CutsceneSystem>
 
     private event EventHandler cutsceneSkipped;
 
-    protected override void WorldLoading(GameContext context)
+    protected override void Initialize(GameContext context)
     {
-        base.WorldLoading(context);
+        base.Initialize(context);
         
         cutceneInput = new CutsceneInputAction();
         cutceneInput.Disable();

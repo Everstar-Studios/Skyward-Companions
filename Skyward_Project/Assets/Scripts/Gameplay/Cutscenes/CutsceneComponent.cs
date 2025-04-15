@@ -44,8 +44,16 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
 
     private RenderTexture renderTexture;
 
-    void Start()
+    void ISkywardComponent.WorldLoaded(GameContext context)
     {
+        StartCoroutine(Setup());
+
+    }
+
+    private IEnumerator Setup()
+    {
+        yield return new WaitForEndOfFrame();
+        
         if (cutsceneType == ECutsceneType.Timeline && Timeline != null)
             SetupPlayableDirector();
         else if (cutsceneType == ECutsceneType.Video && VideoClip != null)

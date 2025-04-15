@@ -21,9 +21,9 @@ public class GameSystem : BaseSystem<GameSystem>
 
     private event EventHandler levelCompleted;
 
-    protected override void Preload(GameContext context)
+    protected override void Initialize(GameContext context)
     {
-        base.Preload(context);
+        base.Initialize(context);
         
         context.Store("Scene", sceneInfo);
     }

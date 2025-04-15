@@ -18,9 +18,9 @@ public class HeightSystem : BaseSystem<HeightSystem>, ISkywardComponent
 
     private HeightInfo heightInfo = new();
     
-    protected override void Preload(GameContext context)
+    protected override void Initialize(GameContext context)
     {
-        base.Preload(context);
+        base.Initialize(context);
         
         context.Store("HighestHeight", heightInfo);
     }
