@@ -26,9 +26,9 @@ public class LeaderboardSystem : BaseSystem<LeaderboardSystem>
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
     }
 
-    protected override void Preload(GameContext context)
+    protected override void Initialize(GameContext context)
     {
-        base.Preload(context);
+        base.Initialize(context);
         
         
     }

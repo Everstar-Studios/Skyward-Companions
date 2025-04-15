@@ -23,9 +23,9 @@ public class PlayerSystem : BaseSystem<PlayerSystem>, ISkywardComponent, ISkywar
 
     private event EventHandler<PlayerController> playerFound;
 
-    protected override void Preload(GameContext context)
+    protected override void Initialize(GameContext context)
     {
-        base.Preload(context);
+        base.Initialize(context);
         
         context.Store("PLAYER_NAME", this);
     }

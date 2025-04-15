@@ -12,6 +12,7 @@ public class SkywardGame : MonoBehaviour
     public static SkywardGame Instance { get; private set; }
     
     public GameObject gameManagerPrefab;
+    public bool inLobby = false;
     private GameObject GameManager { get; set; }
         
     private GameObject systemsGameObject;
@@ -19,6 +20,9 @@ public class SkywardGame : MonoBehaviour
 
     public GameFactory Factory => factory;
     private GameFactory factory;
+    
+    private List<ISystem> systems = new();
+
 
     private void Awake()
     {
@@ -31,29 +35,36 @@ public class SkywardGame : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         Instance = this;
-    }
-    
-    public void LaunchLevel(string sceneName)
-    {
-        InitializeSystems();
-        var async = SceneManager.LoadSceneAsync(sceneName);
-        async.completed += OnLevelLoaded;
+        
+        if (!inLobby)
+        {
+            StartCoroutine(LaunchedFromLevel());
+        }
     }
 
-    private void OnLevelLoaded(AsyncOperation operation)
+    private IEnumerator LaunchedFromLevel()
     {
-        operation.completed -= OnLevelLoaded;
+        yield return Initialize();
+        TrackPrespawnedObjects();
+        NotifyLevelLoading();
+
+        yield return new WaitForEndOfFrame();
+        OnLevelLoaded();
+    }
+
+    public async void LaunchLevel(string sceneName)
+    {
+        NotifyLevelLoading();
+        await SceneManager.LoadSceneAsync(sceneName);
+        TrackPrespawnedObjects();
         OnLevelLoaded();
     }
 
     private void OnLevelLoaded()
     {
-        #if UNITY_EDITOR
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        #endif
         
-        TrackPrespawnedObjects();
         NotifyWorldLoaded();
     }
 
@@ -63,12 +74,12 @@ public class SkywardGame : MonoBehaviour
             comp.WorldLoaded(context);
     }
 
-    public IEnumerator Initialize(GameSettings settings)
+    public IEnumerator Initialize()
     {
         context = new GameContext(this);
 
         Configs.Init();
-        CreateFactory();
+        //CreateFactory();
         CreateSystems();
         CreateGameManager();
         context.Load();
@@ -123,37 +134,31 @@ public class SkywardGame : MonoBehaviour
     {
         if (systemsGameObject == null)
             systemsGameObject = new GameObject("Systems");
-
-        List<ISystem> iSystems = new List<ISystem>();
+        
         foreach (Type systemType in AllRequiredSystems())
         {
             if (systemsGameObject.TryGetComponent(systemType, out _))
                 continue;
 
             systemsGameObject.AddComponent(systemType);
-            
-            Component systemComponent = (Component)FindAnyObjectByType(systemType);
+            Component systemComponent = systemsGameObject.GetComponent(systemType);
             if (systemComponent is BaseSystem baseSystem)
             {
                 baseSystem.gamecontext = context;
+                systems.Add(baseSystem);
             }
-            
-            if (systemComponent is ISystem system)
-                iSystems.Add(system);
         }
-        foreach (BaseSystem system in systemsGameObject.GetComponents<BaseSystem>())
-            ComponentSystem.TrackComponent(system);
         
-        foreach (ISystem system in iSystems)
-            system.Preload(context);
+        foreach (ISystem system in systems)
+            system.Initialize(context);
 
         
         DontDestroyOnLoad(systemsGameObject);
     }
     
-    void InitializeSystems()
+    void NotifyLevelLoading()
     {
-        foreach (var system in ComponentSystem<ISystem>.Components)
+        foreach (var system in systems)
             system.OnWorldLoading(context);
     }
     

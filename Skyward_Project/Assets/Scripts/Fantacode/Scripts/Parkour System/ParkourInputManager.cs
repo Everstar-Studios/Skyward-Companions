@@ -26,7 +26,7 @@ namespace FS_ParkourSystem
 
         ParkourInputAction input;
         
-        void Awake()
+        void Start()
         {
             input = new ParkourInputAction();
             input.Enable();
