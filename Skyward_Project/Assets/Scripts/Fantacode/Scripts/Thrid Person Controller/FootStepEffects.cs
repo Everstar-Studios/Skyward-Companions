@@ -75,7 +75,7 @@ namespace Skyward.Characters
                     float moveAmount = 1;
                     if(playerController.CurrentSystemState == SystemState.Locomotion && animator.GetCurrentAnimatorStateInfo(0).IsName("Locomotion"))
                         moveAmount = animator.GetFloat(AnimatorParameters.moveAmount) / 1.5f;
-                    PlaySfx(sounds[Random.Range(0, sounds.Count)], moveAmount);
+                    PlaySfx(sounds[Random.Range(0, sounds.Count)]);
                 }
                 else if (playerController == null)
                     PlaySfx(sounds[Random.Range(0, sounds.Count)]);
@@ -91,16 +91,9 @@ namespace Skyward.Characters
             }
         }
 
-        void PlaySfx(AudioClip clip, float volume = 1)
+        void PlaySfx(AudioClip clip)
         {
-            GameObject sfx = new GameObject();
-            sfx.transform.position = transform.position;
-            
-            if (adjustVolumeBasedOnSpeed)
-                volume = Mathf.Clamp(volume, minVolume, volume);
-
             AudioSystem.Play(clip);
-            Destroy(sfx, 1.5f);
         }
 
         void SpawnParticle(GameObject particleEffect, Transform footTransform)
