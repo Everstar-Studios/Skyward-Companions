@@ -82,6 +82,8 @@ namespace Skyward.Characters
         void HandleDirectionalInput()
         {
             DirectionInput = input.Locomotion.MoveInput.ReadValue<Vector2>();
+            if (DirectionInput.magnitude > float.Epsilon)
+                GameInputSystem.OnMoved(DirectionInput);
         }
 
         void HandlecameraInput()

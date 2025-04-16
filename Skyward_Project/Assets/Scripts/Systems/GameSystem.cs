@@ -89,7 +89,7 @@ public class GameSystem : BaseSystem<GameSystem>
             if (TryGetNextSceneName(out string nextSceneName))
                 unlockedLevels.Add(nextSceneName);
             
-            LeaderboardSystem.Instance.AddScoreWithMetadata("Skyward-Leaderboard", HeightSystem.Height);
+            LeaderboardSystem.Instance.AddScoreWithMetadata("Skyward-Leaderboard", TimeSystem.TimeInLevel);
         }
         
         private bool TryGetNextSceneName(out string nextSceneName)

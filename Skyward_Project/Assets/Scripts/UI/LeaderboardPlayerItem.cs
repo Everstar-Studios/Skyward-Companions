@@ -1,3 +1,4 @@
+using System;
 using System.Globalization;
 using TMPro;
 using Unity.Services.Leaderboards.Models;
@@ -16,6 +17,8 @@ public class LeaderboardPlayerItem : MonoBehaviour
         player = entry;
         rankText.text = (player.Rank + 1).ToString();
         nameText.text = entry.PlayerName.Split('#')[0];
-        timeText.text = player.Score.ToString("F2") + " s";
+        var timeSpan = TimeSpan.FromSeconds(player.Score);
+        string timeFormatted = $"{timeSpan.Minutes}:{timeSpan.Seconds:D2}";
+        timeText.text = timeFormatted;
     }
 }
