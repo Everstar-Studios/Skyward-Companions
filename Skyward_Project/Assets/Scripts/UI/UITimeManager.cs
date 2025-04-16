@@ -12,7 +12,7 @@ namespace Skyward.UI
 
         private void Update()
         {
-            TimeSpan timeSpan = TimeSpan.FromSeconds(TimeSystem.LevelTimer);
+            TimeSpan timeSpan = TimeSystem.TimeSpan;
             string timeFormatted = $"{timeSpan.Minutes}:{timeSpan.Seconds:D2}";
             timeText.text = timeFormatted;
         }
