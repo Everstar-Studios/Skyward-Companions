@@ -77,6 +77,8 @@ public class LevelButtonEditor : Editor
 
         LevelButton levelButton = (LevelButton)target;
         SerializedProperty sceneNameProp = serializedObject.FindProperty("sceneName");
+        SerializedProperty clickSoundProp = serializedObject.FindProperty("clickSound");
+        EditorGUILayout.PropertyField(clickSoundProp);
 
         int currentIndex = System.Array.IndexOf(sceneNames, sceneNameProp.stringValue);
         if (currentIndex < 0) currentIndex = 0;
