@@ -136,7 +136,7 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
             renderTexture = new RenderTexture(Screen.width, Screen.height, 0);
             renderTexture.Create();
             videoPlayer.targetTexture = renderTexture;
-            GameManager.Instance.GetComponentInChildren<RawImage>(true).texture = renderTexture;
+            GameManager.Instance.GameHUD.cutsceneRawImage.texture = renderTexture;
             CutsceneSystem.Play(videoPlayer);
             CutsceneSystem.CutsceneSkipped += SkipCutscene;
         }
