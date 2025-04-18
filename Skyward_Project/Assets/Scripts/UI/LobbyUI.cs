@@ -9,11 +9,14 @@ using UnityEngine.UI;
 
 public class LobbyUI : MonoBehaviour
 {
+    [SerializeField]
+    private SkywardGame game;
+    
     public GameObject mainMenuScreen;
     public GameObject playScreen;
     public GameObject leaderboardScreen;
+    public GameObject loadingScreen;
     public GameObject settingsScreen;
-    public GameObject creditScreen;
     public GameObject namePanel;
 
     private List<GameObject> menus = new();
@@ -22,10 +25,15 @@ public class LobbyUI : MonoBehaviour
 
     private IEnumerator Start()
     {
+        yield return game.Initialize();
+        game.preLevelLoading += PreLevelLoading;
+        game.levelLoading += LevelLoading;
+        
         menus.Add(mainMenuScreen);
         menus.Add(namePanel);
         menus.Add(playScreen);
         menus.Add(leaderboardScreen);
+        menus.Add(loadingScreen);
         menus.Add(settingsScreen);
         menus.ForEach(g => g.SetActive(false));
         yield return new WaitUntil(() => PlayerSystem.Instance != null);
@@ -40,6 +48,33 @@ public class LobbyUI : MonoBehaviour
         OpenNameScreen();
         nameField.onEndEdit.AddListener(NameCreated);
         nameField.onValidateInput += (input, charIndex, addedChar) => NameChanged(input, addedChar);
+    }
+
+    private void OnDestroy()
+    {
+        game.preLevelLoading -= PreLevelLoading;
+        game.levelLoading -= LevelLoading;
+    }
+
+    private void PreLevelLoading()
+    {
+        menus.ForEach(g => g.SetActive(false));
+        loadingScreen.SetActive(true);
+    }
+
+    private void LevelLoading(AsyncOperation async)
+    {
+        StartCoroutine(LoadingScreen(async));
+    }
+
+    public IEnumerator LoadingScreen(AsyncOperation async)
+    {
+        var slider = loadingScreen.GetComponentInChildren<Slider>();
+        while (!async.isDone)
+        {
+            slider.value = async.progress;
+            yield return null;
+        }
     }
 
     private char NameChanged(string newName, char character)

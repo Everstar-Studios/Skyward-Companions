@@ -22,7 +22,7 @@ public class HeightSystem : BaseSystem<HeightSystem>, ISkywardComponent
     {
         base.Initialize(context);
         
-        context.Store("HighestHeight", heightInfo);
+        context.Store(heightInfo);
     }
     
     protected override void WorldLoading(GameContext context)
@@ -64,14 +64,14 @@ public class HeightSystem : BaseSystem<HeightSystem>, ISkywardComponent
     private class HeightInfo : ISkywardSerializable
     {
         public float highestHeight;
-        public void Serialize(BinaryWriter writer)
+        public void Serialize()
         {
-            writer.Write(highestHeight);
+            PlayerPrefs.SetFloat("HeightHeight", highestHeight);
         }
 
-        public void Deserialize(BinaryReader reader)
+        public void Deserialize()
         {
-            highestHeight = reader.ReadSingle();
+            highestHeight = PlayerPrefs.GetFloat("HighestHeight");
         }
     }
 }

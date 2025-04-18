@@ -9,6 +9,7 @@ public class GameHUDComponent : MonoBehaviour, ISkywardComponent
     public GameObject pauseScreen;
     public GameObject playerUIScreen;
     public GameObject quitScreen;
+    public RawImage cutsceneRawImage;
     
     public CanvasGroup canvasGroup;
     public Image panel;

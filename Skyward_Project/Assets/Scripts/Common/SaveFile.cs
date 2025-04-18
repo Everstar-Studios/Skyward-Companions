@@ -4,54 +4,32 @@ using UnityEngine;
 
 public class SaveFile
 {
-    private Dictionary<string, ISkywardSerializable> serializables = new();
+    private List<ISkywardSerializable> serializables = new();
     
-    public void Store(string key, ISkywardSerializable serializable)
+    public void Store(ISkywardSerializable serializable)
     {
-        serializables[key] = serializable;
+        serializables.Add(serializable);
     }
     
-    public ISkywardSerializable Retrieve(string key)
+    public void Save()
     {
-        return serializables[key];
-    }
-    
-    public void Save(string path)
-    {
-        FileStream stream = new FileStream(path, FileMode.Create);
-        BinaryWriter writer = new BinaryWriter(stream);
-        writer.Write(serializables.Count);
-        foreach (var (key, serializable) in serializables)
+        foreach (var serializable in serializables)
         {
-            writer.Write(key);
-            serializable.Serialize(writer);
+            serializable.Serialize();
         }
-        stream.Close();
     }
 
-    public void Load(string path)
+    public void Load()
     {
-        if (!File.Exists(path)) 
-            return;
-        
-        FileStream stream = new FileStream(path, FileMode.Open);
-        BinaryReader reader = new BinaryReader(stream);
-        int count = reader.ReadInt32();
-        for (int i = 0; i < count; i++)
+        foreach (var serializable in serializables)
         {
-            string key = reader.ReadString();
-            if (serializables.TryGetValue(key, out var serializable))
-            {
-                serializable.Deserialize(reader);
-            }
+            serializable.Deserialize();
         }
-
-        stream.Close();
     }
 }
 
 public interface ISkywardSerializable
 {
-    void Serialize(BinaryWriter writer);
-    void Deserialize(BinaryReader reader);
+    void Serialize();
+    void Deserialize();
 }

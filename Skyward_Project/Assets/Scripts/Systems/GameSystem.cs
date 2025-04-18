@@ -24,8 +24,8 @@ public class GameSystem : BaseSystem<GameSystem>
     protected override void Initialize(GameContext context)
     {
         base.Initialize(context);
-        
-        context.Store("Scene", sceneInfo);
+
+        context.Store(sceneInfo);
     }
 
     protected override void WorldLoading(GameContext context)
@@ -66,53 +66,38 @@ public class GameSystem : BaseSystem<GameSystem>
 
     private class SceneInfo : ISkywardSerializable
     {
-        private HashSet<string> unlockedLevels = new();
-        public void Serialize(BinaryWriter writer)
+        private int maxUnlockedLevelIndex;
+        public void Serialize()
         {
-            writer.Write(unlockedLevels.Count);
-            foreach (var level in unlockedLevels)
-                writer.Write(level);
+            PlayerPrefs.SetInt("MaxUnlockedLevelIndex", maxUnlockedLevelIndex);
         }
 
-        public void Deserialize(BinaryReader reader)
+        public void Deserialize()
         {
-            int completedLevelCount = reader.ReadInt32();
-            for (int i = 0; i < completedLevelCount; i++)
-            {
-                string completedLevelName = reader.ReadString();
-                unlockedLevels.Add(completedLevelName);
-            }
+            maxUnlockedLevelIndex = PlayerPrefs.GetInt("MaxUnlockedLevelIndex");
         }
         
         public void MarkComplete()
         {
-            if (TryGetNextSceneName(out string nextSceneName))
-                unlockedLevels.Add(nextSceneName);
-            
-            LeaderboardSystem.Instance.AddScoreWithMetadata("Skyward-Leaderboard", TimeSystem.TimeInLevel);
+            if (TryGetNextSceneName(out int maxUnlockedIndex))
+            {
+                maxUnlockedLevelIndex = maxUnlockedIndex;
+                PlayerPrefs.SetInt("MaxUnlockedLevelIndex", maxUnlockedLevelIndex);
+            }
         }
         
-        private bool TryGetNextSceneName(out string nextSceneName)
+        private bool TryGetNextSceneName(out int nextSceneIndex)
         {
             int currentIndex = SceneManager.GetActiveScene().buildIndex;
-            int nextIndex = currentIndex + 1;
-            nextSceneName = null;
-
-            if (nextIndex < SceneManager.sceneCountInBuildSettings)
-            {
-                string path = SceneUtility.GetScenePathByBuildIndex(nextIndex);
-                nextSceneName = Path.GetFileNameWithoutExtension(path);
-                return true;
-            }
-
-            return false;
+            nextSceneIndex = currentIndex + 1;
+            return nextSceneIndex < SceneManager.sceneCountInBuildSettings;
         }
         
-        public bool IsUnlocked(string sceneName) => unlockedLevels.Contains(sceneName);
+        public bool IsUnlocked(int index) => index <= maxUnlockedLevelIndex;
     }
 
-    public static bool IsLevelUnlocked(string sceneName)
+    public static bool IsLevelUnlocked(int index)
     {
-        return Instance.sceneInfo.IsUnlocked(sceneName);
+        return Instance.sceneInfo.IsUnlocked(index);
     }
 }

@@ -37,24 +37,19 @@ namespace Skyward.Core
             game.Factory.AddInstruction(instruction);
         }
         
-        public void Store(string key, ISkywardSerializable value)
+        public void Store(ISkywardSerializable value)
         {
-            saveFile.Store(key, value);
-        }
-        
-        public T Retrieve<T>(string key) where T : ISkywardSerializable
-        {
-            return (T)saveFile.Retrieve(key);
+            saveFile.Store(value);
         }
         
         public void Save()
         {
-            saveFile.Save(Application.persistentDataPath + "/save.sky");
+            saveFile.Save();
         }
 
         public void Load()
         {
-            saveFile.Load(Application.persistentDataPath + "/save.sky");
+            saveFile.Load();
         }
     }
     

@@ -28,4 +28,9 @@ public class AmbientSoundPlayer : MonoBehaviour, ISkywardComponent
     {
         source.UnPause();
     }
+
+    protected void Stop()
+    {
+        source.Stop();
+    }
 }
