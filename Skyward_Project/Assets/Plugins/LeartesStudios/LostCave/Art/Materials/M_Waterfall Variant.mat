@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7635170196483756320
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 9
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: M_Waterfall Variant
+  m_Shader: {fileID: -6465566751694194690, guid: cf7adafc31d69614ca170d94e90a086a, type: 3}
+  m_Parent: {fileID: 2100000, guid: aa5c17147aa3c8f48bcf964789d32eba, type: 2}
+  m_ModifiedSerializedProperties: 2
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _DISABLE_SSR_TRANSPARENT
+  - _ENABLE_FOG_ON_TRANSPARENT
+  - _NORMALMAP_TANGENT_SPACE
+  m_LightmapFlags: 2
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap:
+    MotionVector: User
+  disabledShaderPasses:
+  - TransparentDepthPrepass
+  - TransparentDepthPostpass
+  - TransparentBackface
+  - RayTracingPrepass
+  - MOTIONVECTORS
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _SampleTexture2D_00f980071290471ea3ec9a78b472b606_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 759b56e351f698a439177a9722a6992a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_55f4a5de9ad046fa82d8b84f9b2323a6_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 7b0642fc61144164e9db596f79b4aed0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_6e3a1a97bafe498f898f7f6bb0a8faf3_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 332af182a64451141acd978bdd7c24d2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_de7059618b4041f2bd777f5c1ae55a8d_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 72afc2f64471e0d42bc25a824f10f5e3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Fade_distance_color: 1000
+    - _Foam_fade_dist: 1.29
+    - _Lines_secondary_scale_X: 10
+    - _Normal_Fade: 1
+    - _Rough_mask_speed: 3.56
+    - _Rough_tiling: 4.51
+    - _WPO_Speed: 1
+    - _WPO_Tiling: 7.95
+    - _WorkflowMode: 0
+    - _fade_edge_distance: 2.64
+    - _foam_contrast: 5.51
+    - _foam_scale: 10
+    - _foam_speed: 10
+    - _line_acceleration: 1
+    - _line_scale_width: 0.2
+    - _line_threshold: 1
+    - _lines_Secondary_scale_Y: 0
+    - _lines_main_scale_X: 10
+    - _lines_main_scale_Y: 1
+    - _lines_main_speed: 0.2
+    - _rough_contrast: 3.54
+    - _roughness: 11.41
+    - _tiling_large: -0.04
+    - _tiling_small: 0.54
+    - _time_secondary_speed: 0
+    - _uv_fade: 1
+    - _wave_large_normal_Strength: -0.3
+    - _wave_small_normal_strength: 1.09
+    m_Colors:
+    - _Water_color: {r: 0.2971698, g: 0.8706682, b: 1, a: 1}
+    - _Water_color_deep: {r: 0.495283, g: 0.9098071, b: 1, a: 1}
+    - _line_color: {r: 0.8937789, g: 0.9716981, b: 0.9660654, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
