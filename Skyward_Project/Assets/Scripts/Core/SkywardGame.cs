@@ -23,6 +23,9 @@ public class SkywardGame : MonoBehaviour
     
     private List<ISystem> systems = new();
 
+    public event Action preLevelLoading;
+    public event Action<AsyncOperation> levelLoading;
+
 
     private void Awake()
     {
@@ -52,10 +55,26 @@ public class SkywardGame : MonoBehaviour
         OnLevelLoaded();
     }
 
-    public async void LaunchLevel(string sceneName)
+    public void LaunchLevel(string sceneName)
     {
+        StartCoroutine(LaunchLevelInternal(sceneName));
+
+    }
+
+    private IEnumerator LaunchLevelInternal(string sceneName)
+    {
+        preLevelLoading?.Invoke();
+        yield return new WaitForEndOfFrame();
+        
+        var async = SceneManager.LoadSceneAsync(sceneName);
+        levelLoading?.Invoke(async);
+        async.completed += LevelLoadCompleted;
         NotifyLevelLoading();
-        await SceneManager.LoadSceneAsync(sceneName);
+    }
+
+    private void LevelLoadCompleted(AsyncOperation async)
+    {
+        async.completed -= LevelLoadCompleted;
         TrackPrespawnedObjects();
         OnLevelLoaded();
     }
