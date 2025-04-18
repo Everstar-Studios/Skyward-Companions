@@ -44,6 +44,18 @@ public class SkywardGame : MonoBehaviour
             StartCoroutine(LaunchedFromLevel());
         }
     }
+    
+    public IEnumerator Initialize()
+    {
+        context = new GameContext(this);
+
+        Configs.Init();
+        //CreateFactory();
+        CreateSystems();
+        CreateGameManager();
+        context.Load();
+        yield break;
+    }
 
     private IEnumerator LaunchedFromLevel()
     {
@@ -91,18 +103,6 @@ public class SkywardGame : MonoBehaviour
     {
         foreach (var comp in ComponentSystem.GetAllComponents<ISkywardComponent>())
             comp.WorldLoaded(context);
-    }
-
-    public IEnumerator Initialize()
-    {
-        context = new GameContext(this);
-
-        Configs.Init();
-        //CreateFactory();
-        CreateSystems();
-        CreateGameManager();
-        context.Load();
-        yield break;
     }
     
     void CreateFactory()

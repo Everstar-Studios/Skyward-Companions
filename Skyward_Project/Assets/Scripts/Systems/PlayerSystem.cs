@@ -27,7 +27,7 @@ public class PlayerSystem : BaseSystem<PlayerSystem>, ISkywardComponent, ISkywar
     {
         base.Initialize(context);
         
-        context.Store("PLAYER_NAME", this);
+        context.Store(this);
     }
 
     void ISkywardComponent.WorldLoaded(GameContext context)
@@ -36,13 +36,13 @@ public class PlayerSystem : BaseSystem<PlayerSystem>, ISkywardComponent, ISkywar
         playerFound?.Invoke(this, player);
     }
 
-    public void Serialize(BinaryWriter writer)
+    public void Serialize()
     {
-        writer.Write(PlayerName);
+        PlayerPrefs.SetString("PlayerName", PlayerName);
     }
 
-    public void Deserialize(BinaryReader reader)
+    public void Deserialize()
     {
-        PlayerName = reader.ReadString();
+        PlayerName = PlayerPrefs.GetString("PlayerName");
     }
 }

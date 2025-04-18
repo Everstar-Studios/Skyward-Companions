@@ -2,6 +2,7 @@ using System;
 using Skyward.Core;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
@@ -10,6 +11,8 @@ public class LevelButton : UIButton, ISkywardComponent
     public string sceneName;
     public bool unlockedByDefault = false;
     public GameObject lockIcon;
+    
+    private int SceneIndex => SceneManager.GetSceneByName(sceneName).buildIndex;
 
     protected override void Awake()
     {
@@ -19,7 +22,8 @@ public class LevelButton : UIButton, ISkywardComponent
 
     public override void OnClick()
     {
-        if (!unlockedByDefault && !GameSystem.IsLevelUnlocked(sceneName))
+
+        if (!unlockedByDefault && !GameSystem.IsLevelUnlocked(SceneIndex))
             return;
         
         base.OnClick();
@@ -37,7 +41,7 @@ public class LevelButton : UIButton, ISkywardComponent
 
     public void Unlock()
     {
-        bool isUnlocked = unlockedByDefault || GameSystem.IsLevelUnlocked(sceneName);
+        bool isUnlocked = unlockedByDefault || GameSystem.IsLevelUnlocked(SceneIndex);
         button.interactable = isUnlocked;
         lockIcon.SetActive(!isUnlocked);
     }
