@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Skyward.Core;
 using UnityEditor;
 using UnityEngine;
@@ -11,19 +12,32 @@ public class LevelButton : UIButton, ISkywardComponent
     public string sceneName;
     public bool unlockedByDefault = false;
     public GameObject lockIcon;
-    
-    private int SceneIndex => SceneManager.GetSceneByName(sceneName).buildIndex;
+
+    private int sceneIndex;
 
     protected override void Awake()
     {
         base.Awake();
+
+        int sceneCount = SceneManager.sceneCountInBuildSettings;
+        for (int i = 0; i < sceneCount; i++)
+        {
+            string path = SceneUtility.GetScenePathByBuildIndex(i);
+            string name = Path.GetFileNameWithoutExtension(path);
+            if (!name.Equals(sceneName, StringComparison.OrdinalIgnoreCase)) 
+                continue;
+            
+            sceneIndex = i;
+            break;
+        }
+        
         Unlock();
     }
 
     public override void OnClick()
     {
 
-        if (!unlockedByDefault && !GameSystem.IsLevelUnlocked(SceneIndex))
+        if (!unlockedByDefault && !GameSystem.IsLevelUnlocked(sceneIndex))
             return;
         
         base.OnClick();
@@ -41,7 +55,7 @@ public class LevelButton : UIButton, ISkywardComponent
 
     public void Unlock()
     {
-        bool isUnlocked = unlockedByDefault || GameSystem.IsLevelUnlocked(SceneIndex);
+        bool isUnlocked = unlockedByDefault || GameSystem.IsLevelUnlocked(sceneIndex);
         button.interactable = isUnlocked;
         lockIcon.SetActive(!isUnlocked);
     }
