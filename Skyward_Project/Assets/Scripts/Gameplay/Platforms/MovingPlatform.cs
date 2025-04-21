@@ -228,11 +228,6 @@ public class MovingPlatform : Platform
 
         hasPlayerStepped = true;
     }
-
-    public void OnPlayerLeft()
-    {
-        
-    }
 }
 
 #if UNITY_EDITOR
