@@ -23,7 +23,7 @@ namespace Skyward.Systems
         public static TimeSpan TimeSpan => Instance.timeData.timeSpan;
         public static float TimeInLevel => Instance.timeData.timeAsSeconds;
 
-        private bool cutsceneEnded;
+        private bool cutscenePlaying;
         private bool startedMoving;
 
         protected override void Initialize(GameContext context)
@@ -43,12 +43,12 @@ namespace Skyward.Systems
 
         private void CutsceneStopped(object sender, EventArgs e)
         {
-            cutsceneEnded = true;
+            cutscenePlaying = false;
         }
 
         private void CutsceneStarted(object sender, EventArgs e)
         {
-            cutsceneEnded = false;
+            cutscenePlaying = true;
         }
 
         private void OnCharacterStartedMoving(object sender, EventArgs e)
@@ -59,7 +59,7 @@ namespace Skyward.Systems
 
         private void Update()
         {
-            if (!startedMoving || !cutsceneEnded)
+            if (!startedMoving || cutscenePlaying)
                 return;
 
             timeData.Advance(Time.deltaTime);

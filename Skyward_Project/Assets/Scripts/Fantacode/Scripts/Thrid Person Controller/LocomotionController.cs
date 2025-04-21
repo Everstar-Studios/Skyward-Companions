@@ -254,6 +254,24 @@ namespace Skyward.Characters
 
         public override void HandleUpdate()
         {
+            if (isGrounded && groundColliders[0].transform.TryGetComponentInParent(out MovingPlatform platform))
+            {
+                if (!isParentedToPlatform)
+                {
+                    SteppedOnPlatform(platform);
+                }
+                else if (platform != lastPlatform)
+                {
+                    SteppedOnPlatform(platform);
+                }
+            }
+            else if (isParentedToPlatform)
+            {
+                transform.parent = null;
+                lastPlatform = null;
+                isParentedToPlatform = false;
+            }
+            
             if (preventLocomotion || UseRootMotion)
             {
                 ySpeed = Gravity / 4;
@@ -404,27 +422,6 @@ namespace Skyward.Characters
             velocity.y = ySpeed;
 
             currentSpeed.y = ySpeed;
-
-            if (isGrounded && groundColliders[0].transform.TryGetComponentInParent(out MovingPlatform platform))
-            {
-                currentSpeed.y = 0;
-                if (!isParentedToPlatform)
-                {
-                    SteppedOnPlatform(platform);
-                }
-                else if (platform != lastPlatform)
-                {
-                    lastPlatform.OnPlayerLeft();
-                    SteppedOnPlatform(platform);
-                }
-            }
-            else if (isParentedToPlatform)
-            {
-                transform.parent = null;
-                lastPlatform.OnPlayerLeft();
-                lastPlatform = null;
-                isParentedToPlatform = false;
-            }
             
             characterController.Move(currentSpeed * Time.deltaTime);
             currentSpeed.y = 0;
