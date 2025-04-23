@@ -124,9 +124,4 @@ public class LobbyUI : MonoBehaviour
         menus.ForEach(g => g.SetActive(false));
         namePanel.SetActive(true);
     }
-
-    public void OpenLevel(string sceneName)
-    {
-        GameSystem.LaunchLevel(sceneName);
-    }
 }

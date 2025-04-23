@@ -4,6 +4,7 @@ using System.IO;
 using Skyward.Core;
 using Skyward.Systems;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 
 [RequiredSystem]
@@ -35,9 +36,9 @@ public class GameSystem : BaseSystem<GameSystem>
         gameInstance = Instance.GameContext.game;
     }
 
-    public static void LaunchLevel(string sceneName)
+    public static void LaunchLevel(AssetReference levelRef)
     {
-        Instance.GameContext.game.LaunchLevel(sceneName);
+        Instance.GameContext.game.LaunchLevel(levelRef);
     }
 
     public static void OnLevelCompleted()

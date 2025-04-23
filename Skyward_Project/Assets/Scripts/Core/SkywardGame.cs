@@ -5,7 +5,10 @@ using System.Linq;
 using Skyward.Core;
 using Skyward.Utils;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.SceneManagement;
+using Object = UnityEngine.Object;
 
 public class SkywardGame : MonoBehaviour
 {
@@ -67,21 +70,29 @@ public class SkywardGame : MonoBehaviour
         OnLevelLoaded();
     }
 
-    public void LaunchLevel(string sceneName)
+    public void LaunchLevel(AssetReference levelRef)
     {
-        StartCoroutine(LaunchLevelInternal(sceneName));
+        StartCoroutine(LaunchLevelInternal(levelRef));
 
     }
 
-    private IEnumerator LaunchLevelInternal(string sceneName)
+    private IEnumerator LaunchLevelInternal(AssetReference levelRef)
     {
         preLevelLoading?.Invoke();
         yield return new WaitForEndOfFrame();
         
-        var async = SceneManager.LoadSceneAsync(sceneName);
-        levelLoading?.Invoke(async);
-        async.completed += LevelLoadCompleted;
+        // var async = SceneManager.LoadSceneAsync(sceneName);
+        // levelLoading?.Invoke(async);
+        // async.completed += LevelLoadCompleted;
+        var asnyc = Addressables.LoadAssetAsync<UnityEngine.Object>(levelRef);
+        asnyc.Completed += Completed;
         NotifyLevelLoading();
+    }
+
+    private void Completed(AsyncOperationHandle<Object> obj)
+    {
+        if (obj.Status == AsyncOperationStatus.Succeeded)
+            Instantiate(obj.Result);
     }
 
     private void LevelLoadCompleted(AsyncOperation async)

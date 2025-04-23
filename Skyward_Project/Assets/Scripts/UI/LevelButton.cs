@@ -3,6 +3,7 @@ using System.IO;
 using Skyward.Core;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -12,6 +13,9 @@ public class LevelButton : UIButton, ISkywardComponent
     public string sceneName;
     public bool unlockedByDefault = false;
     public GameObject lockIcon;
+
+    [AssetReferenceUILabelRestriction("Level")]
+    public AssetReference levelRef;
 
     private int sceneIndex;
 
@@ -45,7 +49,7 @@ public class LevelButton : UIButton, ISkywardComponent
         foreach (var levelButton in FindObjectsByType<LevelButton>(FindObjectsInactive.Include, FindObjectsSortMode.None))
             levelButton.Disable();
         
-        GameSystem.LaunchLevel(sceneName);
+        GameSystem.LaunchLevel(levelRef);
     }
 
     private void Disable()
@@ -70,44 +74,44 @@ public class LevelButton : UIButton, ISkywardComponent
     }
 }
 
-#if UNITY_EDITOR
-
-[CustomEditor(typeof(LevelButton))]
-public class LevelButtonEditor : Editor
-{
-    private string[] sceneNames;
-
-    private void OnEnable()
-    {
-        int sceneCount = UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings;
-        sceneNames = new string[sceneCount];
-
-        for (int i = 0; i < sceneCount; i++)
-        {
-            string path = UnityEngine.SceneManagement.SceneUtility.GetScenePathByBuildIndex(i);
-            sceneNames[i] = System.IO.Path.GetFileNameWithoutExtension(path);
-        }
-    }
-
-    public override void OnInspectorGUI()
-    {
-        serializedObject.Update();
-
-        LevelButton levelButton = (LevelButton)target;
-        SerializedProperty sceneNameProp = serializedObject.FindProperty("sceneName");
-        SerializedProperty clickSoundProp = serializedObject.FindProperty("clickSound");
-        EditorGUILayout.PropertyField(clickSoundProp);
-
-        int currentIndex = System.Array.IndexOf(sceneNames, sceneNameProp.stringValue);
-        if (currentIndex < 0) currentIndex = 0;
-
-        int selectedIndex = EditorGUILayout.Popup("Scene Name", currentIndex, sceneNames);
-        sceneNameProp.stringValue = sceneNames[selectedIndex];
-
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("unlockedByDefault"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("lockIcon"));
-
-        serializedObject.ApplyModifiedProperties();
-    }
-}
-#endif
+// #if UNITY_EDITOR
+//
+// [CustomEditor(typeof(LevelButton))]
+// public class LevelButtonEditor : Editor
+// {
+//     private string[] sceneNames;
+//
+//     private void OnEnable()
+//     {
+//         int sceneCount = UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings;
+//         sceneNames = new string[sceneCount];
+//
+//         for (int i = 0; i < sceneCount; i++)
+//         {
+//             string path = UnityEngine.SceneManagement.SceneUtility.GetScenePathByBuildIndex(i);
+//             sceneNames[i] = System.IO.Path.GetFileNameWithoutExtension(path);
+//         }
+//     }
+//
+//     public override void OnInspectorGUI()
+//     {
+//         serializedObject.Update();
+//
+//         LevelButton levelButton = (LevelButton)target;
+//         SerializedProperty sceneNameProp = serializedObject.FindProperty("sceneName");
+//         SerializedProperty clickSoundProp = serializedObject.FindProperty("clickSound");
+//         EditorGUILayout.PropertyField(clickSoundProp);
+//
+//         int currentIndex = System.Array.IndexOf(sceneNames, sceneNameProp.stringValue);
+//         if (currentIndex < 0) currentIndex = 0;
+//
+//         int selectedIndex = EditorGUILayout.Popup("Scene Name", currentIndex, sceneNames);
+//         sceneNameProp.stringValue = sceneNames[selectedIndex];
+//
+//         EditorGUILayout.PropertyField(serializedObject.FindProperty("unlockedByDefault"));
+//         EditorGUILayout.PropertyField(serializedObject.FindProperty("lockIcon"));
+//
+//         serializedObject.ApplyModifiedProperties();
+//     }
+// }
+// #endif
