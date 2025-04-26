@@ -5,12 +5,16 @@ public class LobbyMusicPlayer : AmbientSoundPlayer
 {
     private void Start()
     {
-        SkywardGame.Instance.levelLoading += LevelLoading;
+        GameSystem.PreLevelLoad += LevelLoading;
     }
 
-    private void LevelLoading(AsyncOperation obj)
+    private void LevelLoading(object sender, EventArgs args)
     {
-        SkywardGame.Instance.levelLoading -= LevelLoading;
         Stop();
+    }
+
+    private void OnDestroy()
+    {
+        GameSystem.PreLevelLoad -= LevelLoading;
     }
 }

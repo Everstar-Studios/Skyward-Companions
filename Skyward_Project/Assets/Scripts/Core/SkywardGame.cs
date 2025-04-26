@@ -2,11 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Sirenix.OdinInspector.Modules.Addressables.Editor;
 using Skyward.Core;
 using Skyward.Utils;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
@@ -16,16 +18,17 @@ public class SkywardGame : MonoBehaviour
     
     public GameObject gameManagerPrefab;
     public bool inLobby = false;
+    
     private GameObject GameManager { get; set; }
         
     private GameObject systemsGameObject;
     private GameContext context;
-
+    
     public GameFactory Factory => factory;
     private GameFactory factory;
     
     private List<ISystem> systems = new();
-
+    
     public event Action preLevelLoading;
     public event Action<AsyncOperation> levelLoading;
 
@@ -37,8 +40,6 @@ public class SkywardGame : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        
-        DontDestroyOnLoad(gameObject);
 
         Instance = this;
         
@@ -59,7 +60,7 @@ public class SkywardGame : MonoBehaviour
         context.Load();
         yield break;
     }
-
+    
     private IEnumerator LaunchedFromLevel()
     {
         yield return Initialize();
@@ -69,40 +70,20 @@ public class SkywardGame : MonoBehaviour
         yield return new WaitForEndOfFrame();
         OnLevelLoaded();
     }
-
-    public void LaunchLevel(AssetReference levelRef)
-    {
-        StartCoroutine(LaunchLevelInternal(levelRef));
-
-    }
-
-    private IEnumerator LaunchLevelInternal(AssetReference levelRef)
-    {
-        preLevelLoading?.Invoke();
-        yield return new WaitForEndOfFrame();
-        
-        // var async = SceneManager.LoadSceneAsync(sceneName);
-        // levelLoading?.Invoke(async);
-        // async.completed += LevelLoadCompleted;
-        var asnyc = Addressables.LoadAssetAsync<UnityEngine.Object>(levelRef);
-        asnyc.Completed += Completed;
-        NotifyLevelLoading();
-    }
-
-    private void Completed(AsyncOperationHandle<Object> obj)
+    
+    private void Completed(AsyncOperationHandle<SceneInstance> obj)
     {
         if (obj.Status == AsyncOperationStatus.Succeeded)
-            Instantiate(obj.Result);
+            obj.Result.ActivateAsync();
     }
 
-    private void LevelLoadCompleted(AsyncOperation async)
+    public void LevelLoadCompleted()
     {
-        async.completed -= LevelLoadCompleted;
         TrackPrespawnedObjects();
         OnLevelLoaded();
     }
 
-    private void OnLevelLoaded()
+    internal void OnLevelLoaded()
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -138,6 +119,7 @@ public class SkywardGame : MonoBehaviour
     
     private void TrackPrespawnedObjects()
     {
+        ComponentSystem.UntrackAll();
         foreach (var obj in FindObjectsByType<GameObject>(FindObjectsInactive.Include, FindObjectsSortMode.None).Where(obj => obj.transform.parent == null))
         {
             foreach (ICoreComponent coreComponent in obj.GetComponentsInChildren<ICoreComponent>(true))
@@ -181,12 +163,9 @@ public class SkywardGame : MonoBehaviour
         
         foreach (ISystem system in systems)
             system.Initialize(context);
-
-        
-        DontDestroyOnLoad(systemsGameObject);
     }
     
-    void NotifyLevelLoading()
+    internal void NotifyLevelLoading()
     {
         foreach (var system in systems)
             system.OnWorldLoading(context);
@@ -211,7 +190,6 @@ public class SkywardGame : MonoBehaviour
         CleanupAllComponents();
         ComponentSystem.UntrackAll();
         DestroyImmediate(GameManager.gameObject);
-        Destroy(systemsGameObject);
     }
 
     private void OnApplicationQuit()

@@ -1,10 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
+using System.Collections;
 using Skyward.Core;
 using Skyward.Systems;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.SceneManagement;
 
 [RequiredSystem]
@@ -13,6 +13,55 @@ public class GameSystem : BaseSystem<GameSystem>
     private SkywardGame gameInstance;
 
     private SceneInfo sceneInfo = new();
+    
+    public static event EventHandler LevelDownloadFailed
+    {
+        add => Instance.levelDownloadFailed += value;
+        remove => Instance.levelDownloadFailed -= value;
+    }
+
+    private event EventHandler levelDownloadFailed;
+    
+    public static event EventHandler<float> LevelDownloading
+    {
+        add => Instance.levelDownloading += value;
+        remove => Instance.levelDownloading -= value;
+    }
+
+    private event EventHandler<float> levelDownloading;
+    
+    public static event EventHandler LevelDownloaded
+    {
+        add => Instance.levelDownloaded += value;
+        remove => Instance.levelDownloaded -= value;
+    }
+
+    private event EventHandler levelDownloaded;
+    
+    public static event EventHandler PreLevelLoad
+    {
+        add => Instance.preLevelLoad += value;
+        remove => Instance.preLevelLoad -= value;
+    }
+
+    private event EventHandler preLevelLoad;
+    
+    public static event EventHandler<float> LevelLoading
+    {
+        add => Instance.levelLoading += value;
+        remove => Instance.levelLoading -= value;
+    }
+
+    private event EventHandler<float> levelLoading;
+    
+    public static event EventHandler LevelLoaded
+    {
+        add => Instance.levelLoaded += value;
+        remove => Instance.levelLoaded -= value;
+    }
+
+    private event EventHandler levelLoaded;
+    
     // TODO Omer: Send time
     public static event EventHandler LevelCompleted
     {
@@ -36,9 +85,68 @@ public class GameSystem : BaseSystem<GameSystem>
         gameInstance = Instance.GameContext.game;
     }
 
-    public static void LaunchLevel(AssetReference levelRef)
+    public static void RequestLevelLaunch(string levelKey)
     {
-        Instance.GameContext.game.LaunchLevel(levelRef);
+        Instance.StartCoroutine(Instance.RequestLevelLaunchCoroutine(levelKey));
+    }
+
+    private IEnumerator RequestLevelLaunchCoroutine(string levelKey)
+    {
+        preLevelLoad?.Invoke(this, EventArgs.Empty);
+        yield return new WaitForEndOfFrame();
+        
+        var sizeHandle = Addressables.GetDownloadSizeAsync(levelKey);
+        yield return sizeHandle;
+        
+        if (sizeHandle.Status != AsyncOperationStatus.Succeeded)
+        {
+            levelDownloadFailed?.Invoke(this, EventArgs.Empty);
+            Addressables.Release(sizeHandle);
+            yield break;
+        }
+
+        long bytes = sizeHandle.Result;
+        Addressables.Release(sizeHandle);
+        
+        if (bytes == 0)
+        {
+            yield return LaunchLevel(levelKey);
+            yield break;
+        }
+        
+        var downloadHandle = Addressables.DownloadDependenciesAsync(levelKey);
+        while (!downloadHandle.IsDone)
+        {
+            var status = downloadHandle.GetDownloadStatus();
+            levelDownloading?.Invoke(this, status.Percent);
+            yield return null;
+        }
+        
+        if (downloadHandle.Status != AsyncOperationStatus.Succeeded)
+        {
+            levelDownloadFailed?.Invoke(this, EventArgs.Empty);
+            Addressables.Release(downloadHandle);
+            yield break;
+        }
+        
+        Addressables.Release(downloadHandle);
+        levelDownloaded?.Invoke(this, EventArgs.Empty);
+        
+        yield return LaunchLevel(levelKey);
+    }
+
+    private IEnumerator LaunchLevel(string levelKey)
+    {
+        var levelHandle = Addressables.LoadSceneAsync(levelKey, LoadSceneMode.Additive);
+        gamecontext.game.NotifyLevelLoading();
+        while (!levelHandle.IsDone)
+        {
+            levelLoading?.Invoke(this, levelHandle.PercentComplete);
+            yield return null;
+        }
+        
+        levelLoaded?.Invoke(this, EventArgs.Empty);
+        gamecontext.game.LevelLoadCompleted();
     }
 
     public static void OnLevelCompleted()

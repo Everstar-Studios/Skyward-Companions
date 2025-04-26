@@ -16,6 +16,8 @@ public class LevelButton : UIButton, ISkywardComponent
 
     [AssetReferenceUILabelRestriction("Level")]
     public AssetReference levelRef;
+    
+    public AssetLabelReference levelLabel;
 
     private int sceneIndex;
 
@@ -49,7 +51,7 @@ public class LevelButton : UIButton, ISkywardComponent
         foreach (var levelButton in FindObjectsByType<LevelButton>(FindObjectsInactive.Include, FindObjectsSortMode.None))
             levelButton.Disable();
         
-        GameSystem.LaunchLevel(levelRef);
+        GameSystem.RequestLevelLaunch(levelLabel.labelString);
     }
 
     private void Disable()

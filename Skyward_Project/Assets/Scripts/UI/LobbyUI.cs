@@ -12,6 +12,7 @@ public class LobbyUI : MonoBehaviour
     [SerializeField]
     private SkywardGame game;
     
+    public GameObject mainPanel;
     public GameObject mainMenuScreen;
     public GameObject playScreen;
     public GameObject leaderboardScreen;
@@ -26,8 +27,6 @@ public class LobbyUI : MonoBehaviour
     private IEnumerator Start()
     {
         yield return game.Initialize();
-        game.preLevelLoading += PreLevelLoading;
-        game.levelLoading += LevelLoading;
         
         menus.Add(mainMenuScreen);
         menus.Add(namePanel);
@@ -37,6 +36,11 @@ public class LobbyUI : MonoBehaviour
         menus.Add(settingsScreen);
         menus.ForEach(g => g.SetActive(false));
         yield return new WaitUntil(() => PlayerSystem.Instance != null);
+        
+        GameSystem.PreLevelLoad += PreLevelLoading;
+        GameSystem.LevelLoading += LevelLoading;
+        GameSystem.LevelLoaded += LevelLoaded;
+        
         bool hasName = !string.IsNullOrEmpty(PlayerSystem.PlayerName);
         
         if (hasName)
@@ -52,29 +56,29 @@ public class LobbyUI : MonoBehaviour
 
     private void OnDestroy()
     {
-        game.preLevelLoading -= PreLevelLoading;
-        game.levelLoading -= LevelLoading;
+        GameSystem.PreLevelLoad -= PreLevelLoading;
+        GameSystem.LevelLoading -= LevelLoading;
+        GameSystem.LevelLoaded -= LevelLoaded;
     }
 
-    private void PreLevelLoading()
+    private void LevelLoaded(object sender, EventArgs args)
+    {
+        menus.ForEach(g => g.SetActive(false));
+        loadingScreen.SetActive(false);
+        mainPanel.SetActive(false);
+    }
+
+    private void PreLevelLoading(object sender, EventArgs args)
     {
         menus.ForEach(g => g.SetActive(false));
         loadingScreen.SetActive(true);
     }
 
-    private void LevelLoading(AsyncOperation async)
+    private Slider loadingScreenSlider;
+    private void LevelLoading(object sender, float progress)
     {
-        StartCoroutine(LoadingScreen(async));
-    }
-
-    public IEnumerator LoadingScreen(AsyncOperation async)
-    {
-        var slider = loadingScreen.GetComponentInChildren<Slider>();
-        while (!async.isDone)
-        {
-            slider.value = async.progress;
-            yield return null;
-        }
+        loadingScreenSlider = loadingScreen.GetComponentInChildren<Slider>();
+        loadingScreenSlider.value = progress;
     }
 
     private char NameChanged(string newName, char character)
