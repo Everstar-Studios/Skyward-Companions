@@ -40,9 +40,9 @@ public class LobbyUI : MonoBehaviour
         yield return Initialize();
     }
 
-    private IEnumerator Initialize()
+    private IEnumerator Initialize(bool reinitialization = false)
     {
-        yield return game.Initialize();
+        yield return game.Initialize(reinitialization);
         
         GameSystem.PreLevelLoad += PreLevelLoading;
         GameSystem.LevelLoading += LevelLoading;
@@ -72,15 +72,12 @@ public class LobbyUI : MonoBehaviour
     {
         Cleanup();
         mainPanel.SetActive(true);
-        StartCoroutine(Initialize());
+        StartCoroutine(Initialize(reinitialization: true));
     }
 
     private void OnDestroy()
     {
-        GameSystem.PreLevelLoad -= PreLevelLoading;
-        GameSystem.LevelLoading -= LevelLoading;
-        GameSystem.LevelLoaded -= LevelLoaded;
-        GameSystem.Quitting -= Quit;
+        Cleanup();
     }
 
     private void LevelLoaded(object sender, EventArgs args)

@@ -45,15 +45,19 @@ public class SkywardGame : MonoBehaviour
         }
     }
     
-    public IEnumerator Initialize()
+    public IEnumerator Initialize(bool reinitialization = false)
     {
         context = new GameContext(this);
         
         //CreateFactory();
-        CreateSystems();
+        if (!reinitialization)
+            CreateSystems();
+        
         CreateGameManager();
         context.Load();
-        yield break;
+        
+        yield return ConfigSystem.AllConfigurationsLoaded;
+        yield return new WaitForFixedUpdate();
     }
     
     private IEnumerator LaunchedFromLevel()

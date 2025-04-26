@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Sirenix.Utilities;
 using Skyward.Core;
 using UnityEngine;
@@ -12,6 +13,21 @@ public class ConfigSystem : BaseSystem<ConfigSystem>
 {
     private ConfigComponent configComponent;
     private Dictionary<Type, ScriptableObject> allConfigs = new();
+    
+    private List<AsyncOperationHandle> loadingConfigs = new ();
+    
+    public static IEnumerator AllConfigurationsLoaded
+    {
+        get
+        {
+            while (Instance == null)
+                yield return new WaitForEndOfFrame();
+    
+            while(Instance.loadingConfigs.Any())
+                yield return new WaitForFixedUpdate();
+        }
+    }
+    
     protected override void Initialize(GameContext context)
     {
         base.Initialize(context);
@@ -35,7 +51,9 @@ public class ConfigSystem : BaseSystem<ConfigSystem>
     {
         AsyncOperationHandle<ScriptableObject> handle;
         handle = assetRef.LoadAssetAsync<ScriptableObject>();
+        loadingConfigs.Add(handle);
         yield return handle;
+        loadingConfigs.Remove(handle);
 
         if (allConfigs.ContainsKey(handle.Result.GetType()))
             Debug.LogError($"[Core] Configuration of type {handle.Result.GetType().GetNiceName()} already exists.");
