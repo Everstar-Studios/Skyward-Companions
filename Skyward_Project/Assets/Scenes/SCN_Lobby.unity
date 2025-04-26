@@ -433,6 +433,50 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!1 &912354171
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 912354173}
+  - component: {fileID: 912354172}
+  m_Layer: 0
+  m_Name: FS System
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &912354172
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912354171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 967290df63c39ff4d951b0f682affa79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &912354173
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912354171}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &915848300
 GameObject:
   m_ObjectHideFlags: 1
@@ -945,10 +989,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 450047901603186409, guid: 735a04b16a974544ca03fcf1995f887b, type: 3}
+      propertyPath: levelRef.m_AssetGUID
+      value: 41dc88816f261204a8d7155c3d85f059
+      objectReference: {fileID: 0}
+    - target: {fileID: 450047901603186409, guid: 735a04b16a974544ca03fcf1995f887b, type: 3}
+      propertyPath: levelLabel.m_LabelString
+      value: IntroLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 450047901603186409, guid: 735a04b16a974544ca03fcf1995f887b, type: 3}
+      propertyPath: levelRef.m_EditorAssetChanged
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1016110788720789302, guid: 735a04b16a974544ca03fcf1995f887b, type: 3}
       propertyPath: game
       value: 
       objectReference: {fileID: 6207372247178217212}
+    - target: {fileID: 1533094984124539345, guid: 735a04b16a974544ca03fcf1995f887b, type: 3}
+      propertyPath: levelRef.m_AssetGUID
+      value: 45641cbcff46462489992a008968556e
+      objectReference: {fileID: 0}
+    - target: {fileID: 1533094984124539345, guid: 735a04b16a974544ca03fcf1995f887b, type: 3}
+      propertyPath: levelRef.m_EditorAssetChanged
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2487135238612570118, guid: 735a04b16a974544ca03fcf1995f887b, type: 3}
       propertyPath: m_Name
       value: GO_LobbyUI
@@ -977,3 +1041,4 @@ SceneRoots:
   - {fileID: 1108495543}
   - {fileID: 980040449}
   - {fileID: 636060734}
+  - {fileID: 912354173}
