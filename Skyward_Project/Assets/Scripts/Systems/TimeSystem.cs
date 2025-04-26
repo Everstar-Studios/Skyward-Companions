@@ -7,6 +7,7 @@ namespace Skyward.Systems
     [RequiredSystem]
     public class TimeSystem : BaseSystem<TimeSystem>, ISkywardComponent
     {
+        [Serializable]
         public class TimeData
         {
             public float timeAsSeconds;
@@ -26,9 +27,9 @@ namespace Skyward.Systems
         private bool cutscenePlaying;
         private bool startedMoving;
 
-        protected override void Initialize(GameContext context)
+        protected override void WorldLoading(GameContext context)
         {
-            base.Initialize(context);
+            base.WorldLoading(context);
 
             GameInputSystem.OnMove += OnCharacterStartedMoving;
             CutsceneSystem.CutsceneStarted += CutsceneStarted;
