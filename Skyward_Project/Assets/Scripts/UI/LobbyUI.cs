@@ -26,7 +26,8 @@ public class LobbyUI : MonoBehaviour
 
     private IEnumerator Start()
     {
-        yield return game.Initialize();
+        nameField.onEndEdit.AddListener(NameCreated);
+        nameField.onValidateInput += (input, charIndex, addedChar) => NameChanged(input, addedChar);
         
         menus.Add(mainMenuScreen);
         menus.Add(namePanel);
@@ -35,11 +36,18 @@ public class LobbyUI : MonoBehaviour
         menus.Add(loadingScreen);
         menus.Add(settingsScreen);
         menus.ForEach(g => g.SetActive(false));
-        yield return new WaitUntil(() => PlayerSystem.Instance != null);
+        
+        yield return Initialize();
+    }
+
+    private IEnumerator Initialize()
+    {
+        yield return game.Initialize();
         
         GameSystem.PreLevelLoad += PreLevelLoading;
         GameSystem.LevelLoading += LevelLoading;
         GameSystem.LevelLoaded += LevelLoaded;
+        GameSystem.Quitting += Quit;
         
         bool hasName = !string.IsNullOrEmpty(PlayerSystem.PlayerName);
         
@@ -50,8 +58,21 @@ public class LobbyUI : MonoBehaviour
         }
 
         OpenNameScreen();
-        nameField.onEndEdit.AddListener(NameCreated);
-        nameField.onValidateInput += (input, charIndex, addedChar) => NameChanged(input, addedChar);
+    }
+
+    private void Cleanup()
+    {
+        GameSystem.PreLevelLoad -= PreLevelLoading;
+        GameSystem.LevelLoading -= LevelLoading;
+        GameSystem.LevelLoaded -= LevelLoaded;
+        GameSystem.Quitting -= Quit;
+    }
+
+    private void Quit(object sender, EventArgs args)
+    {
+        Cleanup();
+        mainPanel.SetActive(true);
+        StartCoroutine(Initialize());
     }
 
     private void OnDestroy()
@@ -59,6 +80,7 @@ public class LobbyUI : MonoBehaviour
         GameSystem.PreLevelLoad -= PreLevelLoading;
         GameSystem.LevelLoading -= LevelLoading;
         GameSystem.LevelLoaded -= LevelLoaded;
+        GameSystem.Quitting -= Quit;
     }
 
     private void LevelLoaded(object sender, EventArgs args)

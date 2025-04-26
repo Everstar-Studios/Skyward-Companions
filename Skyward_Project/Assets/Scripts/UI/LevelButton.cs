@@ -32,27 +32,21 @@ public class LevelButton : UIButton, ISkywardComponent
         //     sceneIndex = i;
         //     break;
         // }
-        
+    }
+
+    private void OnEnable()
+    {
         Unlock();
     }
 
     public override void OnClick()
     {
-
         if (!unlockedByDefault && !GameSystem.IsLevelUnlocked(sceneIndex))
             return;
         
         base.OnClick();
-
-        foreach (var levelButton in FindObjectsByType<LevelButton>(FindObjectsInactive.Include, FindObjectsSortMode.None))
-            levelButton.Disable();
         
         GameSystem.RequestLevelLaunch(levelLabel.labelString);
-    }
-
-    private void Disable()
-    {
-        button.onClick.RemoveListener(OnClick);
     }
 
     public void Unlock()
@@ -60,6 +54,7 @@ public class LevelButton : UIButton, ISkywardComponent
         bool isUnlocked = unlockedByDefault || GameSystem.IsLevelUnlocked(sceneIndex);
         button.interactable = isUnlocked;
         lockIcon.SetActive(!isUnlocked);
+        
     }
 
     public void ForceUnlock()

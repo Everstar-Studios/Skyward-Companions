@@ -5,14 +5,15 @@ using Skyward.Systems;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
 [RequiredSystem]
 public class GameSystem : BaseSystem<GameSystem>
 {
-    private SkywardGame gameInstance;
-
     private SceneInfo sceneInfo = new();
+    private SceneInstance levelInstance;
+    private bool isLoading;
     
     public static event EventHandler LevelDownloadFailed
     {
@@ -70,7 +71,15 @@ public class GameSystem : BaseSystem<GameSystem>
     }
 
     private event EventHandler levelCompleted;
-
+    
+    private event EventHandler quitting;
+    
+    public static event EventHandler Quitting
+    {
+        add => Instance.quitting += value;
+        remove => Instance.quitting -= value;
+    }
+    
     protected override void Initialize(GameContext context)
     {
         base.Initialize(context);
@@ -78,20 +87,17 @@ public class GameSystem : BaseSystem<GameSystem>
         context.Store(sceneInfo);
     }
 
-    protected override void WorldLoading(GameContext context)
-    {
-        base.WorldLoading(context);
-
-        gameInstance = Instance.GameContext.game;
-    }
-
     public static void RequestLevelLaunch(string levelKey)
     {
+        if (Instance.isLoading)
+            return;
+        
         Instance.StartCoroutine(Instance.RequestLevelLaunchCoroutine(levelKey));
     }
-
+    
     private IEnumerator RequestLevelLaunchCoroutine(string levelKey)
     {
+        isLoading = true;
         preLevelLoad?.Invoke(this, EventArgs.Empty);
         yield return new WaitForEndOfFrame();
         
@@ -102,11 +108,15 @@ public class GameSystem : BaseSystem<GameSystem>
         {
             levelDownloadFailed?.Invoke(this, EventArgs.Empty);
             Addressables.Release(sizeHandle);
+            isLoading = false;
             yield break;
         }
 
         long bytes = sizeHandle.Result;
         Addressables.Release(sizeHandle);
+        
+        float mb = bytes / (1024f * 1024f);
+        Debug.Log($"Download size for '{levelKey}': {mb:0.#} MB");
         
         if (bytes == 0)
         {
@@ -126,6 +136,7 @@ public class GameSystem : BaseSystem<GameSystem>
         {
             levelDownloadFailed?.Invoke(this, EventArgs.Empty);
             Addressables.Release(downloadHandle);
+            isLoading = false;
             yield break;
         }
         
@@ -134,7 +145,7 @@ public class GameSystem : BaseSystem<GameSystem>
         
         yield return LaunchLevel(levelKey);
     }
-
+    
     private IEnumerator LaunchLevel(string levelKey)
     {
         var levelHandle = Addressables.LoadSceneAsync(levelKey, LoadSceneMode.Additive);
@@ -144,9 +155,11 @@ public class GameSystem : BaseSystem<GameSystem>
             levelLoading?.Invoke(this, levelHandle.PercentComplete);
             yield return null;
         }
-        
+
+        levelInstance = levelHandle.Result;
         levelLoaded?.Invoke(this, EventArgs.Empty);
         gamecontext.game.LevelLoadCompleted();
+        isLoading = false;
     }
 
     public static void OnLevelCompleted()
@@ -160,12 +173,13 @@ public class GameSystem : BaseSystem<GameSystem>
     public static void Quit()
     {
         Instance.GameContext.game.Quit();
+        Instance.quitting?.Invoke(Instance, EventArgs.Empty);
     }
     
     public static void MainMenu()
     {
         Quit();
-        SceneManager.LoadScene("SCN_Lobby");
+        Addressables.UnloadSceneAsync(Instance.levelInstance);
     }
 
     public static string GetCurrentLevelName()
