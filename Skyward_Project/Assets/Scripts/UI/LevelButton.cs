@@ -10,12 +10,8 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Button))]
 public class LevelButton : UIButton, ISkywardComponent
 {
-    public string sceneName;
     public bool unlockedByDefault = false;
     public GameObject lockIcon;
-
-    [AssetReferenceUILabelRestriction("Level")]
-    public AssetReference levelRef;
     
     public AssetLabelReference levelLabel;
 
@@ -25,17 +21,17 @@ public class LevelButton : UIButton, ISkywardComponent
     {
         base.Awake();
 
-        int sceneCount = SceneManager.sceneCountInBuildSettings;
-        for (int i = 0; i < sceneCount; i++)
-        {
-            string path = SceneUtility.GetScenePathByBuildIndex(i);
-            string name = Path.GetFileNameWithoutExtension(path);
-            if (!name.Equals(sceneName, StringComparison.OrdinalIgnoreCase)) 
-                continue;
-            
-            sceneIndex = i;
-            break;
-        }
+        // int sceneCount = SceneManager.sceneCountInBuildSettings;
+        // for (int i = 0; i < sceneCount; i++)
+        // {
+        //     string path = SceneUtility.GetScenePathByBuildIndex(i);
+        //     string name = Path.GetFileNameWithoutExtension(path);
+        //     if (!name.Equals(sceneName, StringComparison.OrdinalIgnoreCase)) 
+        //         continue;
+        //     
+        //     sceneIndex = i;
+        //     break;
+        // }
         
         Unlock();
     }
