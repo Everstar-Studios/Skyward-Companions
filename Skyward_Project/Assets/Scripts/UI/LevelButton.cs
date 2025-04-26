@@ -1,10 +1,9 @@
 using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using Skyward.Core;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
@@ -14,8 +13,9 @@ public class LevelButton : UIButton, ISkywardComponent
     public GameObject lockIcon;
     
     public AssetLabelReference levelLabel;
+    [SerializeField] private int levelIndex;
 
-    private int sceneIndex;
+    private int displayIndex;
 
     protected override void Awake()
     {
@@ -36,14 +36,14 @@ public class LevelButton : UIButton, ISkywardComponent
 
     private void OnEnable()
     {
-        Unlock();
+        displayIndex  = levelIndex + 1;
+        bool unlocked = displayIndex <= GameSystem.LastUnlockedLevel;
+        button.interactable = unlocked;
+        lockIcon.SetActive(!unlocked);
     }
 
     public override void OnClick()
     {
-        if (!unlockedByDefault && !GameSystem.IsLevelUnlocked(sceneIndex))
-            return;
-        
         base.OnClick();
         
         GameSystem.RequestLevelLaunch(levelLabel.labelString);
@@ -51,7 +51,7 @@ public class LevelButton : UIButton, ISkywardComponent
 
     public void Unlock()
     {
-        bool isUnlocked = unlockedByDefault || GameSystem.IsLevelUnlocked(sceneIndex);
+        bool isUnlocked = unlockedByDefault || GameSystem.IsLevelUnlocked(displayIndex);
         button.interactable = isUnlocked;
         lockIcon.SetActive(!isUnlocked);
         
@@ -65,46 +65,13 @@ public class LevelButton : UIButton, ISkywardComponent
         unlockedByDefault = true;
         Unlock();
     }
+    
+    private static int ParseLevelIndex(string label)
+    {
+        // expects LEVEL_01, LEVEL_02 … LEVEL_10 etc.
+        var match = Regex.Match(label, @"(\d+)$");
+        if (!match.Success)
+            throw new FormatException($"Label {label} doesn't end with digits.");
+        return int.Parse(match.Value);
+    }
 }
-
-// #if UNITY_EDITOR
-//
-// [CustomEditor(typeof(LevelButton))]
-// public class LevelButtonEditor : Editor
-// {
-//     private string[] sceneNames;
-//
-//     private void OnEnable()
-//     {
-//         int sceneCount = UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings;
-//         sceneNames = new string[sceneCount];
-//
-//         for (int i = 0; i < sceneCount; i++)
-//         {
-//             string path = UnityEngine.SceneManagement.SceneUtility.GetScenePathByBuildIndex(i);
-//             sceneNames[i] = System.IO.Path.GetFileNameWithoutExtension(path);
-//         }
-//     }
-//
-//     public override void OnInspectorGUI()
-//     {
-//         serializedObject.Update();
-//
-//         LevelButton levelButton = (LevelButton)target;
-//         SerializedProperty sceneNameProp = serializedObject.FindProperty("sceneName");
-//         SerializedProperty clickSoundProp = serializedObject.FindProperty("clickSound");
-//         EditorGUILayout.PropertyField(clickSoundProp);
-//
-//         int currentIndex = System.Array.IndexOf(sceneNames, sceneNameProp.stringValue);
-//         if (currentIndex < 0) currentIndex = 0;
-//
-//         int selectedIndex = EditorGUILayout.Popup("Scene Name", currentIndex, sceneNames);
-//         sceneNameProp.stringValue = sceneNames[selectedIndex];
-//
-//         EditorGUILayout.PropertyField(serializedObject.FindProperty("unlockedByDefault"));
-//         EditorGUILayout.PropertyField(serializedObject.FindProperty("lockIcon"));
-//
-//         serializedObject.ApplyModifiedProperties();
-//     }
-// }
-// #endif

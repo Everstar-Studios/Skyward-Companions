@@ -14,6 +14,8 @@ public class GameSystem : BaseSystem<GameSystem>
     private SceneInfo sceneInfo = new();
     private SceneInstance levelInstance;
     private bool isLoading;
+
+    public static int LastUnlockedLevel => Instance.sceneInfo.LastUnlocked;
     
     public static event EventHandler LevelDownloadFailed
     {
@@ -190,33 +192,50 @@ public class GameSystem : BaseSystem<GameSystem>
     private class SceneInfo : ISkywardSerializable
     {
         private int maxUnlockedLevelIndex;
+        private int currentLevelIndex;
+        
+        private const string Key = "LastUnlockedLevel";
         public void Serialize()
         {
-            PlayerPrefs.SetInt("MaxUnlockedLevelIndex", maxUnlockedLevelIndex);
+            if (maxUnlockedLevelIndex > 0)
+                PlayerPrefs.SetInt(Key, maxUnlockedLevelIndex);
         }
 
         public void Deserialize()
         {
-            maxUnlockedLevelIndex = PlayerPrefs.GetInt("MaxUnlockedLevelIndex");
+            maxUnlockedLevelIndex = PlayerPrefs.GetInt(Key, 1);
         }
         
+        public int LastUnlocked
+        {
+            get => PlayerPrefs.GetInt(Key, 1);
+            private set { PlayerPrefs.SetInt(Key, value); PlayerPrefs.Save(); }
+        }
+
+        public void Unlock(int levelIndex)
+        {
+            if (levelIndex > LastUnlocked) LastUnlocked = levelIndex;
+        }
+        
+        private static int FindIndex(string activeSceneName)
+        {
+            var levels = ConfigSystem.GetConfig<LevelConfig>().levels;
+            for (int i = 0; i < levels.Length; i++)
+                if (levels[i].sceneLabel.labelString == activeSceneName)
+                    return i;
+            Debug.LogWarning("LevelComplete: active scene not found in LevelList.");
+            return 0;
+        }
+        
+        public bool IsUnlocked(int index) => index <= LastUnlocked;
+
         public void MarkComplete()
         {
-            if (TryGetNextSceneName(out int maxUnlockedIndex))
-            {
-                maxUnlockedLevelIndex = maxUnlockedIndex;
-                PlayerPrefs.SetInt("MaxUnlockedLevelIndex", maxUnlockedLevelIndex);
-            }
+            var sceneName = UnityEngine.SceneManagement.SceneManager
+                .GetActiveScene().name;
+            currentLevelIndex = FindIndex(sceneName);
+            Unlock(currentLevelIndex + 2);
         }
-        
-        private bool TryGetNextSceneName(out int nextSceneIndex)
-        {
-            int currentIndex = SceneManager.GetActiveScene().buildIndex;
-            nextSceneIndex = currentIndex + 1;
-            return nextSceneIndex < SceneManager.sceneCountInBuildSettings;
-        }
-        
-        public bool IsUnlocked(int index) => index <= maxUnlockedLevelIndex;
     }
 
     public static bool IsLevelUnlocked(int index)
