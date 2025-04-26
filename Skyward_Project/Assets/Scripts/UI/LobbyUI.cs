@@ -17,6 +17,7 @@ public class LobbyUI : MonoBehaviour
     public GameObject playScreen;
     public GameObject leaderboardScreen;
     public GameObject loadingScreen;
+    public TMP_Text loadingText;
     public GameObject settingsScreen;
     public GameObject namePanel;
 
@@ -28,6 +29,7 @@ public class LobbyUI : MonoBehaviour
     {
         nameField.onEndEdit.AddListener(NameCreated);
         nameField.onValidateInput += (input, charIndex, addedChar) => NameChanged(input, addedChar);
+        loadingScreenSlider = loadingScreen.GetComponentInChildren<Slider>();
         
         menus.Add(mainMenuScreen);
         menus.Add(namePanel);
@@ -47,6 +49,7 @@ public class LobbyUI : MonoBehaviour
         GameSystem.PreLevelLoad += PreLevelLoading;
         GameSystem.LevelLoading += LevelLoading;
         GameSystem.LevelLoaded += LevelLoaded;
+        GameSystem.LevelDownloading += LevelDownloading;
         GameSystem.Quitting += Quit;
         
         bool hasName = !string.IsNullOrEmpty(PlayerSystem.PlayerName);
@@ -65,6 +68,7 @@ public class LobbyUI : MonoBehaviour
         GameSystem.PreLevelLoad -= PreLevelLoading;
         GameSystem.LevelLoading -= LevelLoading;
         GameSystem.LevelLoaded -= LevelLoaded;
+        GameSystem.LevelDownloading -= LevelDownloading;
         GameSystem.Quitting -= Quit;
     }
 
@@ -96,8 +100,14 @@ public class LobbyUI : MonoBehaviour
     private Slider loadingScreenSlider;
     private void LevelLoading(object sender, float progress)
     {
-        loadingScreenSlider = loadingScreen.GetComponentInChildren<Slider>();
         loadingScreenSlider.value = progress;
+        loadingText.text = "Loading...";
+    }
+    
+    private void LevelDownloading(object sender, float progress)
+    {
+        loadingScreenSlider.value = progress;
+        loadingText.text = "Downloading Level...";
     }
 
     private char NameChanged(string newName, char character)

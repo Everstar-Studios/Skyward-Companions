@@ -12,6 +12,5 @@ public class DebugUnlockAllLevelsButton : UIButton
         {
             levelButton.ForceUnlock();
         }
-        button.interactable = false;
     }
 }
