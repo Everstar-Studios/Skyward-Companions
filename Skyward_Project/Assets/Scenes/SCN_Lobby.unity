@@ -291,6 +291,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &623980970
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 623980972}
+  - component: {fileID: 623980971}
+  m_Layer: 0
+  m_Name: FS System
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &623980971
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623980970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 967290df63c39ff4d951b0f682affa79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &623980972
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623980970}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &636060732
 GameObject:
   m_ObjectHideFlags: 0
@@ -848,10 +892,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 250456693308797230, guid: 735a04b16a974544ca03fcf1995f887b, type: 3}
-      propertyPath: levelIndex
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 358947718970509348, guid: 735a04b16a974544ca03fcf1995f887b, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -936,25 +976,45 @@ PrefabInstance:
       propertyPath: game
       value: 
       objectReference: {fileID: 6207372247178217212}
-    - target: {fileID: 1533094984124539345, guid: 735a04b16a974544ca03fcf1995f887b, type: 3}
-      propertyPath: levelIndex
-      value: 1
+    - target: {fileID: 1374902723164344641, guid: 735a04b16a974544ca03fcf1995f887b, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 727.0212
       objectReference: {fileID: 0}
-    - target: {fileID: 1990768714214338754, guid: 735a04b16a974544ca03fcf1995f887b, type: 3}
-      propertyPath: levelIndex
-      value: 4
+    - target: {fileID: 1374902723164344641, guid: 735a04b16a974544ca03fcf1995f887b, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 119.8066
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374902723164344641, guid: 735a04b16a974544ca03fcf1995f887b, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.0000076294
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374902723164344641, guid: 735a04b16a974544ca03fcf1995f887b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -221
+      objectReference: {fileID: 0}
+    - target: {fileID: 1899060483043265698, guid: 735a04b16a974544ca03fcf1995f887b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2487135238612570118, guid: 735a04b16a974544ca03fcf1995f887b, type: 3}
       propertyPath: m_Name
       value: GO_LobbyUI
       objectReference: {fileID: 0}
-    - target: {fileID: 5355792289790560228, guid: 735a04b16a974544ca03fcf1995f887b, type: 3}
-      propertyPath: levelIndex
-      value: 5
+    - target: {fileID: 8291360725488067525, guid: 735a04b16a974544ca03fcf1995f887b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8844570480335425277, guid: 735a04b16a974544ca03fcf1995f887b, type: 3}
-      propertyPath: levelIndex
-      value: 3
+    - target: {fileID: 8660725605508612069, guid: 735a04b16a974544ca03fcf1995f887b, type: 3}
+      propertyPath: m_text
+      value: Loading...
+      objectReference: {fileID: 0}
+    - target: {fileID: 8660725605508612069, guid: 735a04b16a974544ca03fcf1995f887b, type: 3}
+      propertyPath: m_fontSize
+      value: 72
+      objectReference: {fileID: 0}
+    - target: {fileID: 8660725605508612069, guid: 735a04b16a974544ca03fcf1995f887b, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -981,3 +1041,4 @@ SceneRoots:
   - {fileID: 636060734}
   - {fileID: 912354173}
   - {fileID: 84794175}
+  - {fileID: 623980972}
