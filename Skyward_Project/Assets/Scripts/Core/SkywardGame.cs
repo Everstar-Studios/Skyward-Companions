@@ -48,8 +48,7 @@ public class SkywardGame : MonoBehaviour
     public IEnumerator Initialize()
     {
         context = new GameContext(this);
-
-        Configs.Init();
+        
         //CreateFactory();
         CreateSystems();
         CreateGameManager();
