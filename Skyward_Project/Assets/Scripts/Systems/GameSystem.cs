@@ -13,6 +13,7 @@ public class GameSystem : BaseSystem<GameSystem>
 {
     private SceneInfo sceneInfo = new();
     private SceneInstance levelInstance;
+    private AsyncOperationHandle<SceneInstance> levelHandle;
     private bool isLoading;
 
     public static int LastUnlockedLevel => Instance.sceneInfo.LastUnlocked;
@@ -150,9 +151,9 @@ public class GameSystem : BaseSystem<GameSystem>
     
     private IEnumerator LaunchLevel(string levelKey)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(4f);
         
-        var levelHandle = Addressables.LoadSceneAsync(levelKey, LoadSceneMode.Additive);
+        levelHandle = Addressables.LoadSceneAsync(levelKey, LoadSceneMode.Additive);
         gamecontext.game.NotifyLevelLoading();
         while (!levelHandle.IsDone)
         {
@@ -163,8 +164,7 @@ public class GameSystem : BaseSystem<GameSystem>
         isLoading = false;
         if (levelHandle.Status != AsyncOperationStatus.Succeeded)
             throw levelHandle.OperationException;
-
-        levelInstance = levelHandle.Result;
+        
         levelLoaded?.Invoke(this, EventArgs.Empty);
         gamecontext.game.LevelLoadCompleted();
     }
@@ -177,16 +177,30 @@ public class GameSystem : BaseSystem<GameSystem>
         MainMenu();
     }
 
-    public static void Quit()
+    private void OnApplicationQuit()
+    {
+        Quit();
+        Addressables.Release(Instance.levelHandle);
+    }
+
+    public static void MainMenu()
+    {
+        Instance.StartCoroutine(MainMenuInternal());
+        
+    }
+
+    private static void Quit()
     {
         Instance.GameContext.game.Quit();
         Instance.quitting?.Invoke(Instance, EventArgs.Empty);
     }
-    
-    public static void MainMenu()
+
+    private static IEnumerator MainMenuInternal()
     {
         Quit();
-        Addressables.UnloadSceneAsync(Instance.levelInstance);
+        var unloadHandle = Addressables.UnloadSceneAsync(Instance.levelHandle.Result);
+        yield return unloadHandle;
+        Addressables.Release(Instance.levelHandle);
     }
 
     public static string GetCurrentLevelName()

@@ -190,9 +190,4 @@ public class SkywardGame : MonoBehaviour
         ComponentSystem.UntrackAll();
         DestroyImmediate(GameManager.gameObject);
     }
-
-    private void OnApplicationQuit()
-    {
-        Quit();
-    }
 }
