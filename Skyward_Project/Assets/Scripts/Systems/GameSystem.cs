@@ -4,6 +4,7 @@ using Skyward.Core;
 using Skyward.Systems;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
@@ -88,6 +89,9 @@ public class GameSystem : BaseSystem<GameSystem>
         base.Initialize(context);
 
         context.Store(sceneInfo);
+        
+        ResourceManager.ExceptionHandler = (op, ex) =>
+            Debug.LogError($"Addressables handle {op.DebugName} failed: {ex}");
     }
 
     public static void RequestLevelLaunch(string levelKey)
@@ -123,6 +127,7 @@ public class GameSystem : BaseSystem<GameSystem>
         
         if (bytes == 0)
         {
+            yield return null;
             yield return LaunchLevel(levelKey);
             yield break;
         }
@@ -146,13 +151,12 @@ public class GameSystem : BaseSystem<GameSystem>
         Addressables.Release(downloadHandle);
         levelDownloaded?.Invoke(this, EventArgs.Empty);
         
+        yield return null;
         yield return LaunchLevel(levelKey);
     }
     
     private IEnumerator LaunchLevel(string levelKey)
     {
-        yield return new WaitForSeconds(4f);
-        
         levelHandle = Addressables.LoadSceneAsync(levelKey, LoadSceneMode.Additive);
         gamecontext.game.NotifyLevelLoading();
         while (!levelHandle.IsDone)
