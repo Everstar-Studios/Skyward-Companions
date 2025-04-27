@@ -1,10 +1,12 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class LobbyMusicPlayer : AmbientSoundPlayer
 {
-    private void Start()
+    private IEnumerator Start()
     {
+        yield return new WaitUntil(() => GameSystem.Instance != null);
         GameSystem.PreLevelLoad += LevelLoading;
     }
 
