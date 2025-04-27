@@ -160,10 +160,13 @@ public class GameSystem : BaseSystem<GameSystem>
             yield return null;
         }
 
+        isLoading = false;
+        if (levelHandle.Status != AsyncOperationStatus.Succeeded)
+            throw levelHandle.OperationException;
+
         levelInstance = levelHandle.Result;
         levelLoaded?.Invoke(this, EventArgs.Empty);
         gamecontext.game.LevelLoadCompleted();
-        isLoading = false;
     }
 
     public static void OnLevelCompleted()
