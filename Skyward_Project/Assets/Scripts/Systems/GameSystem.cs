@@ -150,6 +150,8 @@ public class GameSystem : BaseSystem<GameSystem>
     
     private IEnumerator LaunchLevel(string levelKey)
     {
+        yield return new WaitForSeconds(1f);
+        
         var levelHandle = Addressables.LoadSceneAsync(levelKey, LoadSceneMode.Additive);
         gamecontext.game.NotifyLevelLoading();
         while (!levelHandle.IsDone)
