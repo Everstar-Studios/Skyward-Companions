@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 3942798293956258859}
   - component: {fileID: 1001483497687750171}
   - component: {fileID: 7725184993013289387}
-  - component: {fileID: 7396283125584398929}
-  m_Layer: 0
+  - component: {fileID: 7900763737809157691}
+  - component: {fileID: 5742214360784978347}
+  m_Layer: 6
   m_Name: SM_wall_stoneblocks_ruins_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,9 +28,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8668355003514215476}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.70710677, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -7.098999, y: 0.07986069, z: -6.450989}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2373, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -87,8 +88,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &7396283125584398929
-MeshCollider:
+--- !u!65 &7900763737809157691
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -105,7 +106,25 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 7525366566605188955, guid: a078f9376ba67b34399b1920dee3be99, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 5.077758, y: 2.466103, z: 0.70249104}
+  m_Center: {x: 0.18097806, y: 1.225424, z: -0.005779758}
+--- !u!205 &5742214360784978347
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8668355003514215476}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0.18097806, y: 1.225424, z: -0.005779743}
+  m_Size: 5
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.05
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 7725184993013289387}
+  m_Enabled: 1

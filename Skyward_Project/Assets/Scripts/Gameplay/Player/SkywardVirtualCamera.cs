@@ -1,10 +1,11 @@
 using System;
+using Skyward.Core;
 using Skyward.Systems;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class SkywardVirtualCamera : MonoBehaviour
+public class SkywardVirtualCamera : MonoBehaviour, ISkywardComponent
 {
     private Vector2 lastInput;
     private float lastX;
@@ -15,6 +16,11 @@ public class SkywardVirtualCamera : MonoBehaviour
     private CinemachineInputAxisController controller;
     
     private bool IsTouchingScreen => Touchscreen.current != null && Touchscreen.current.primaryTouch.press.isPressed;
+
+    void ISkywardComponent.WorldLoaded(GameContext context)
+    {
+        gameObject.SetActive(true);
+    }
 
     private void Awake()
     {

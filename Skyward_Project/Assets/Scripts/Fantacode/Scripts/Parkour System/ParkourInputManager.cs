@@ -24,16 +24,12 @@ namespace FS_ParkourSystem
         public bool Drop { get; set; }
         public bool JumpFromHang { get; set; }
 
-#if inputsystem
         ParkourInputAction input;
-        private void OnEnable()
+        
+        void Start()
         {
             input = new ParkourInputAction();
             input.Enable();
-        }
-        
-        void ISkywardComponent.WorldLoaded()
-        {
             GameInputSystem.AddInputAction(input);
         }
         
@@ -41,7 +37,6 @@ namespace FS_ParkourSystem
         {
             input.Disable();
         }
-#endif
 
         private void Update()
         {
@@ -60,43 +55,23 @@ namespace FS_ParkourSystem
 
         void HandleJump()
         {
-#if inputsystem
             Jump = input.Parkour.Jump.inProgress;
-#else
-            Jump = Input.GetKey(jumpKey) || (String.IsNullOrEmpty(jumpButton) ? false : Input.GetButton(jumpButton));
-#endif
 
         }
 
         void HandleJumpKeyDown()
         {
-
-#if inputsystem
             JumpKeyDown = input.Parkour.Jump.WasPressedThisFrame();
-#else
-            JumpKeyDown = Input.GetKeyDown(jumpKey) || (String.IsNullOrEmpty(jumpButton) ? false : Input.GetButtonDown(jumpButton));
-#endif
-
         }
 
         void HandleDrop()
         {
-#if inputsystem
             Drop = input.Parkour.Drop.inProgress;
-#else
-            Drop = Input.GetKey(dropKey) || (String.IsNullOrEmpty(dropButton) ? false : Input.GetButton(dropButton));
-#endif
         }
 
         void HandleJumpFromHang()
         {
-#if inputsystem
             JumpFromHang = input.Parkour.JumpFromHang.inProgress;
-#else
-            JumpFromHang = Input.GetKey(jumpFromHangKey) || (String.IsNullOrEmpty(jumpFromHangButton) ? false : Input.GetButton(jumpFromHangButton));
-#endif
         }
-
-
     }
 }

@@ -9,7 +9,7 @@ public class UIQuestionManager : MonoBehaviour, ISkywardComponent
     [SerializeField]
     private TMP_Text questionText;
     
-    void ISkywardComponent.WorldLoaded()
+    void ISkywardComponent.WorldLoaded(GameContext context)
     {
         QuestionSystem.QuestionAsked += OnQuestionAsked;
         QuestionSystem.QuestionEnded += OnQuestionEnded;
@@ -22,14 +22,14 @@ public class UIQuestionManager : MonoBehaviour, ISkywardComponent
 
     private void OnQuestionEnded(object sender, EventArgs args)
     {
-        questionText.gameObject.SetActive(false);
+        gameObject.SetActive(false);
         questionText.text = String.Empty;
     }
 
 
     private void OnQuestionAsked(object sender, QuestionSystem.QuestionArgs args)
     {
-        questionText.gameObject.SetActive(true);
+        gameObject.SetActive(true);
         questionText.text = args.question;
     }
 }

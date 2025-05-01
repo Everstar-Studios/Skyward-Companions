@@ -5859,6 +5859,7 @@ GameObject:
   - component: {fileID: 4714229603545159168}
   - component: {fileID: 3971569804270633727}
   - component: {fileID: 4931067122157093104}
+  - component: {fileID: 4070066163993933166}
   m_Layer: 2
   m_Name: GO_Player
   m_TagString: Untagged
@@ -6108,7 +6109,7 @@ MonoBehaviour:
     m_Bits: 256
   <LedgeLayer>k__BackingField:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 0
 --- !u!95 &6758117796308664596
 Animator:
   serializedVersion: 7
@@ -6208,6 +6209,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19e1e13aa26baaa41b605a5e216c5a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4070066163993933166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2338293788737626659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c127b2031be937e438715f8ce6a271a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  footStepSounds:
+  - {fileID: 8300000, guid: b993df4a93c1d304ab19d8b2eb88c9a5, type: 3}
+  - {fileID: 8300000, guid: 5c9bdbce37b06a24fa6ea793bcfd1907, type: 3}
+  - {fileID: 8300000, guid: 0909de896e9029541b92ae05fe15e4b6, type: 3}
+  - {fileID: 8300000, guid: 6ad0cf00f050bee41a2dee098475dc78, type: 3}
+  - {fileID: 8300000, guid: 7ca5a9710db4327439c9f8cb8204615e, type: 3}
+  - {fileID: 8300000, guid: 14ae706fef2303e4cb71112dbd5d250b, type: 3}
+  - {fileID: 8300000, guid: b995bc1775ea83b4b8f861763e9a1424, type: 3}
+  - {fileID: 8300000, guid: d15f7338d693f0343843a6b9096d27f6, type: 3}
+  footStepParticles: []
+  overrideStepEffects: []
+  overrideType: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 577
+  soundIgnoreStates: 050000000400000006000000
+  particleIgnoreStates: 040000000500000006000000
+  adjustVolumeBasedOnSpeed: 1
+  minVolume: 0.2
 --- !u!1 &2350896360766133419
 GameObject:
   m_ObjectHideFlags: 0
@@ -25340,27 +25372,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4529602298990993906, guid: 1eaeeac7d8b1a244f86a179d382def32, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.2028198
+      value: 1.2028236
       objectReference: {fileID: 0}
     - target: {fileID: 4529602298990993906, guid: 1eaeeac7d8b1a244f86a179d382def32, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.8148804
+      value: -3.8148677
       objectReference: {fileID: 0}
     - target: {fileID: 4529602298990993906, guid: 1eaeeac7d8b1a244f86a179d382def32, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99962157
+      value: 0.99954367
       objectReference: {fileID: 0}
     - target: {fileID: 4529602298990993906, guid: 1eaeeac7d8b1a244f86a179d382def32, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.026961803
+      value: -0.02695972
       objectReference: {fileID: 0}
     - target: {fileID: 4529602298990993906, guid: 1eaeeac7d8b1a244f86a179d382def32, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.005460127
+      value: 0.013621537
       objectReference: {fileID: 0}
     - target: {fileID: 4529602298990993906, guid: 1eaeeac7d8b1a244f86a179d382def32, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.00014727062
+      value: 0.0003674004
       objectReference: {fileID: 0}
     - target: {fileID: 4529602298990993906, guid: 1eaeeac7d8b1a244f86a179d382def32, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

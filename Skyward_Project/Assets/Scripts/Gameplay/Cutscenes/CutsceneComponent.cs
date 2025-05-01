@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
+using UnityEngine.UI;
 using UnityEngine.Video;
 
 public class CutsceneComponent : MonoBehaviour, ISkywardComponent
@@ -36,12 +37,23 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     
     private Coroutine recognitionCoroutine;
     private bool hasPlayed;
+    private bool isPlaying;
 
     private PlayableDirector director;
     private VideoPlayer videoPlayer;
 
-    void ISkywardComponent.WorldLoaded()
+    private RenderTexture renderTexture;
+
+    void ISkywardComponent.WorldLoaded(GameContext context)
     {
+        StartCoroutine(Setup());
+
+    }
+
+    private IEnumerator Setup()
+    {
+        yield return new WaitForEndOfFrame();
+        
         if (cutsceneType == ECutsceneType.Timeline && Timeline != null)
             SetupPlayableDirector();
         else if (cutsceneType == ECutsceneType.Video && VideoClip != null)
@@ -70,10 +82,7 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
         videoPlayer.playOnAwake = playOnAwake;
         videoPlayer.clip = VideoClip;
         videoPlayer.loopPointReached += OnVideoEnded;
-        // TODO Omer: To be changed to Render Texture soon
-        videoPlayer.renderMode = VideoRenderMode.CameraNearPlane;
-        videoPlayer.aspectRatio = VideoAspectRatio.Stretch;
-        videoPlayer.targetCamera = CameraSystem.Camera;
+        videoPlayer.targetTexture = renderTexture;
         videoPlayer.Prepare();
     }
 
@@ -102,7 +111,7 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
             if (hasPlayed)
                 yield break;
             
-            if (IsPlayerInColliderBounds(trigger))
+            if (IsPlayerInColliderBounds())
                 Play();
 
             yield return new WaitForFixedUpdate();
@@ -112,40 +121,73 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     private void Play()
     {
         hasPlayed = true;
+        isPlaying = true;
         
         if (director != null)
             CutsceneSystem.Play(director);
         else if (videoPlayer != null)
+        {
+            if (renderTexture != null)
+            {
+                renderTexture.Release();
+                Destroy(renderTexture);
+            }
+            
+            renderTexture = new RenderTexture(Screen.width, Screen.height, 0);
+            renderTexture.Create();
+            videoPlayer.targetTexture = renderTexture;
+            GameManager.Instance.GameHUD.cutsceneRawImage.texture = renderTexture;
             CutsceneSystem.Play(videoPlayer);
+            CutsceneSystem.CutsceneSkipped += SkipCutscene;
+        }
 
         if (disableInput)
             GameInputSystem.DisableInput();
+        
+        AudioSystem.Pause();
+        CameraSystem.DisableCamera();
         
         onCutsceneStarted?.Invoke();
     }
     
     private void OnCutsceneEnd(PlayableDirector _)
     {
-        onCutsceneStopped?.Invoke();
-        director.Stop();
+        OnEnd();
         CutsceneSystem.OnCutsceneEnded(director);
-        
-        if (disableInput)
-            GameInputSystem.EnableInput();
+        CutsceneSystem.CutsceneSkipped -= SkipCutscene;
+        director.Stop();
+        Destroy(director);
     }
     
     private void OnVideoEnded(VideoPlayer _)
     {
-        onCutsceneStopped?.Invoke();
-        videoPlayer.Stop();
+        OnEnd();
         CutsceneSystem.OnVideoEnded(videoPlayer);
-        
+        videoPlayer.Stop();
+        Destroy(videoPlayer);
+    }
+
+    private void OnEnd()
+    {
+        isPlaying = false;
+        onCutsceneStopped?.Invoke();
         if (disableInput)
             GameInputSystem.EnableInput();
+        
+        CameraSystem.EnableCamera();
+        AudioSystem.Unpause();
     }
-    
-    private static bool IsPlayerInColliderBounds(Collider collider)
+
+    private bool IsPlayerInColliderBounds()
     {
-        return collider.bounds.Contains(PlayerSystem.Player.transform.position);
+        return trigger.bounds.Contains(PlayerSystem.Player.transform.position);
+    }
+
+    private void SkipCutscene(object sender, EventArgs args)
+    {
+        if (videoPlayer != null)
+            OnVideoEnded(videoPlayer);
+        else if (director != null)
+            OnCutsceneEnd(director);
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Skyward.Utils;
 using UnityEngine;
@@ -184,6 +185,7 @@ namespace Skyward.Characters
             _walkSpeed = walkSpeed;
             _runSpeed = runSpeed;
             _sprintSpeed = sprintSpeed;
+            characterController = GetComponent<CharacterController>();
         }
 
         void Start()
@@ -192,7 +194,7 @@ namespace Skyward.Characters
             cameraGameObject = playerController.cameraGameObject;
             animator = GetComponent<Animator>();
             environmentScanner = GetComponent<EnvironmentScanner>();
-            characterController = GetComponent<CharacterController>();
+
             inputManager = GetComponent<LocomotionInputManager>();
             controllerDefaultHeight = characterController.height;
             controllerDefaultYOffset = characterController.center.y;
@@ -203,6 +205,9 @@ namespace Skyward.Characters
 
         private void OnAnimatorIK(int layerIndex)
         {
+            if (cameraGameObject == null)
+                return;
+            
             var hipPos = animator.GetBoneTransform(HumanBodyBones.Hips).transform;
             var headPos = animator.GetBoneTransform(HumanBodyBones.Head).transform.position;
 
@@ -249,6 +254,24 @@ namespace Skyward.Characters
 
         public override void HandleUpdate()
         {
+            if (isGrounded && groundColliders[0].transform.TryGetComponentInParent(out MovingPlatform platform))
+            {
+                if (!isParentedToPlatform)
+                {
+                    SteppedOnPlatform(platform);
+                }
+                else if (platform != lastPlatform)
+                {
+                    SteppedOnPlatform(platform);
+                }
+            }
+            else if (isParentedToPlatform)
+            {
+                transform.parent = null;
+                lastPlatform = null;
+                isParentedToPlatform = false;
+            }
+            
             if (preventLocomotion || UseRootMotion)
             {
                 ySpeed = Gravity / 4;
@@ -399,25 +422,6 @@ namespace Skyward.Characters
             velocity.y = ySpeed;
 
             currentSpeed.y = ySpeed;
-
-            if (isGrounded && groundColliders[0].transform.TryGetComponentInParent(out MovingPlatform platform))
-            {
-                currentSpeed.y = 0;
-                if (!isParentedToPlatform)
-                {
-                    transform.parent = platform.transform;
-                    lastPlatform = platform;
-                    platform.OnPlayerStepped();
-                    isParentedToPlatform = true;
-                }
-            }
-            else if (isParentedToPlatform)
-            {
-                transform.parent = null;
-                lastPlatform.OnPlayerLeft();
-                lastPlatform = null;
-                isParentedToPlatform = false;
-            }
             
             characterController.Move(currentSpeed * Time.deltaTime);
             currentSpeed.y = 0;
@@ -438,6 +442,14 @@ namespace Skyward.Characters
             }
             else
                 targetRotation = transform.rotation;
+        }
+
+        private void SteppedOnPlatform(MovingPlatform platform)
+        {
+            transform.parent = platform.transform;
+            lastPlatform = platform;
+            platform.OnPlayerStepped();
+            isParentedToPlatform = true;
         }
 
         private bool isParentedToPlatform;
@@ -681,16 +693,27 @@ namespace Skyward.Characters
                 StartCoroutine(HandleVerticalJump());
         }
 
-        public IEnumerator HandleVerticalJump()
+        public IEnumerator ForceJump(float force)
+        {
+            yield return HandleVerticalJump(force);
+        }
+
+
+        public IEnumerator HandleVerticalJump(float force = 0f)
         {
             yield return new WaitForFixedUpdate();
 
             if (playerController.CurrentSystemState != State) yield break;
 
+            var jumpSounds = Configs.PlayerConfig.jumpSounds;
+            AudioSystem.PlayRandom(jumpSounds);
+            if (force <= float.Epsilon)
+                force = Mathf.Abs(Gravity);
+                
             jumpMaxPosY = transform.position.y - 1;
             var velocity = Vector3.zero;
             //Calculates the initial vertical velocity required for jumping
-            var velocityY = Mathf.Abs(Gravity) * timeToJump;
+            var velocityY = Mathf.Abs(force) * timeToJump;
             preventLocomotion = true;
             currentSpeed *= 0.1f;
 
@@ -738,6 +761,7 @@ namespace Skyward.Characters
             jumpHeightDiff = Mathf.Abs(jumpMaxPosY - transform.position.y);
             if (jumpHeightDiff > minJumpHeightForHardland)
             {
+                AudioSystem.PlayRandom(Configs.PlayerConfig.hardLandingSounds);
                 characterController.Move(Vector3.down);
                 var halfExtends = new Vector3(.3f, .9f, 0.01f);
                 var hasSpaceForRoll = Physics.BoxCast(transform.position + Vector3.up, halfExtends, transform.forward, Quaternion.LookRotation(transform.forward), 2.5f, environmentScanner.ObstacleLayer);
@@ -757,7 +781,10 @@ namespace Skyward.Characters
                 OnEndSystem(this);
             }
             else
+            {
+                AudioSystem.PlayRandom(Configs.PlayerConfig.softLandingSounds);
                 animator.CrossFadeInFixedTime("LandAndStepForward", .1f);
+            }
         }
         public bool isOnLedge { get; set; }
 

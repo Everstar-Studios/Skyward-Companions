@@ -23,18 +23,19 @@ public class QuestionComponent : MonoBehaviour, ISkywardComponent
 
     private bool questionAddressed = false;
 
-    void ISkywardComponent.WorldLoaded()
+    void ISkywardComponent.WorldLoaded(GameContext context)
     {
         StartCoroutine(RecognizePlayer());
     }
 
     private IEnumerator RecognizePlayer()
     {
+        yield return new WaitUntil(() => PlayerSystem.Player != null);
         Transform player = PlayerSystem.Player.transform;
         
         while (!questionAddressed)
         {
-            if (!IsPlayerNearby(player))
+            if (!IsPlayerNearby())
             {
                 if (questionAsked)
                     OnQuestionEnded();
@@ -52,7 +53,11 @@ public class QuestionComponent : MonoBehaviour, ISkywardComponent
         }
     }
 
-    private bool IsPlayerNearby(Transform player) => Vector3.SqrMagnitude(transform.position - player.position) < triggerRadius * triggerRadius;
+    private bool IsPlayerNearby()
+    {
+        Vector3 position = transform.position;
+        return Vector3.Distance(position, PlayerSystem.Player.player.Collider.ClosestPoint(position)) < triggerRadius;
+    }
 
     private void AskQuestion()
     {

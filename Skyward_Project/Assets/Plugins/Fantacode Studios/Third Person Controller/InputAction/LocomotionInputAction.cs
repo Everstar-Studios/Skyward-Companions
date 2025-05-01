@@ -163,7 +163,7 @@ public partial class @LocomotionInputAction: IInputActionCollection2, IDisposabl
                     ""id"": ""99bcbf85-9a33-4dda-987e-92ca243bfd79"",
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
-                    ""processors"": ""ScaleVector2(x=100,y=100)"",
+                    ""processors"": ""ScaleVector2(x=180,y=180)"",
                     ""groups"": """",
                     ""action"": ""CameraInput"",
                     ""isComposite"": false,

@@ -7,9 +7,14 @@ using UnityEngine;
 public class DeathZoneComponent : MonoBehaviour, ISkywardComponent
 {
     [SerializeField] public Collider trigger;
-    
-    void ISkywardComponent.WorldLoaded()
+
+    private void Awake()
     {
-        CheckpointSystem.AddDeathZone(this);
+        trigger.isTrigger = true;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        CheckpointSystem.EnteredDeathZone();
     }
 }

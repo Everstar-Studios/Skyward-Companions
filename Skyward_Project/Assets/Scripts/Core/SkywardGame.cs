@@ -12,6 +12,7 @@ public class SkywardGame : MonoBehaviour
     public static SkywardGame Instance { get; private set; }
     
     public GameObject gameManagerPrefab;
+    public bool inLobby = false;
     private GameObject GameManager { get; set; }
         
     private GameObject systemsGameObject;
@@ -19,6 +20,12 @@ public class SkywardGame : MonoBehaviour
 
     public GameFactory Factory => factory;
     private GameFactory factory;
+    
+    private List<ISystem> systems = new();
+
+    public event Action preLevelLoading;
+    public event Action<AsyncOperation> levelLoading;
+
 
     private void Awake()
     {
@@ -31,28 +38,56 @@ public class SkywardGame : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         Instance = this;
-    }
-
-    private IEnumerator Start()
-    {
-        if (FindAnyObjectByType<Lobby>() == null)
+        
+        if (!inLobby)
         {
-            yield return Initialize(new GameSettings());
-            OnLevelLoaded();
+            StartCoroutine(LaunchedFromLevel());
         }
     }
     
-    public void LaunchLevel(int sceneIndex)
+    public IEnumerator Initialize()
     {
-        InitializeSystems();
-        
-        var async = SceneManager.LoadSceneAsync(sceneIndex);
-        async.completed += OnLevelLoaded;
+        context = new GameContext(this);
+
+        Configs.Init();
+        //CreateFactory();
+        CreateSystems();
+        CreateGameManager();
+        context.Load();
+        yield break;
     }
 
-    private void OnLevelLoaded(AsyncOperation operation)
+    private IEnumerator LaunchedFromLevel()
     {
-        operation.completed -= OnLevelLoaded;
+        yield return Initialize();
+        TrackPrespawnedObjects();
+        NotifyLevelLoading();
+
+        yield return new WaitForEndOfFrame();
+        OnLevelLoaded();
+    }
+
+    public void LaunchLevel(string sceneName)
+    {
+        StartCoroutine(LaunchLevelInternal(sceneName));
+
+    }
+
+    private IEnumerator LaunchLevelInternal(string sceneName)
+    {
+        preLevelLoading?.Invoke();
+        yield return new WaitForEndOfFrame();
+        
+        var async = SceneManager.LoadSceneAsync(sceneName);
+        levelLoading?.Invoke(async);
+        async.completed += LevelLoadCompleted;
+        NotifyLevelLoading();
+    }
+
+    private void LevelLoadCompleted(AsyncOperation async)
+    {
+        async.completed -= LevelLoadCompleted;
+        TrackPrespawnedObjects();
         OnLevelLoaded();
     }
 
@@ -61,23 +96,13 @@ public class SkywardGame : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         
-        TrackPrespawnedObjects();
         NotifyWorldLoaded();
     }
 
     private void NotifyWorldLoaded()
     {
         foreach (var comp in ComponentSystem.GetAllComponents<ISkywardComponent>())
-            comp.WorldLoaded();
-    }
-
-    public IEnumerator Initialize(GameSettings settings)
-    {
-        context = new GameContext(this);
-        
-        CreateSystems();
-        CreateGameManager();
-        yield break;
+            comp.WorldLoaded(context);
     }
     
     void CreateFactory()
@@ -97,8 +122,7 @@ public class SkywardGame : MonoBehaviour
 
     private void CreateGameManager()
     {
-        if (GameManager == null)
-            GameManager = Instantiate(gameManagerPrefab);
+        GameManager = Instantiate(gameManagerPrefab);
     }
     
     private void TrackPrespawnedObjects()
@@ -111,33 +135,50 @@ public class SkywardGame : MonoBehaviour
             }
         }
     }
+    
+    private void CleanupAllComponents()
+    {
+        foreach (ISkywardComponent component in ComponentSystem.GetAllComponents<ISkywardComponent>(true))
+        {
+            component.Cleanup();
+        }
+        
+        foreach (ISystem system in ComponentSystem.GetAllComponents<ISystem>(true))
+        {
+            system.Cleanup();
+        }
+    }
 
     void CreateSystems()
     {
         if (systemsGameObject == null)
             systemsGameObject = new GameObject("Systems");
-
+        
         foreach (Type systemType in AllRequiredSystems())
         {
             if (systemsGameObject.TryGetComponent(systemType, out _))
                 continue;
 
             systemsGameObject.AddComponent(systemType);
-            
-            Component systemComponent = (Component)FindAnyObjectByType(systemType);
-            if (systemComponent is BaseSystem system)
+            Component systemComponent = systemsGameObject.GetComponent(systemType);
+            if (systemComponent is BaseSystem baseSystem)
             {
-                system.gamecontext = context;
+                baseSystem.gamecontext = context;
+                systems.Add(baseSystem);
             }
         }
+        
+        foreach (ISystem system in systems)
+            system.Initialize(context);
+
         
         DontDestroyOnLoad(systemsGameObject);
     }
     
-    void InitializeSystems()
+    void NotifyLevelLoading()
     {
-        foreach (var system in ComponentSystem<ISystem>.Components)
-            system.Initialize(context);
+        foreach (var system in systems)
+            system.OnWorldLoading(context);
     }
     
     private static IEnumerable<Type> AllRequiredSystems()
@@ -148,11 +189,22 @@ public class SkywardGame : MonoBehaviour
         }
     }
 
+    public void Quit()
+    {
+        context.Save();
+        DestroyAll();
+    }
+
+    private void DestroyAll()
+    {
+        CleanupAllComponents();
+        ComponentSystem.UntrackAll();
+        DestroyImmediate(GameManager.gameObject);
+        Destroy(systemsGameObject);
+    }
+
     private void OnApplicationQuit()
     {
-        foreach (var skywardComponent in ComponentSystem.GetAllComponents<ISkywardComponent>())
-        {
-            skywardComponent.Cleanup();
-        }
+        Quit();
     }
 }

@@ -9,7 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1030992679}
-  m_Layer: 0
+  - component: {fileID: 1097546614507909973}
+  m_Layer: 6
   m_Name: PF_Campfire_Rocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23,15 +24,34 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1030992678}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.7399437, y: 1.7399437, z: 1.7399437}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1030992682}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!205 &1097546614507909973
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1030992678}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0.0050667524, y: 0.11495496, z: -0.091905355}
+  m_Size: 0.3
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 1030992683}
+  m_Enabled: 1
 --- !u!1 &1030992681
 GameObject:
   m_ObjectHideFlags: 0
@@ -43,7 +63,8 @@ GameObject:
   - component: {fileID: 1030992682}
   - component: {fileID: 1030992683}
   - component: {fileID: 1030992684}
-  m_Layer: 0
+  - component: {fileID: 7046600098025631289}
+  m_Layer: 6
   m_Name: SM_Campfire_Rocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,13 +78,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1030992681}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1030992679}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1030992683
 MeshRenderer:
@@ -82,6 +103,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -115,3 +139,24 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1030992681}
   m_Mesh: {fileID: 4300000, guid: abc00000000004575012278594156302, type: 3}
+--- !u!65 &7046600098025631289
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1030992681}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.3883494, y: 0.31994992, z: 1.4085094}
+  m_Center: {x: 0.005066782, y: 0.11495498, z: -0.09190535}
