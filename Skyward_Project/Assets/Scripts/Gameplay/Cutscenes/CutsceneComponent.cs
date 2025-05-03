@@ -158,6 +158,7 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
         director.Stop();
         Destroy(director);
 
+        // UI'de eski görüntü kalmasın
         if (GameManager.Instance.GameHUD.cutsceneRawImage != null)
         GameManager.Instance.GameHUD.cutsceneRawImage.texture = null;
 
@@ -171,6 +172,20 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
         CutsceneSystem.OnVideoEnded(videoPlayer);
         videoPlayer.Stop();
         Destroy(videoPlayer);
+        
+        // RenderTexture'ı temizle ve bellekten at
+        if (renderTexture != null)
+        {
+            renderTexture.Release();
+            Destroy(renderTexture);
+            renderTexture = null;
+        }
+
+        if (GameManager.Instance.GameHUD.cutsceneRawImage != null)
+            GameManager.Instance.GameHUD.cutsceneRawImage.texture = null;
+
+        // İstersen Cutscene GameObject'ini pasif yapabilirsin:
+        // gameObject.SetActive(false);
     }
 
     private void OnEnd()
