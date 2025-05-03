@@ -157,6 +157,12 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
         CutsceneSystem.CutsceneSkipped -= SkipCutscene;
         director.Stop();
         Destroy(director);
+
+        if (GameManager.Instance.GameHUD.cutsceneRawImage != null)
+        GameManager.Instance.GameHUD.cutsceneRawImage.texture = null;
+
+        // Gerekirse objeyi devre dışı bırak
+        gameObject.SetActive(false);
     }
     
     private void OnVideoEnded(VideoPlayer _)
@@ -174,6 +180,9 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
         if (disableInput)
             GameInputSystem.EnableInput();
         
+        if (GameManager.Instance.GameHUD.cutsceneRawImage != null)
+            GameManager.Instance.GameHUD.cutsceneRawImage.texture = null;
+
         CameraSystem.EnableCamera();
         AudioSystem.Unpause();
     }
