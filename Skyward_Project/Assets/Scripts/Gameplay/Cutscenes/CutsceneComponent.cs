@@ -29,10 +29,6 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     [SerializeField] private UnityEvent onCutsceneStarted;
     [SerializeField] private UnityEvent onCutsceneStopped;
 
-    [SerializeField] private RectTransform[] resetTransforms;
-    private Vector3[] originalPositions;
-    private Vector3[] originalScales;
-
     private Coroutine recognitionCoroutine;
     private bool hasPlayed;
     private bool isPlaying;
@@ -57,14 +53,12 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
             SetupVideoPlayer();
 
         if (!playOnAwake && trigger == null)
-            Debug.LogError($"The Cutscene on the object {gameObject.name} will not play because {nameof(playOnAwake)} is false and collider is not set.");
+            Debug.LogError($"Cutscene on {gameObject.name} will not play: Trigger not set.");
 
         if (playOnAwake)
             Play();
         else if (trigger != null)
             recognitionCoroutine = StartCoroutine(RecognizePlayer());
-
-        CacheOriginalTransformStates();
     }
 
     private void SetupPlayableDirector()
@@ -161,7 +155,6 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
         OnEnd();
         CutsceneSystem.OnCutsceneEnded(director);
         CutsceneSystem.CutsceneSkipped -= SkipCutscene;
-
         director.Stop();
         Destroy(director);
     }
@@ -197,8 +190,6 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
         {
             GameManager.Instance.GameHUD.cutsceneRawImage.texture = null;
         }
-
-        ResetTransformStates();
     }
 
     private bool IsPlayerInColliderBounds()
@@ -212,34 +203,5 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
             OnVideoEnded(videoPlayer);
         else if (director != null)
             OnCutsceneEnd(director);
-    }
-
-    private void CacheOriginalTransformStates()
-    {
-        if (resetTransforms == null || resetTransforms.Length == 0) return;
-
-        originalPositions = new Vector3[resetTransforms.Length];
-        originalScales = new Vector3[resetTransforms.Length];
-
-        for (int i = 0; i < resetTransforms.Length; i++)
-        {
-            originalPositions[i] = resetTransforms[i].anchoredPosition3D;
-            originalScales[i] = resetTransforms[i].localScale;
-        }
-    }
-
-    private void ResetTransformStates()
-    {
-        if (resetTransforms == null || originalPositions == null) return;
-
-        for (int i = 0; i < resetTransforms.Length; i++)
-        {
-            resetTransforms[i].anchoredPosition3D = originalPositions[i];
-            resetTransforms[i].localScale = originalScales[i];
-
-            // 🔁 Bu satırlar glitch'i çözer: UI öğesini yeniden çizdirir
-            resetTransforms[i].gameObject.SetActive(false);
-            resetTransforms[i].gameObject.SetActive(true);
-        }
     }
 }
