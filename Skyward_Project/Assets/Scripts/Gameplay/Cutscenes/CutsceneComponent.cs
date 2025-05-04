@@ -7,7 +7,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
-using UnityEngine.UI;
 using UnityEngine.Video;
 
 public class CutsceneComponent : MonoBehaviour, ISkywardComponent
@@ -17,43 +16,38 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
         Timeline,
         Video
     }
-    
-    [SerializeField]
-    private bool playOnAwake;
-    [SerializeField]
-    private ECutsceneType cutsceneType;
+
+    [SerializeField] private bool playOnAwake;
+    [SerializeField] private ECutsceneType cutsceneType;
     [field: SerializeField, ShowIf("@cutsceneType == ECutsceneType.Timeline")]
     public TimelineAsset Timeline { get; private set; }
     [field: SerializeField, ShowIf("@cutsceneType == ECutsceneType.Video")]
     public VideoClip VideoClip { get; private set; }
-    [SerializeField] 
-    private Collider trigger;
-    [SerializeField] 
-    private bool disableInput = true;
-    [SerializeField] 
-    private UnityEvent onCutsceneStarted;
-    [SerializeField]
-    private UnityEvent onCutsceneStopped;
+
+    [SerializeField] private Collider trigger;
+    [SerializeField] private bool disableInput = true;
+    [SerializeField] private UnityEvent onCutsceneStarted;
+    [SerializeField] private UnityEvent onCutsceneStopped;
     
+
     private Coroutine recognitionCoroutine;
     private bool hasPlayed;
     private bool isPlaying;
 
     private PlayableDirector director;
     private VideoPlayer videoPlayer;
-
     private RenderTexture renderTexture;
 
     void ISkywardComponent.WorldLoaded(GameContext context)
     {
+        GameManager.Instance.GameHUD.cutsceneRawImage.texture = null; // başlangıçta temizle
         StartCoroutine(Setup());
-
     }
 
     private IEnumerator Setup()
     {
         yield return new WaitForEndOfFrame();
-        
+
         if (cutsceneType == ECutsceneType.Timeline && Timeline != null)
             SetupPlayableDirector();
         else if (cutsceneType == ECutsceneType.Video && VideoClip != null)
@@ -82,7 +76,6 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
         videoPlayer.playOnAwake = playOnAwake;
         videoPlayer.clip = VideoClip;
         videoPlayer.loopPointReached += OnVideoEnded;
-        videoPlayer.targetTexture = renderTexture;
         videoPlayer.Prepare();
     }
 
@@ -93,7 +86,7 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
             StopCoroutine(recognitionCoroutine);
             recognitionCoroutine = null;
         }
-        
+
         if (director != null)
             director.stopped -= OnCutsceneEnd;
         else if (videoPlayer != null)
@@ -105,12 +98,12 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     private IEnumerator RecognizePlayer()
     {
         yield return new WaitUntil(() => PlayerSystem.Player != null);
-        
+
         while (true)
         {
             if (hasPlayed)
                 yield break;
-            
+
             if (IsPlayerInColliderBounds())
                 Play();
 
@@ -122,58 +115,78 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     {
         hasPlayed = true;
         isPlaying = true;
-        
-        if (director != null)
+
+        // Başlangıçta arkaplan temizlensin
+        GameManager.Instance.GameHUD.cutsceneRawImage.texture = null;
+        GameManager.Instance.GameHUD.cutsceneRawImage.gameObject.SetActive(false);
+
+        if (cutsceneType == ECutsceneType.Timeline && director != null)
+        {
             CutsceneSystem.Play(director);
-        else if (videoPlayer != null)
+        }
+        else if (cutsceneType == ECutsceneType.Video && videoPlayer != null)
         {
             if (renderTexture != null)
             {
                 renderTexture.Release();
                 Destroy(renderTexture);
             }
-            
+
             renderTexture = new RenderTexture(Screen.width, Screen.height, 0);
             renderTexture.Create();
             videoPlayer.targetTexture = renderTexture;
+            
+            // Yalnızca video için cutsceneRawImage aktif
             GameManager.Instance.GameHUD.cutsceneRawImage.texture = renderTexture;
+            GameManager.Instance.GameHUD.cutsceneRawImage.gameObject.SetActive(true);
+
             CutsceneSystem.Play(videoPlayer);
             CutsceneSystem.CutsceneSkipped += SkipCutscene;
         }
 
         if (disableInput)
             GameInputSystem.DisableInput();
-        
+
         AudioSystem.Pause();
         CameraSystem.DisableCamera();
         
         onCutsceneStarted?.Invoke();
     }
-    
+
+
     private void OnCutsceneEnd(PlayableDirector _)
     {
         OnEnd();
         CutsceneSystem.OnCutsceneEnded(director);
         CutsceneSystem.CutsceneSkipped -= SkipCutscene;
+
+        director.playableAsset = null;
         director.Stop();
         Destroy(director);
-
-        // UI'de eski görüntü kalmasın
-        if (GameManager.Instance.GameHUD.cutsceneRawImage != null)
-        GameManager.Instance.GameHUD.cutsceneRawImage.texture = null;
-
-        // Gerekirse objeyi devre dışı bırak
-        gameObject.SetActive(false);
     }
-    
+
     private void OnVideoEnded(VideoPlayer _)
     {
         OnEnd();
         CutsceneSystem.OnVideoEnded(videoPlayer);
         videoPlayer.Stop();
+        GameManager.Instance.GameHUD.cutsceneRawImage.texture = null;
         Destroy(videoPlayer);
+    }
+
+    private void OnEnd()
+    {
+        isPlaying = false;
+        onCutsceneStopped?.Invoke();
+
+        // Giriş devre dışı bırakıldıysa yeniden aktif et
+        if (disableInput)
+            GameInputSystem.EnableInput();
         
-        // RenderTexture'ı temizle ve bellekten at
+        CameraSystem.EnableCamera();
+        AudioSystem.Unpause();
+
+        // Eğer bir video oynatıldıysa ve RenderTexture varsa temizle
         if (renderTexture != null)
         {
             renderTexture.Release();
@@ -181,25 +194,11 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
             renderTexture = null;
         }
 
-        if (GameManager.Instance.GameHUD.cutsceneRawImage != null)
+        // Eğer cutscene HUD'da bir RawImage'a atanmışsa, onu da temizle
+        if (GameManager.Instance?.GameHUD?.cutsceneRawImage != null)
+        {
             GameManager.Instance.GameHUD.cutsceneRawImage.texture = null;
-
-        // İstersen Cutscene GameObject'ini pasif yapabilirsin:
-        // gameObject.SetActive(false);
-    }
-
-    private void OnEnd()
-    {
-        isPlaying = false;
-        onCutsceneStopped?.Invoke();
-        if (disableInput)
-            GameInputSystem.EnableInput();
-        
-        if (GameManager.Instance.GameHUD.cutsceneRawImage != null)
-            GameManager.Instance.GameHUD.cutsceneRawImage.texture = null;
-
-        CameraSystem.EnableCamera();
-        AudioSystem.Unpause();
+        }
     }
 
     private bool IsPlayerInColliderBounds()

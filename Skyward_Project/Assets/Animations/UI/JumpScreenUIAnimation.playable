@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-3961332918358459982
+--- !u!114 &-4226512535880941798
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 030f85c3f73729f4f976f66ffb23b875, type: 3}
   m_Name: AnimationPlayableAsset
   m_EditorClassIdentifier: 
-  m_Clip: {fileID: 7400000, guid: cb7fd81748a396a4e9c602b4ed19eb94, type: 2}
+  m_Clip: {fileID: 7400000, guid: ac0b4d207d1e35a469fa2b1811855a47, type: 2}
   m_Position: {x: 0, y: 0, z: 0}
   m_EulerAngles: {x: 0, y: 0, z: 0}
   m_UseTrackMatchFields: 1
@@ -32,7 +32,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bfda56da833e2384a9677cd3c976a436, type: 3}
-  m_Name: SwipeSCreenUIAnimation 1
+  m_Name: JumpScreenUIAnimation
   m_EditorClassIdentifier: 
   m_Version: 0
   m_Tracks:
@@ -67,8 +67,8 @@ MonoBehaviour:
   - m_Version: 1
     m_Start: 0
     m_ClipIn: 0
-    m_Asset: {fileID: -3961332918358459982}
-    m_Duration: 1.8833333333333333
+    m_Asset: {fileID: -4226512535880941798}
+    m_Duration: 3
     m_TimeScale: 1
     m_ParentTrack: {fileID: 3234496407733773835}
     m_EaseInDuration: 0
@@ -132,7 +132,7 @@ MonoBehaviour:
     m_PreExtrapolationMode: 1
     m_PostExtrapolationTime: Infinity
     m_PreExtrapolationTime: 0
-    m_DisplayName: SwipeScreen
+    m_DisplayName: JumpUITutorial
   m_Markers:
     m_Objects: []
   m_InfiniteClipPreExtrapolation: 0
