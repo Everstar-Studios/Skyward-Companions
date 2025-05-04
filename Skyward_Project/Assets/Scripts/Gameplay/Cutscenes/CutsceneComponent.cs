@@ -28,7 +28,10 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     [SerializeField] private bool disableInput = true;
     [SerializeField] private UnityEvent onCutsceneStarted;
     [SerializeField] private UnityEvent onCutsceneStopped;
-    
+
+    [SerializeField] private RectTransform[] resetTransforms;
+    private Vector3[] originalPositions;
+    private Vector3[] originalScales;
 
     private Coroutine recognitionCoroutine;
     private bool hasPlayed;
@@ -40,7 +43,7 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
 
     void ISkywardComponent.WorldLoaded(GameContext context)
     {
-        GameManager.Instance.GameHUD.cutsceneRawImage.texture = null; // başlangıçta temizle
+        GameManager.Instance.GameHUD.cutsceneRawImage.texture = null;
         StartCoroutine(Setup());
     }
 
@@ -60,6 +63,8 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
             Play();
         else if (trigger != null)
             recognitionCoroutine = StartCoroutine(RecognizePlayer());
+
+        CacheOriginalTransformStates();
     }
 
     private void SetupPlayableDirector()
@@ -116,7 +121,6 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
         hasPlayed = true;
         isPlaying = true;
 
-        // Başlangıçta arkaplan temizlensin
         GameManager.Instance.GameHUD.cutsceneRawImage.texture = null;
         GameManager.Instance.GameHUD.cutsceneRawImage.gameObject.SetActive(false);
 
@@ -135,8 +139,7 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
             renderTexture = new RenderTexture(Screen.width, Screen.height, 0);
             renderTexture.Create();
             videoPlayer.targetTexture = renderTexture;
-            
-            // Yalnızca video için cutsceneRawImage aktif
+
             GameManager.Instance.GameHUD.cutsceneRawImage.texture = renderTexture;
             GameManager.Instance.GameHUD.cutsceneRawImage.gameObject.SetActive(true);
 
@@ -149,10 +152,9 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
 
         AudioSystem.Pause();
         CameraSystem.DisableCamera();
-        
+
         onCutsceneStarted?.Invoke();
     }
-
 
     private void OnCutsceneEnd(PlayableDirector _)
     {
@@ -160,7 +162,6 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
         CutsceneSystem.OnCutsceneEnded(director);
         CutsceneSystem.CutsceneSkipped -= SkipCutscene;
 
-        director.playableAsset = null;
         director.Stop();
         Destroy(director);
     }
@@ -179,14 +180,12 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
         isPlaying = false;
         onCutsceneStopped?.Invoke();
 
-        // Giriş devre dışı bırakıldıysa yeniden aktif et
         if (disableInput)
             GameInputSystem.EnableInput();
-        
+
         CameraSystem.EnableCamera();
         AudioSystem.Unpause();
 
-        // Eğer bir video oynatıldıysa ve RenderTexture varsa temizle
         if (renderTexture != null)
         {
             renderTexture.Release();
@@ -194,11 +193,12 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
             renderTexture = null;
         }
 
-        // Eğer cutscene HUD'da bir RawImage'a atanmışsa, onu da temizle
         if (GameManager.Instance?.GameHUD?.cutsceneRawImage != null)
         {
             GameManager.Instance.GameHUD.cutsceneRawImage.texture = null;
         }
+
+        ResetTransformStates();
     }
 
     private bool IsPlayerInColliderBounds()
@@ -212,5 +212,34 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
             OnVideoEnded(videoPlayer);
         else if (director != null)
             OnCutsceneEnd(director);
+    }
+
+    private void CacheOriginalTransformStates()
+    {
+        if (resetTransforms == null || resetTransforms.Length == 0) return;
+
+        originalPositions = new Vector3[resetTransforms.Length];
+        originalScales = new Vector3[resetTransforms.Length];
+
+        for (int i = 0; i < resetTransforms.Length; i++)
+        {
+            originalPositions[i] = resetTransforms[i].anchoredPosition3D;
+            originalScales[i] = resetTransforms[i].localScale;
+        }
+    }
+
+    private void ResetTransformStates()
+    {
+        if (resetTransforms == null || originalPositions == null) return;
+
+        for (int i = 0; i < resetTransforms.Length; i++)
+        {
+            resetTransforms[i].anchoredPosition3D = originalPositions[i];
+            resetTransforms[i].localScale = originalScales[i];
+
+            // 🔁 Bu satırlar glitch'i çözer: UI öğesini yeniden çizdirir
+            resetTransforms[i].gameObject.SetActive(false);
+            resetTransforms[i].gameObject.SetActive(true);
+        }
     }
 }
