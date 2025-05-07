@@ -88,8 +88,11 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
 
         if (director != null)
             director.stopped -= OnCutsceneEnd;
-        else if (videoPlayer != null)
+
+        if (videoPlayer != null)
             videoPlayer.loopPointReached -= OnVideoEnded;
+
+        CutsceneSystem.CutsceneSkipped -= SkipCutscene;
 
         hasPlayed = false;
     }
@@ -153,19 +156,32 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     private void OnCutsceneEnd(PlayableDirector _)
     {
         OnEnd();
-        CutsceneSystem.OnCutsceneEnded(director);
+
+        if (director != null)
+        {
+            CutsceneSystem.OnCutsceneEnded(director);
+            director.Stop();
+            Destroy(director);
+            director = null; // 🔒 güvenlik için
+        }
+
         CutsceneSystem.CutsceneSkipped -= SkipCutscene;
-        director.Stop();
-        Destroy(director);
     }
 
     private void OnVideoEnded(VideoPlayer _)
     {
         OnEnd();
-        CutsceneSystem.OnVideoEnded(videoPlayer);
-        videoPlayer.Stop();
-        GameManager.Instance.GameHUD.cutsceneRawImage.texture = null;
-        Destroy(videoPlayer);
+
+        if (videoPlayer != null)
+        {
+            CutsceneSystem.OnVideoEnded(videoPlayer);
+            videoPlayer.Stop();
+            GameManager.Instance.GameHUD.cutsceneRawImage.texture = null;
+            Destroy(videoPlayer);
+            videoPlayer = null; // 🔒 güvenlik için
+        }
+
+        CutsceneSystem.CutsceneSkipped -= SkipCutscene;
     }
 
     private void OnEnd()
@@ -177,7 +193,9 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
             GameInputSystem.EnableInput();
 
         CameraSystem.EnableCamera();
-        AudioSystem.Unpause();
+
+        if (AudioSystem.Instance != null)
+            AudioSystem.Unpause();
 
         if (renderTexture != null)
         {
@@ -199,9 +217,13 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
 
     private void SkipCutscene(object sender, EventArgs args)
     {
-        if (videoPlayer != null)
+        if (videoPlayer != null && videoPlayer.gameObject != null)
+        {
             OnVideoEnded(videoPlayer);
-        else if (director != null)
+        }
+        else if (director != null && director.gameObject != null)
+        {
             OnCutsceneEnd(director);
+        }
     }
 }

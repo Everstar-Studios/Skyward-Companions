@@ -74,14 +74,36 @@ public class AudioSystem : BaseSystem<AudioSystem>, ISkywardComponent
 
     public static void Pause()
     {
-        Instance.musicSource?.Pause();
-        Instance.sfxSource?.Pause();
+        if (Instance == null)
+            return;
+
+        if (Instance.musicSource != null)
+            Instance.musicSource.Pause();
+
+        if (Instance.sfxSource != null)
+            Instance.sfxSource.Pause();
+
+        foreach (var ambient in ComponentSystem.GetAllComponents<AmbientSoundPlayer>())
+        {
+            ambient?.Pause();
+        }
     }
 
     public static void Unpause()
     {
-        Instance.musicSource?.UnPause();
-        Instance.sfxSource?.UnPause();
+        if (Instance == null)
+            return;
+
+        if (Instance.musicSource != null)
+            Instance.musicSource.UnPause();
+
+        if (Instance.sfxSource != null)
+            Instance.sfxSource.UnPause();
+
+        foreach (var ambient in ComponentSystem.GetAllComponents<AmbientSoundPlayer>())
+        {
+            ambient?.Unpause();
+        }
     }
 
     public void StopMusic()
