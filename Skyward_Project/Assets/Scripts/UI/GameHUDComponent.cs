@@ -9,6 +9,7 @@ public class GameHUDComponent : MonoBehaviour, ISkywardComponent
     public GameObject pauseScreen;
     public GameObject playerUIScreen;
     public GameObject quitScreen;
+    public GameObject settingsScreen;
     public RawImage cutsceneRawImage;
     
     public CanvasGroup canvasGroup;
@@ -26,19 +27,30 @@ public class GameHUDComponent : MonoBehaviour, ISkywardComponent
     {
         pauseScreen.SetActive(false);
         playerUIScreen.SetActive(true);
-        quitScreen.SetActive(false);
+        quitScreen.SetActive(false);        
+        settingsScreen.SetActive(false);
     }
     public void OpenPauseScreen()
     {
         pauseScreen.SetActive(true);
         playerUIScreen.SetActive(true);
         quitScreen.SetActive(false);
+        settingsScreen.SetActive(false);
     }
     public void OpenQuitScreen()
     {
         pauseScreen.SetActive(false);
         playerUIScreen.SetActive(true);
         quitScreen.SetActive(true);
+        settingsScreen.SetActive(false);
+    }
+
+    public void OpenSettingsScreen()
+    {
+        pauseScreen.SetActive(true);
+        playerUIScreen.SetActive(true);
+        quitScreen.SetActive(false);
+        settingsScreen.SetActive(true);
     }
 
     public void QuitToMainMenu()
