@@ -36,6 +36,7 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     private PlayableDirector director;
     private VideoPlayer videoPlayer;
     private RenderTexture renderTexture;
+    private AudioSource videoAudioSource;
 
     void ISkywardComponent.WorldLoaded(GameContext context)
     {
@@ -46,6 +47,7 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     private IEnumerator Setup()
     {
         yield return new WaitForEndOfFrame();
+        yield return new WaitUntil(() => AudioSystem.Instance != null); // 🔒 AudioSystem hazır mı?
 
         if (cutsceneType == ECutsceneType.Timeline && Timeline != null)
             SetupPlayableDirector();
@@ -72,22 +74,26 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     private void SetupVideoPlayer()
     {
         videoPlayer = gameObject.AddComponent<VideoPlayer>();
-        videoPlayer.playOnAwake = playOnAwake;
+        videoPlayer.playOnAwake = false;
         videoPlayer.clip = VideoClip;
         videoPlayer.audioOutputMode = VideoAudioOutputMode.AudioSource;
 
-        // ✅ AudioSource oluştur ve mixer grubuna bağla
-        AudioSource videoAudioSource = gameObject.AddComponent<AudioSource>();
+        videoAudioSource = gameObject.AddComponent<AudioSource>();
         videoAudioSource.playOnAwake = false;
-        videoAudioSource.outputAudioMixerGroup = AudioSystem.Instance.GetMusicMixerGroup(); // 🔗 Music grubuna bağlıyoruz
+        videoAudioSource.volume = 1f;
+
+        // 🔒 BURAYA DİKKAT: AudioSystem Mixer grubunu null'a düşmeden bağla
+        var mixerGroup = AudioSystem.Instance != null ? AudioSystem.Instance.GetMusicMixerGroup() : null;
+        if (mixerGroup != null)
+            videoAudioSource.outputAudioMixerGroup = mixerGroup;
 
         videoPlayer.SetTargetAudioSource(0, videoAudioSource);
         videoPlayer.EnableAudioTrack(0, true);
 
         videoPlayer.loopPointReached += OnVideoEnded;
         videoPlayer.Prepare();
-
     }
+
 
     void ISkywardComponent.Cleanup()
     {
