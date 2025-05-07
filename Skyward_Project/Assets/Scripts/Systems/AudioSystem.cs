@@ -124,4 +124,8 @@ public class AudioSystem : BaseSystem<AudioSystem>, ISkywardComponent
         float db = value <= 0.0001f ? -80f : Mathf.Log10(value) * 20f;
         audioMixer.SetFloat("SFXVolume", db);
     }
+    public AudioMixerGroup GetMusicMixerGroup()
+    {
+        return audioMixer.FindMatchingGroups("Music")[0]; // 🎵 "Music" parametresine göre grup adı
+    }
 }

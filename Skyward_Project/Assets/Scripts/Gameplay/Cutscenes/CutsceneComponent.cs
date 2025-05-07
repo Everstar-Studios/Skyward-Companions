@@ -74,8 +74,19 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
         videoPlayer = gameObject.AddComponent<VideoPlayer>();
         videoPlayer.playOnAwake = playOnAwake;
         videoPlayer.clip = VideoClip;
+        videoPlayer.audioOutputMode = VideoAudioOutputMode.AudioSource;
+
+        // ✅ AudioSource oluştur ve mixer grubuna bağla
+        AudioSource videoAudioSource = gameObject.AddComponent<AudioSource>();
+        videoAudioSource.playOnAwake = false;
+        videoAudioSource.outputAudioMixerGroup = AudioSystem.Instance.GetMusicMixerGroup(); // 🔗 Music grubuna bağlıyoruz
+
+        videoPlayer.SetTargetAudioSource(0, videoAudioSource);
+        videoPlayer.EnableAudioTrack(0, true);
+
         videoPlayer.loopPointReached += OnVideoEnded;
         videoPlayer.Prepare();
+
     }
 
     void ISkywardComponent.Cleanup()
