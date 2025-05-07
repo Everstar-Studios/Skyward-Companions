@@ -129,4 +129,14 @@ public class LobbyUI : MonoBehaviour
     {
         GameSystem.LaunchLevel(sceneName);
     }
+
+    public void OpenPrivacyPolicy()
+    {
+        Application.OpenURL("https://sites.google.com/view/skywardcompanions/privacy-policy?authuser=0");
+    }
+
+    public void OpenTermsOfService()
+    {
+        Application.OpenURL("https://sites.google.com/view/skywardcompanions/terms-conditions?authuser=0");
+    }
 }
