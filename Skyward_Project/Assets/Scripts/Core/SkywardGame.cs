@@ -156,11 +156,28 @@ public class SkywardGame : MonoBehaviour
         
         foreach (Type systemType in AllRequiredSystems())
         {
+            /*
             if (systemsGameObject.TryGetComponent(systemType, out _))
                 continue;
 
             systemsGameObject.AddComponent(systemType);
             Component systemComponent = systemsGameObject.GetComponent(systemType);
+            if (systemComponent is BaseSystem baseSystem)
+            {
+                baseSystem.gamecontext = context;
+                systems.Add(baseSystem);
+            }*/
+
+            /////////////////////
+            Component existingComponent = (Component)UnityEngine.Object.FindAnyObjectByType(systemType);
+
+            if (systemsGameObject.GetComponent(systemType) == null && existingComponent == null)
+            {
+                systemsGameObject.AddComponent(systemType);
+            }
+
+            Component systemComponent = existingComponent ?? systemsGameObject.GetComponent(systemType);
+
             if (systemComponent is BaseSystem baseSystem)
             {
                 baseSystem.gamecontext = context;
