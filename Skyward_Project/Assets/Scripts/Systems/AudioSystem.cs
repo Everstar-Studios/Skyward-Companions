@@ -27,10 +27,11 @@ public class AudioSystem : BaseSystem<AudioSystem>, ISkywardComponent
     {
         base.Awake();
 
-        // if (musicSource == null || sfxSource == null)
-        // {
-        //     Debug.LogError("AudioSources not assigned in inspector!");
-        // }
+        float savedSFXVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
+        float savedMusicVolume = PlayerPrefs.GetFloat("MusicVolume", 1f);
+
+        SetSoundEffectsVolume(savedSFXVolume);
+        SetMusicVolume(savedMusicVolume);
     }
 
     // Yeni sistem: isme göre oynat
