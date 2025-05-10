@@ -89,7 +89,7 @@ public class GameSystem : BaseSystem<GameSystem>
         base.Initialize(context);
 
         context.Store(sceneInfo);
-        
+
         ResourceManager.ExceptionHandler = (op, ex) =>
             Debug.LogError($"Addressables handle {op.DebugName} failed: {ex}");
     }
@@ -202,9 +202,7 @@ public class GameSystem : BaseSystem<GameSystem>
     private static IEnumerator MainMenuInternal()
     {
         Quit();
-        var unloadHandle = Addressables.UnloadSceneAsync(Instance.levelHandle.Result);
-        yield return unloadHandle;
-        Addressables.Release(Instance.levelHandle);
+        yield return Addressables.UnloadSceneAsync(Instance.levelHandle.Result);
     }
 
     public static string GetCurrentLevelName()
