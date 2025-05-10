@@ -23,8 +23,8 @@ public class ConfigSystem : BaseSystem<ConfigSystem>
             while (Instance == null)
                 yield return new WaitForEndOfFrame();
     
-            while(Instance.loadingConfigs.Any())
-                yield return new WaitForFixedUpdate();
+            // while(Instance.loadingConfigs.Any())
+            //     yield return new WaitForFixedUpdate();
         }
     }
     
@@ -34,9 +34,7 @@ public class ConfigSystem : BaseSystem<ConfigSystem>
 
         configComponent = FindAnyObjectByType<ConfigComponent>();
         foreach (var config in configComponent.Configs)
-        {
-            StartCoroutine(LoadConfig(config));
-        }
+            LoadConfig(config);
     }
 
     public static T GetConfig<T>() where T : ScriptableObject
@@ -47,21 +45,8 @@ public class ConfigSystem : BaseSystem<ConfigSystem>
         return (T)allConfigs[type];
     }
     
-    public IEnumerator LoadConfig(AssetReference assetRef)
+    public void LoadConfig(BaseConfig config)
     {
-        AsyncOperationHandle<ScriptableObject> handle;
-        handle = assetRef.LoadAssetAsync<ScriptableObject>();
-        loadingConfigs.Add(handle);
-        yield return handle;
-        loadingConfigs.Remove(handle);
-
-        if (allConfigs.ContainsKey(handle.Result.GetType()))
-            Debug.LogError($"[Core] Configuration of type {handle.Result.GetType().GetNiceName()} already exists.");
-        else
-            allConfigs[handle.Result.GetType()] = Instantiate(handle.Result);
-
-        yield return new WaitUntil(() => !allConfigs.ContainsKey(handle.Result.GetType()));
-            
-        Addressables.Release(handle);
+        allConfigs.Add(config.GetType(), config);
     }
 }
