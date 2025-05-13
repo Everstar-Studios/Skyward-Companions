@@ -108,6 +108,25 @@ public class GameSystem : BaseSystem<GameSystem>
         preLevelLoad?.Invoke(this, EventArgs.Empty);
         yield return new WaitForEndOfFrame();
         
+        if (!isCatalogLoaded)
+        {
+            string catalogUrl = "https://5020019f-5188-4075-84eb-a2113dd902e6.client-api.unity3dusercontent.com/client_api/v1/environments/43e8f803-2b68-4627-82a0-a236208225ac/buckets/37aee131-7978-4f7a-a4c5-9b5d9ccac793/entries/a982676d-422d-4bc2-8fef-a6913ca61c5a/versions/a9e6a8a6-4b91-414a-9336-58241b40d53e/content/";
+
+            var catalogHandle = Addressables.LoadContentCatalogAsync(catalogUrl);
+            yield return catalogHandle;
+
+            if (catalogHandle.Status != AsyncOperationStatus.Succeeded)
+            {
+                Debug.LogError("❌ Failed to load content catalog: " + catalogHandle.OperationException);
+                levelDownloadFailed?.Invoke(this, EventArgs.Empty);
+                isLoading = false;
+                yield break;
+            }
+
+            Debug.Log("✅ Remote catalog loaded.");
+            isCatalogLoaded = true;
+        }
+        
         var sizeHandle = Addressables.GetDownloadSizeAsync(levelKey);
         yield return sizeHandle;
         
