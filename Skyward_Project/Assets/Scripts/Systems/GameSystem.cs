@@ -184,7 +184,8 @@ public class GameSystem : BaseSystem<GameSystem>
     private void OnApplicationQuit()
     {
         Quit();
-        Addressables.Release(Instance.levelHandle);
+        if (Instance.levelHandle.IsValid())
+            Addressables.Release(Instance.levelHandle);
     }
 
     public static void MainMenu()
