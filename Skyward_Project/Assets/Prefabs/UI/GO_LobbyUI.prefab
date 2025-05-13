@@ -2300,10 +2300,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   game: {fileID: 0}
+  mainPanel: {fileID: 0}
   mainMenuScreen: {fileID: 6378220540808642528}
   playScreen: {fileID: 4691251872923686254}
   leaderboardScreen: {fileID: 4898661769643617943}
   loadingScreen: {fileID: 8291360725488067525}
+  loadingText: {fileID: 8660725605508612069}
   settingsScreen: {fileID: 1091029422265630773}
   namePanel: {fileID: 6115803465042393674}
   nameField: {fileID: 2243423311465969399}
@@ -7906,6 +7908,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1798703044769146004, guid: 3b00d4dff3c178948a77877bc684d6ec, type: 3}
   m_PrefabInstance: {fileID: 7775062635455154001}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8660725605508612069 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1429759054297692340, guid: 3b00d4dff3c178948a77877bc684d6ec, type: 3}
+  m_PrefabInstance: {fileID: 7775062635455154001}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8847097040978580758
 PrefabInstance:
   m_ObjectHideFlags: 0
