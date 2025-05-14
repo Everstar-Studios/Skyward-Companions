@@ -112,20 +112,18 @@ public class GameSystem : BaseSystem<GameSystem>
         
         if (!isCatalogLoaded)
         {
-            string catalogUrl = "https://5020019f-5188-4075-84eb-a2113dd902e6.client-api.unity3dusercontent.com/client_api/v1/environments/development/buckets/37aee131-7978-4f7a-a4c5-9b5d9ccac793/release_by_badge/latest/entry_by_path/content/?path=catalog_1.0.2.bin";
-
-            var catalogHandle = Addressables.LoadContentCatalogAsync(catalogUrl);
+            var catalogHandle = Addressables.LoadContentCatalogAsync(DeliveryBucketManager.GetContentCatalogURL(BucketEnvironment.Development));
             yield return catalogHandle;
 
             if (catalogHandle.Status != AsyncOperationStatus.Succeeded)
             {
-                Debug.LogError("❌ Failed to load content catalog: " + catalogHandle.OperationException);
+                Debug.LogError("Failed to load content catalog: " + catalogHandle.OperationException);
                 levelDownloadFailed?.Invoke(this, EventArgs.Empty);
                 isLoading = false;
                 yield break;
             }
 
-            Debug.Log("✅ Remote catalog loaded.");
+            Debug.Log("Remote catalog loaded.");
             isCatalogLoaded = true;
         }
         
