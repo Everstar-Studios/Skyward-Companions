@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 9abad243df561f645b402139d82b7d75, type: 3}
@@ -13,27 +14,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9abad243df561f645b402139d82b7d75, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: 215.89453
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9abad243df561f645b402139d82b7d75, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.5806867
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9abad243df561f645b402139d82b7d75, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 126.0652
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9abad243df561f645b402139d82b7d75, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.96270883
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9abad243df561f645b402139d82b7d75, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9abad243df561f645b402139d82b7d75, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.27053982
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9abad243df561f645b402139d82b7d75, type: 3}
       propertyPath: m_LocalRotation.z
@@ -45,14 +46,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9abad243df561f645b402139d82b7d75, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -31.393
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9abad243df561f645b402139d82b7d75, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 9abad243df561f645b402139d82b7d75, type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 869dfa24093a7944e98a74c22c5a5ae3, type: 2}
     - target: {fileID: 919132149155446097, guid: 9abad243df561f645b402139d82b7d75, type: 3}
@@ -60,23 +61,39 @@ PrefabInstance:
       value: ship_004
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9abad243df561f645b402139d82b7d75, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7450108794431450727}
   m_SourcePrefab: {fileID: 100100000, guid: 9abad243df561f645b402139d82b7d75, type: 3}
+--- !u!23 &395382401444194401 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 9abad243df561f645b402139d82b7d75, type: 3}
+  m_PrefabInstance: {fileID: 1350300965125174501}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2196721166807861684 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 9abad243df561f645b402139d82b7d75, type: 3}
   m_PrefabInstance: {fileID: 1350300965125174501}
   m_PrefabAsset: {fileID: 0}
---- !u!64 &-3917418693567190997
-MeshCollider:
+--- !u!205 &7450108794431450727
+LODGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2196721166807861684}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0.24894047, y: 17.334347, z: 10.591896}
+  m_Size: 56.46563
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.18412974
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 395382401444194401}
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 641039254603559239, guid: 9abad243df561f645b402139d82b7d75, type: 3}
