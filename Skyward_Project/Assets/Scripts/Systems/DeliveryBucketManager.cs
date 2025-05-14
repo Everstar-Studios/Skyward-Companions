@@ -8,6 +8,7 @@ public class PlatformBuckets
     public string Windows;
     public string iOS;
     public string Android;
+    public string MacOS;
 }
 
 [Serializable]
@@ -49,6 +50,7 @@ public static class DeliveryBucketManager
             RuntimePlatform.WindowsEditor or RuntimePlatform.WindowsPlayer => envBuckets.Windows,
             RuntimePlatform.IPhonePlayer => envBuckets.iOS,
             RuntimePlatform.Android => envBuckets.Android,
+            RuntimePlatform.OSXEditor or RuntimePlatform.OSXPlayer => envBuckets.MacOS,
             _ => throw new NotSupportedException($"Platform not supported: {Application.platform}")
         };
     }
