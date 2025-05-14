@@ -110,6 +110,7 @@ public class GameSystem : BaseSystem<GameSystem>
         preLevelLoad?.Invoke(this, EventArgs.Empty);
         yield return new WaitForEndOfFrame();
         
+        #if !UNITY_EDITOR
         if (!isCatalogLoaded)
         {
             var catalogHandle = Addressables.LoadContentCatalogAsync(DeliveryBucketManager.GetContentCatalogURL(BucketEnvironment.Development));
@@ -126,6 +127,7 @@ public class GameSystem : BaseSystem<GameSystem>
             Debug.Log("Remote catalog loaded.");
             isCatalogLoaded = true;
         }
+#endif
         
         var sizeHandle = Addressables.GetDownloadSizeAsync(levelKey);
         yield return sizeHandle;
