@@ -83,6 +83,14 @@ public class GameSystem : BaseSystem<GameSystem>
         add => Instance.quitting += value;
         remove => Instance.quitting -= value;
     }
+    
+    private event EventHandler backToMainMenu;
+    
+    public static event EventHandler BackToMainMenu
+    {
+        add => Instance.backToMainMenu += value;
+        remove => Instance.backToMainMenu -= value;
+    }
 
     private bool isCatalogLoaded;
     
@@ -215,15 +223,18 @@ public class GameSystem : BaseSystem<GameSystem>
         
     }
 
-    private static void Quit()
+    private static void Quit(bool mainMenu = false)
     {
         Instance.GameContext.game.Quit();
-        Instance.quitting?.Invoke(Instance, EventArgs.Empty);
+        if (mainMenu)
+            Instance.backToMainMenu?.Invoke(Instance, EventArgs.Empty);
+        else
+            Instance.quitting?.Invoke(Instance, EventArgs.Empty);
     }
 
     private static IEnumerator MainMenuInternal()
     {
-        Quit();
+        Quit(mainMenu: true);
         yield return Addressables.UnloadSceneAsync(Instance.levelHandle.Result);
     }
 

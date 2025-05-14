@@ -50,7 +50,7 @@ public class LobbyUI : MonoBehaviour
         GameSystem.LevelLoading += LevelLoading;
         GameSystem.LevelLoaded += LevelLoaded;
         GameSystem.LevelDownloading += LevelDownloading;
-        GameSystem.Quitting += Quit;
+        GameSystem.BackToMainMenu += BackToMainMenu;
         
         bool hasName = !string.IsNullOrEmpty(PlayerSystem.PlayerName);
         
@@ -69,10 +69,10 @@ public class LobbyUI : MonoBehaviour
         GameSystem.LevelLoading -= LevelLoading;
         GameSystem.LevelLoaded -= LevelLoaded;
         GameSystem.LevelDownloading -= LevelDownloading;
-        GameSystem.Quitting -= Quit;
+        GameSystem.Quitting -= BackToMainMenu;
     }
 
-    private void Quit(object sender, EventArgs args)
+    private void BackToMainMenu(object sender, EventArgs args)
     {
         Cleanup();
         mainPanel.SetActive(true);
