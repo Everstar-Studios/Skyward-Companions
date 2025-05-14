@@ -128,10 +128,12 @@ public class GameSystem : BaseSystem<GameSystem>
             {
                 Debug.LogError("Failed to load content catalog: " + catalogHandle.OperationException);
                 levelDownloadFailed?.Invoke(this, EventArgs.Empty);
+                Addressables.Release(catalogHandle);
                 isLoading = false;
                 yield break;
             }
 
+            Addressables.Release(catalogHandle);
             Debug.Log("Remote catalog loaded.");
             isCatalogLoaded = true;
         }
