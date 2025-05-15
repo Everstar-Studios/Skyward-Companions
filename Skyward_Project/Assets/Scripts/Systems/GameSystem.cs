@@ -87,8 +87,6 @@ public class GameSystem : BaseSystem<GameSystem>
         add => Instance.backToMainMenu += value;
         remove => Instance.backToMainMenu -= value;
     }
-
-    private bool isCatalogLoaded;
     
     protected override void Initialize(GameContext context)
     {
@@ -96,19 +94,39 @@ public class GameSystem : BaseSystem<GameSystem>
 
         context.Store(sceneInfo);
 
-        TryLoadNextUncompletedScene();
+        StartCoroutine(InitializeInternal());
     }
 
-    private void TryLoadNextUncompletedScene()
+    private IEnumerator InitializeInternal()
+    {
+        yield return LoadCatalog();
+        yield return TryLoadNextUncompletedScene();
+    }
+
+    private IEnumerator LoadCatalog()
+    {
+        string catalogUrl = DeliveryBucketManager.GetContentCatalogURL(BucketEnvironment.Development);
+        var catalogHandle = Addressables.LoadContentCatalogAsync(catalogUrl);
+        yield return catalogHandle;
+
+        if (catalogHandle.Status != AsyncOperationStatus.Succeeded)
+        {
+            Debug.LogError("Failed to load content catalog: " + catalogHandle.OperationException);
+            levelDownloadFailed?.Invoke(this, EventArgs.Empty);
+            Addressables.Release(catalogHandle);
+            isLoading = false;
+            yield break;
+        }
+
+        Addressables.Release(catalogHandle);
+        Debug.Log($"Remote catalog loaded: {catalogUrl}");
+    }
+
+    private IEnumerator TryLoadNextUncompletedScene()
     {
         string nextUncompletedSceneLabel = sceneInfo.GetNextUncompletedScene();
         if (!string.IsNullOrEmpty(nextUncompletedSceneLabel))
-            RequestLevelLoad(nextUncompletedSceneLabel);
-    }
-
-    public static void RequestLevelLoad(string levelKey)
-    {
-        Instance.StartCoroutine(Instance.LevelDownloadRequested(levelKey));
+            yield return Instance.LevelDownloadRequested(nextUncompletedSceneLabel);
     }
 
     private IEnumerator LevelDownloadRequested(string levelKey)
@@ -124,28 +142,6 @@ public class GameSystem : BaseSystem<GameSystem>
 
     private IEnumerator LoadLevelInternal(string levelKey)
     {
-        if (!isCatalogLoaded)
-        {
-            string catalogUrl = DeliveryBucketManager.GetContentCatalogURL(BucketEnvironment.Development);
-            var catalogHandle = Addressables.LoadContentCatalogAsync(catalogUrl);
-            yield return catalogHandle;
-
-            if (catalogHandle.Status != AsyncOperationStatus.Succeeded)
-            {
-                Debug.LogError("Failed to load content catalog: " + catalogHandle.OperationException);
-                levelDownloadFailed?.Invoke(this, EventArgs.Empty);
-                Addressables.Release(catalogHandle);
-                isLoading = false;
-                yield break;
-            }
-
-            Addressables.Release(catalogHandle);
-            Debug.Log($"Remote catalog loaded: {catalogUrl}");
-            isCatalogLoaded = true;
-        }
-//#endif
-        
-
         var sizeHandle = Addressables.GetDownloadSizeAsync(levelKey);
         yield return sizeHandle;
         
@@ -284,13 +280,13 @@ public class GameSystem : BaseSystem<GameSystem>
     private class SceneInfo : ISkywardSerializable
     {
         private string currentGameSceneName;
-        private int maxCompletedLevelIndex;
+        private int maxCompletedLevelIndex = -1;
         private int currentLevelIndex;
         
         private const string Key = "LastUnlockedLevel";
         public void Serialize()
         {
-            if (maxCompletedLevelIndex > 0)
+            if (maxCompletedLevelIndex >= 0)
                 PlayerPrefs.SetInt(Key, maxCompletedLevelIndex);
         }
 
