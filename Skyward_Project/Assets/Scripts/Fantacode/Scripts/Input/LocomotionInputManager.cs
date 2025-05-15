@@ -62,7 +62,7 @@ namespace Skyward.Characters
 
         private void OnDisable()
         {
-            input.Disable();
+            input?.Disable();
         }
 
 
