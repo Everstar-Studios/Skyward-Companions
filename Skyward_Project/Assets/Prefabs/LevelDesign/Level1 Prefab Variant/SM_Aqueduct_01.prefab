@@ -22,11 +22,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: abc00000000009332594096944652240, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.33333334
+      value: 0.4168
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: abc00000000009332594096944652240, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 18.600536
+      value: 18.375954
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: abc00000000009332594096944652240, type: 3}
       propertyPath: m_LocalPosition.y
@@ -34,7 +34,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: abc00000000009332594096944652240, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 64.19335
+      value: 56.71334
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: abc00000000009332594096944652240, type: 3}
       propertyPath: m_LocalRotation.w
@@ -46,7 +46,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: abc00000000009332594096944652240, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.015025106
+      value: 0.015025105
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: abc00000000009332594096944652240, type: 3}
       propertyPath: m_LocalRotation.z
@@ -65,8 +65,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 20500000, guid: abc00000000009332594096944652240, type: 3}
+      propertyPath: m_LODs.Array.data[0].screenRelativeHeight
+      value: 0.6902735
+      objectReference: {fileID: 0}
+    - target: {fileID: 20500000, guid: abc00000000009332594096944652240, type: 3}
       propertyPath: m_LODs.Array.data[1].screenRelativeHeight
-      value: 0.1926
+      value: 0.20312977
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -75,6 +79,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100002, guid: abc00000000009332594096944652240, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4282467737752636265}
+    - targetCorrespondingSourceObject: {fileID: 100002, guid: abc00000000009332594096944652240, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7392533850335979905}
   m_SourcePrefab: {fileID: 100100000, guid: abc00000000009332594096944652240, type: 3}
 --- !u!1 &6699304428632090165 stripped
 GameObject:
@@ -82,6 +89,28 @@ GameObject:
   m_PrefabInstance: {fileID: 6699304428632055959}
   m_PrefabAsset: {fileID: 0}
 --- !u!64 &4282467737752636265
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6699304428632090165}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: abc00000000009332594096944652240, type: 3}
+--- !u!64 &7392533850335979905
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
