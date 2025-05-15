@@ -38,7 +38,7 @@ public class LobbyUI : MonoBehaviour
         menus.Add(loadingScreen);
         menus.Add(settingsScreen);
         menus.ForEach(g => g.SetActive(false));
-        
+
         yield return Initialize();
     }
 
@@ -107,7 +107,8 @@ public class LobbyUI : MonoBehaviour
     private void LevelDownloading(object sender, float progress)
     {
         loadingScreenSlider.value = progress;
-        loadingText.text = "Downloading Level...";
+        float progressPercent = progress * 100f;
+        loadingText.text = $"Downloading Level... %{progressPercent:F0}";
     }
 
     private char NameChanged(string newName, char character)

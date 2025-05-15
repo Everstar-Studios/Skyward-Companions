@@ -13,11 +13,10 @@ using UnityEngine.SceneManagement;
 public class GameSystem : BaseSystem<GameSystem>
 {
     private SceneInfo sceneInfo = new();
-    private SceneInstance levelInstance;
     private AsyncOperationHandle<SceneInstance> levelHandle;
     private bool isLoading;
 
-    public static int LastUnlockedLevel => Instance.sceneInfo.LastUnlocked;
+    public static int LastCompletedLevelIndex => Instance.sceneInfo.LastCompleted;
     
     public static event EventHandler LevelDownloadFailed
     {
@@ -100,28 +99,38 @@ public class GameSystem : BaseSystem<GameSystem>
 
         context.Store(sceneInfo);
 
-        ResourceManager.ExceptionHandler = (op, ex) =>
-            Debug.LogError($"Addressables handle {op.DebugName} failed: {ex}");
+        TryLoadNextUncompletedScene();
     }
 
-    public static void RequestLevelLaunch(string levelKey)
+    private void TryLoadNextUncompletedScene()
     {
-        if (Instance.isLoading)
-            return;
-        
-        Instance.StartCoroutine(Instance.RequestLevelLaunchCoroutine(levelKey));
+        string nextUncompletedSceneLabel = sceneInfo.GetNextUncompletedScene();
+        if (!string.IsNullOrEmpty(nextUncompletedSceneLabel))
+            RequestLevelLoad(nextUncompletedSceneLabel);
     }
-    
-    private IEnumerator RequestLevelLaunchCoroutine(string levelKey)
+
+    public static void RequestLevelLoad(string levelKey)
     {
-        isLoading = true;
-        preLevelLoad?.Invoke(this, EventArgs.Empty);
-        yield return new WaitForEndOfFrame();
-        
-        #if !UNITY_EDITOR
+        Instance.StartCoroutine(Instance.LevelDownloadRequested(levelKey));
+    }
+
+    private IEnumerator LevelDownloadRequested(string levelKey)
+    {
+        levelAlreadyLoaded = false;
+        yield return LoadLevelInternal(levelKey);
+
+        if (levelAlreadyLoaded)
+            yield break;
+
+        yield return DownloadLevel(levelKey);
+    }
+
+    private IEnumerator LoadLevelInternal(string levelKey)
+    {
         if (!isCatalogLoaded)
         {
-            var catalogHandle = Addressables.LoadContentCatalogAsync(DeliveryBucketManager.GetContentCatalogURL(BucketEnvironment.Development));
+            string catalogUrl = DeliveryBucketManager.GetContentCatalogURL(BucketEnvironment.Development);
+            var catalogHandle = Addressables.LoadContentCatalogAsync(catalogUrl);
             yield return catalogHandle;
 
             if (catalogHandle.Status != AsyncOperationStatus.Succeeded)
@@ -134,11 +143,12 @@ public class GameSystem : BaseSystem<GameSystem>
             }
 
             Addressables.Release(catalogHandle);
-            Debug.Log("Remote catalog loaded.");
+            Debug.Log($"Remote catalog loaded: {catalogUrl}");
             isCatalogLoaded = true;
         }
-#endif
+//#endif
         
+
         var sizeHandle = Addressables.GetDownloadSizeAsync(levelKey);
         yield return sizeHandle;
         
@@ -155,14 +165,63 @@ public class GameSystem : BaseSystem<GameSystem>
         
         float mb = bytes / (1024f * 1024f);
         Debug.Log($"Download size for '{levelKey}': {mb:0.#} MB");
+
+        levelAlreadyLoaded = bytes == 0;
+    }
+
+    public static void RequestLevelLaunch(string levelKey)
+    {
+        if (Instance.isLoading)
+            return;
         
-        if (bytes == 0)
+        Instance.StartCoroutine(Instance.RequestLevelLaunchCoroutine(levelKey));
+    }
+
+    private bool levelAlreadyLoaded;
+    private IEnumerator RequestLevelLaunchCoroutine(string levelKey)
+    {
+        isLoading = true;
+        preLevelLoad?.Invoke(this, EventArgs.Empty);
+        yield return new WaitForEndOfFrame();
+
+        levelAlreadyLoaded = false;
+        yield return LoadLevelInternal(levelKey);
+        yield return null;
+        
+        if (levelAlreadyLoaded)
         {
-            yield return null;
             yield return LaunchLevel(levelKey);
             yield break;
         }
+
+        yield return DownloadLevel(levelKey);
         
+        yield return null;
+        yield return LaunchLevel(levelKey);
+    }
+
+    private Scene currentGameScene;
+    private IEnumerator LaunchLevel(string levelKey)
+    {
+        levelHandle = Addressables.LoadSceneAsync(levelKey, LoadSceneMode.Additive);
+        gamecontext.game.NotifyLevelLoading();
+        while (!levelHandle.IsDone)
+        {
+            levelLoading?.Invoke(this, levelHandle.PercentComplete);
+            yield return null;
+        }
+
+        isLoading = false;
+        if (levelHandle.Status != AsyncOperationStatus.Succeeded)
+            throw levelHandle.OperationException;
+
+        currentGameScene = levelHandle.Result.Scene;
+        levelLoaded?.Invoke(this, EventArgs.Empty);
+        gamecontext.game.LevelLoadCompleted();
+    }
+
+    private IEnumerator DownloadLevel(string levelKey)
+    {
         var downloadHandle = Addressables.DownloadDependenciesAsync(levelKey);
         while (!downloadHandle.IsDone)
         {
@@ -181,27 +240,6 @@ public class GameSystem : BaseSystem<GameSystem>
         
         Addressables.Release(downloadHandle);
         levelDownloaded?.Invoke(this, EventArgs.Empty);
-        
-        yield return null;
-        yield return LaunchLevel(levelKey);
-    }
-    
-    private IEnumerator LaunchLevel(string levelKey)
-    {
-        levelHandle = Addressables.LoadSceneAsync(levelKey, LoadSceneMode.Additive);
-        gamecontext.game.NotifyLevelLoading();
-        while (!levelHandle.IsDone)
-        {
-            levelLoading?.Invoke(this, levelHandle.PercentComplete);
-            yield return null;
-        }
-
-        isLoading = false;
-        if (levelHandle.Status != AsyncOperationStatus.Succeeded)
-            throw levelHandle.OperationException;
-        
-        levelLoaded?.Invoke(this, EventArgs.Empty);
-        gamecontext.game.LevelLoadCompleted();
     }
 
     public static void OnLevelCompleted()
@@ -209,6 +247,7 @@ public class GameSystem : BaseSystem<GameSystem>
         Instance.sceneInfo.MarkComplete();
         GameInputSystem.DisableInput();
         Instance.levelCompleted?.Invoke(Instance, EventArgs.Empty);
+        Instance.TryLoadNextUncompletedScene();
         MainMenu();
     }
 
@@ -227,6 +266,7 @@ public class GameSystem : BaseSystem<GameSystem>
 
     private static void Quit(bool mainMenu = false)
     {
+        Instance.currentGameScene = default;
         Instance.GameContext.game.Quit();
         if (mainMenu)
             Instance.backToMainMenu?.Invoke(Instance, EventArgs.Empty);
@@ -242,35 +282,31 @@ public class GameSystem : BaseSystem<GameSystem>
 
     public static string GetCurrentLevelName()
     {
-        return SceneManager.GetActiveScene().name;
+        return Instance.sceneInfo.GetCurrentSceneName();
     }
 
     private class SceneInfo : ISkywardSerializable
     {
-        private int maxUnlockedLevelIndex;
+        public Scene currentGameScene;
+        private int maxCompletedLevelIndex;
         private int currentLevelIndex;
         
         private const string Key = "LastUnlockedLevel";
         public void Serialize()
         {
-            if (maxUnlockedLevelIndex > 0)
-                PlayerPrefs.SetInt(Key, maxUnlockedLevelIndex);
+            if (maxCompletedLevelIndex > 0)
+                PlayerPrefs.SetInt(Key, maxCompletedLevelIndex);
         }
 
         public void Deserialize()
         {
-            maxUnlockedLevelIndex = PlayerPrefs.GetInt(Key, 1);
+            maxCompletedLevelIndex = PlayerPrefs.GetInt(Key, -1);
         }
         
-        public int LastUnlocked
+        public int LastCompleted
         {
-            get => PlayerPrefs.GetInt(Key, 1);
+            get => PlayerPrefs.GetInt(Key, -1);
             private set { PlayerPrefs.SetInt(Key, value); PlayerPrefs.Save(); }
-        }
-
-        public void Unlock(int levelIndex)
-        {
-            if (levelIndex > LastUnlocked) LastUnlocked = levelIndex;
         }
         
         private static int FindIndex(string activeSceneName)
@@ -279,18 +315,36 @@ public class GameSystem : BaseSystem<GameSystem>
             for (int i = 0; i < levels.Length; i++)
                 if (levels[i].sceneLabel.labelString == activeSceneName)
                     return i;
-            Debug.LogWarning("LevelComplete: active scene not found in LevelList.");
-            return 0;
+            
+            throw new Exception($"{activeSceneName} does not exist in LevelConfig.LevelList.");
         }
         
-        public bool IsUnlocked(int index) => index <= LastUnlocked;
+        public string GetCurrentSceneName()
+        {
+            if (!Instance.currentGameScene.IsValid())
+                return SceneManager.GetActiveScene().name;
+        
+            return Instance.currentGameScene.name;
+        }
+        
+        public bool IsUnlocked(int index) => index <= LastCompleted + 1;
 
         public void MarkComplete()
         {
-            var sceneName = UnityEngine.SceneManagement.SceneManager
-                .GetActiveScene().name;
-            currentLevelIndex = FindIndex(sceneName);
-            Unlock(currentLevelIndex + 2);
+            int levelIndex = FindIndex(currentGameScene.name);
+            if (levelIndex > LastCompleted) 
+                LastCompleted = levelIndex;
+        }
+
+        public string GetNextUncompletedScene()
+        {
+            int nextUncompletedSceneIndex = LastCompleted + 1;
+            var levels = ConfigSystem.GetConfig<LevelConfig>().levels;
+            for (int i = 0; i < levels.Length; i++)
+                if (i == nextUncompletedSceneIndex)
+                    return levels[i].sceneLabel.labelString;
+            
+            return String.Empty;
         }
     }
 

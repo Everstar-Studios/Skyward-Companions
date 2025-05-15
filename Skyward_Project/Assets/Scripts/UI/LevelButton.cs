@@ -15,29 +15,9 @@ public class LevelButton : UIButton, ISkywardComponent
     public AssetLabelReference levelLabel;
     [SerializeField] private int levelIndex;
 
-    private int displayIndex;
-
-    protected override void Awake()
-    {
-        base.Awake();
-
-        // int sceneCount = SceneManager.sceneCountInBuildSettings;
-        // for (int i = 0; i < sceneCount; i++)
-        // {
-        //     string path = SceneUtility.GetScenePathByBuildIndex(i);
-        //     string name = Path.GetFileNameWithoutExtension(path);
-        //     if (!name.Equals(sceneName, StringComparison.OrdinalIgnoreCase)) 
-        //         continue;
-        //     
-        //     sceneIndex = i;
-        //     break;
-        // }
-    }
-
     private void OnEnable()
     {
-        displayIndex  = levelIndex + 1;
-        bool unlocked = displayIndex <= GameSystem.LastUnlockedLevel;
+        bool unlocked = GameSystem.IsLevelUnlocked(levelIndex);
         button.interactable = unlocked;
         lockIcon.SetActive(!unlocked);
     }
@@ -51,7 +31,7 @@ public class LevelButton : UIButton, ISkywardComponent
 
     public void Unlock()
     {
-        bool isUnlocked = unlockedByDefault || GameSystem.IsLevelUnlocked(displayIndex);
+        bool isUnlocked = unlockedByDefault || GameSystem.IsLevelUnlocked(levelIndex);
         button.interactable = isUnlocked;
         lockIcon.SetActive(!isUnlocked);
         
