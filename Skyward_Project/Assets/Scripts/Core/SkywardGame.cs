@@ -84,8 +84,10 @@ public class SkywardGame : MonoBehaviour
 
     internal void OnLevelLoaded()
     {
+        #if UNITY_EDITOR
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        #endif
         
         NotifyWorldLoaded();
     }
