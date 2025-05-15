@@ -4,7 +4,6 @@ using Skyward.Core;
 using Skyward.Systems;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
@@ -15,8 +14,6 @@ public class GameSystem : BaseSystem<GameSystem>
     private SceneInfo sceneInfo = new();
     private AsyncOperationHandle<SceneInstance> levelHandle;
     private bool isLoading;
-
-    public static int LastCompletedLevelIndex => Instance.sceneInfo.LastCompleted;
     
     public static event EventHandler LevelDownloadFailed
     {
@@ -214,7 +211,7 @@ public class GameSystem : BaseSystem<GameSystem>
         if (levelHandle.Status != AsyncOperationStatus.Succeeded)
             throw levelHandle.OperationException;
 
-        sceneInfo.currentGameSceneName = levelHandle.Result.Scene.name;
+        sceneInfo.UpdateCurrentGameSceneName(levelHandle.Result.Scene.name);
         levelLoaded?.Invoke(this, EventArgs.Empty);
         gamecontext.game.LevelLoadCompleted();
     }
@@ -265,7 +262,7 @@ public class GameSystem : BaseSystem<GameSystem>
 
     private static void Quit(bool mainMenu = false)
     {
-        Instance.sceneInfo.currentGameSceneName = String.Empty;
+        Instance.sceneInfo.UpdateCurrentGameSceneName(String.Empty);
         Instance.GameContext.game.Quit();
         if (mainMenu)
             Instance.backToMainMenu?.Invoke(Instance, EventArgs.Empty);
@@ -286,7 +283,7 @@ public class GameSystem : BaseSystem<GameSystem>
 
     private class SceneInfo : ISkywardSerializable
     {
-        public string currentGameSceneName;
+        private string currentGameSceneName;
         private int maxCompletedLevelIndex;
         private int currentLevelIndex;
         
@@ -295,6 +292,11 @@ public class GameSystem : BaseSystem<GameSystem>
         {
             if (maxCompletedLevelIndex > 0)
                 PlayerPrefs.SetInt(Key, maxCompletedLevelIndex);
+        }
+
+        internal void UpdateCurrentGameSceneName(string name)
+        {
+            currentGameSceneName = name;
         }
 
         public void Deserialize()
