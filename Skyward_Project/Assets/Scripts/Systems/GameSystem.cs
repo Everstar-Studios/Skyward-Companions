@@ -199,8 +199,7 @@ public class GameSystem : BaseSystem<GameSystem>
         yield return null;
         yield return LaunchLevel(levelKey);
     }
-
-    private Scene currentGameScene;
+    
     private IEnumerator LaunchLevel(string levelKey)
     {
         levelHandle = Addressables.LoadSceneAsync(levelKey, LoadSceneMode.Additive);
@@ -215,7 +214,7 @@ public class GameSystem : BaseSystem<GameSystem>
         if (levelHandle.Status != AsyncOperationStatus.Succeeded)
             throw levelHandle.OperationException;
 
-        currentGameScene = levelHandle.Result.Scene;
+        sceneInfo.currentGameSceneName = levelHandle.Result.Scene.name;
         levelLoaded?.Invoke(this, EventArgs.Empty);
         gamecontext.game.LevelLoadCompleted();
     }
@@ -266,7 +265,7 @@ public class GameSystem : BaseSystem<GameSystem>
 
     private static void Quit(bool mainMenu = false)
     {
-        Instance.currentGameScene = default;
+        Instance.sceneInfo.currentGameSceneName = String.Empty;
         Instance.GameContext.game.Quit();
         if (mainMenu)
             Instance.backToMainMenu?.Invoke(Instance, EventArgs.Empty);
@@ -287,7 +286,7 @@ public class GameSystem : BaseSystem<GameSystem>
 
     private class SceneInfo : ISkywardSerializable
     {
-        public Scene currentGameScene;
+        public string currentGameSceneName;
         private int maxCompletedLevelIndex;
         private int currentLevelIndex;
         
@@ -321,17 +320,17 @@ public class GameSystem : BaseSystem<GameSystem>
         
         public string GetCurrentSceneName()
         {
-            if (!Instance.currentGameScene.IsValid())
+            if (string.IsNullOrEmpty(currentGameSceneName))
                 return SceneManager.GetActiveScene().name;
         
-            return Instance.currentGameScene.name;
+            return currentGameSceneName;
         }
         
         public bool IsUnlocked(int index) => index <= LastCompleted + 1;
 
         public void MarkComplete()
         {
-            int levelIndex = FindIndex(currentGameScene.name);
+            int levelIndex = FindIndex(currentGameSceneName);
             if (levelIndex > LastCompleted) 
                 LastCompleted = levelIndex;
         }
