@@ -1,10 +1,8 @@
 using UnityEngine;
-using UnityEngine.Audio;
 using System.Collections.Generic;
 using Skyward.Core;
 using FMOD.Studio;
 using FMODUnity;
-using Random = UnityEngine.Random;
 
 [RequiredSystem]
 public class AudioSystem : BaseSystem<AudioSystem>, ISkywardComponent
@@ -12,16 +10,14 @@ public class AudioSystem : BaseSystem<AudioSystem>, ISkywardComponent
     private List<AudioInstance> audioInstances;
 
     private Bus sfxBus;
-    private Bus ambienceBus;
-
-    public static float SoundEffectsVolume { get; private set; } = 1f;
+    private Bus musicBus;
     
     protected override void Initialize(GameContext context)
     {
         base.Initialize(context);
         
         sfxBus = RuntimeManager.GetBus("bus:/SFX");
-        ambienceBus = RuntimeManager.GetBus("bus:/Music");
+        musicBus = RuntimeManager.GetBus("bus:/Music");
 
         float savedSFXVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
         float savedMusicVolume = PlayerPrefs.GetFloat("MusicVolume", 1f);
@@ -63,6 +59,9 @@ public class AudioSystem : BaseSystem<AudioSystem>, ISkywardComponent
     
     public static AudioInstance CreateAudioInstance(AudioAsset audioAsset, GameObject gameObject)
     {
+        if (audioAsset == null)
+            return null;
+        
         Instance.audioInstances ??= new List<AudioInstance>();
         
         var instance = AudioInstance.Create(audioAsset, gameObject);
@@ -77,42 +76,16 @@ public class AudioSystem : BaseSystem<AudioSystem>, ISkywardComponent
         audioInstance = null;
     }
 
-    // public static void Pause()
-    // {
-    //     if (Instance == null)
-    //         return;
-    //
-    //     if (Instance.musicSource != null)
-    //         Instance.musicSource.Pause();
-    //
-    //     if (Instance.sfxSource != null)
-    //         Instance.sfxSource.Pause();
-    //
-    //     foreach (var ambient in ComponentSystem.GetAllComponents<AmbientSoundPlayer>())
-    //         ambient.Pause();
-    // }
-    //
-    // public static void Unpause()
-    // {
-    //     if (Instance == null)
-    //         return;
-    //
-    //     if (Instance.musicSource != null)
-    //         Instance.musicSource.UnPause();
-    //
-    //     if (Instance.sfxSource != null)
-    //         Instance.sfxSource.UnPause();
-    //
-    //     foreach (var ambient in ComponentSystem.GetAllComponents<AmbientSoundPlayer>())
-    //         ambient.Unpause();
-    // }
-    //
-    // public void StopMusic()
-    // {
-    //     if (musicSource.isPlaying)
-    //         musicSource.Stop();
-    // }
-
+    public static void PauseMusic()
+    {
+        Instance.musicBus.setPaused(true);
+    }
+    
+    public static void UnpauseMusic()
+    {
+        Instance.musicBus.setPaused(false);
+    }
+    
     private void AdjustVolume(Bus bus, float volume)
     {
         float newVolume = Mathf.Clamp01(volume);
@@ -121,7 +94,7 @@ public class AudioSystem : BaseSystem<AudioSystem>, ISkywardComponent
 
     public void SetMusicVolume(float value)
     {
-        AdjustVolume(ambienceBus, value);
+        AdjustVolume(musicBus, value);
         PlayerPrefs.SetFloat("MusicVolume", value);
     }
 

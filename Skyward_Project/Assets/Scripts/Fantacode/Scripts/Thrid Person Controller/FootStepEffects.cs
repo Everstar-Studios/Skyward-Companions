@@ -7,7 +7,6 @@ namespace Skyward.Characters
 {
     public class FootStepEffects : MonoBehaviour
     {
-        [SerializeField] List<AudioClip> footStepSounds;
         [SerializeField] AudioAsset footstepAudioAsset;
         [SerializeField] List<GameObject> footStepParticles;
 

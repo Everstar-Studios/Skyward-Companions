@@ -5,17 +5,18 @@ using UnityEngine;
 public class LobbyMusicPlayer : AmbientSoundPlayer
 {
     protected override bool CanPlayAutomatically() => false;
-    private IEnumerator Start()
+    protected override IEnumerator Start()
     {
+        yield return base.Start();
         yield return new WaitUntil(() => GameSystem.Instance != null);
         GameSystem.PreLevelLoad += LevelLoading;
         
-        audioAsset.Play(transform.position);
+        audioInstance?.Play();
     }
 
     private void LevelLoading(object sender, EventArgs args)
     {
-        Stop();
+        audioInstance?.Stop();
     }
 
     private void OnDestroy()

@@ -77,13 +77,7 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
         videoPlayer.clip = VideoClip;
         videoPlayer.audioOutputMode = VideoAudioOutputMode.AudioSource;
 
-        videoAudioSource = gameObject.AddComponent<AudioSource>();
-        videoAudioSource.playOnAwake = false;
-        videoAudioSource.volume = 1f;
-
-        videoPlayer.SetTargetAudioSource(0, videoAudioSource);
-        videoPlayer.EnableAudioTrack(0, true);
-
+        // Video player sound needs to go through FMOD
         videoPlayer.loopPointReached += OnVideoEnded;
         videoPlayer.Prepare();
     }
@@ -150,6 +144,8 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
 
             GameManager.Instance.GameHUD.cutsceneRawImage.texture = renderTexture;
             GameManager.Instance.GameHUD.cutsceneRawImage.gameObject.SetActive(true);
+            
+            AudioSystem.PauseMusic();
 
             CutsceneSystem.Play(videoPlayer);
             CutsceneSystem.CutsceneSkipped += SkipCutscene;
@@ -203,6 +199,7 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
             GameInputSystem.EnableInput();
 
         CameraSystem.EnableCamera();
+        AudioSystem.UnpauseMusic();
 
         if (renderTexture != null)
         {
