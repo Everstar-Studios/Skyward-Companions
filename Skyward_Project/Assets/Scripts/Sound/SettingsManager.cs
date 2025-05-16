@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,7 +7,7 @@ public class SettingsManager : MonoBehaviour
     [SerializeField] private Slider musicVolumeSlider;
     [SerializeField] private Slider sfxVolumeSlider;
 
-    private void Start()
+    private IEnumerator Start()
     {
         float musicVol = PlayerPrefs.GetFloat("MusicVolume", 1f);
         float sfxVol = PlayerPrefs.GetFloat("SFXVolume", 1f);
@@ -14,6 +15,7 @@ public class SettingsManager : MonoBehaviour
         musicVolumeSlider.value = musicVol;
         sfxVolumeSlider.value = sfxVol;
 
+        yield return new WaitUntil(() => AudioSystem.Instance != null);
         ApplyMusicVolume(musicVol);
         ApplySFXVolume(sfxVol);
 
