@@ -35,7 +35,7 @@ namespace FS_ParkourSystem
         
         private void OnDisable()
         {
-            input.Disable();
+            input?.Disable();
         }
 
         private void Update()

@@ -8,12 +8,18 @@ namespace Skyward.Core
         protected GameContext GameContext => gamecontext; 
         
         protected virtual void Initialize(GameContext context) { }
+        protected virtual void PostInitialize(GameContext context) { }
         protected virtual void WorldLoading(GameContext context) { }
         protected virtual void Cleanup() { }
 
         void ISystem.Initialize(GameContext context)
         {
             Initialize(context);
+        }
+
+        void ISystem.PostInitialize(GameContext context)
+        {
+            PostInitialize(context);
         }
         
         void ISystem.OnWorldLoading(GameContext context)

@@ -1,16 +1,22 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class LobbyMusicPlayer : AmbientSoundPlayer
 {
-    private void Start()
+    private IEnumerator Start()
     {
-        SkywardGame.Instance.levelLoading += LevelLoading;
+        yield return new WaitUntil(() => GameSystem.Instance != null);
+        GameSystem.PreLevelLoad += LevelLoading;
     }
 
-    private void LevelLoading(AsyncOperation obj)
+    private void LevelLoading(object sender, EventArgs args)
     {
-        SkywardGame.Instance.levelLoading -= LevelLoading;
         Stop();
+    }
+
+    private void OnDestroy()
+    {
+        GameSystem.PreLevelLoad -= LevelLoading;
     }
 }

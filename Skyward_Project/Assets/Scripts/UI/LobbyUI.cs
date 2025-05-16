@@ -12,10 +12,12 @@ public class LobbyUI : MonoBehaviour
     [SerializeField]
     private SkywardGame game;
     
+    public GameObject mainPanel;
     public GameObject mainMenuScreen;
     public GameObject playScreen;
     public GameObject leaderboardScreen;
     public GameObject loadingScreen;
+    public TMP_Text loadingText;
     public GameObject settingsScreen;
     public GameObject namePanel;
 
@@ -25,9 +27,9 @@ public class LobbyUI : MonoBehaviour
 
     private IEnumerator Start()
     {
-        yield return game.Initialize();
-        game.preLevelLoading += PreLevelLoading;
-        game.levelLoading += LevelLoading;
+        nameField.onEndEdit.AddListener(NameCreated);
+        nameField.onValidateInput += (input, charIndex, addedChar) => NameChanged(input, addedChar);
+        loadingScreenSlider = loadingScreen.GetComponentInChildren<Slider>();
         
         menus.Add(mainMenuScreen);
         menus.Add(namePanel);
@@ -36,7 +38,20 @@ public class LobbyUI : MonoBehaviour
         menus.Add(loadingScreen);
         menus.Add(settingsScreen);
         menus.ForEach(g => g.SetActive(false));
-        yield return new WaitUntil(() => PlayerSystem.Instance != null);
+
+        yield return Initialize();
+    }
+
+    private IEnumerator Initialize(bool reinitialization = false)
+    {
+        yield return game.Initialize(reinitialization);
+        
+        GameSystem.PreLevelLoad += PreLevelLoading;
+        GameSystem.LevelLoading += LevelLoading;
+        GameSystem.LevelLoaded += LevelLoaded;
+        GameSystem.LevelDownloading += LevelDownloading;
+        GameSystem.BackToMainMenu += BackToMainMenu;
+        
         bool hasName = !string.IsNullOrEmpty(PlayerSystem.PlayerName);
         
         if (hasName)
@@ -46,35 +61,54 @@ public class LobbyUI : MonoBehaviour
         }
 
         OpenNameScreen();
-        nameField.onEndEdit.AddListener(NameCreated);
-        nameField.onValidateInput += (input, charIndex, addedChar) => NameChanged(input, addedChar);
+    }
+
+    private void Cleanup()
+    {
+        GameSystem.PreLevelLoad -= PreLevelLoading;
+        GameSystem.LevelLoading -= LevelLoading;
+        GameSystem.LevelLoaded -= LevelLoaded;
+        GameSystem.LevelDownloading -= LevelDownloading;
+        GameSystem.Quitting -= BackToMainMenu;
+    }
+
+    private void BackToMainMenu(object sender, EventArgs args)
+    {
+        Cleanup();
+        mainPanel.SetActive(true);
+        StartCoroutine(Initialize(reinitialization: true));
     }
 
     private void OnDestroy()
     {
-        game.preLevelLoading -= PreLevelLoading;
-        game.levelLoading -= LevelLoading;
+        Cleanup();
     }
 
-    private void PreLevelLoading()
+    private void LevelLoaded(object sender, EventArgs args)
+    {
+        menus.ForEach(g => g.SetActive(false));
+        loadingScreen.SetActive(false);
+        mainPanel.SetActive(false);
+    }
+
+    private void PreLevelLoading(object sender, EventArgs args)
     {
         menus.ForEach(g => g.SetActive(false));
         loadingScreen.SetActive(true);
     }
 
-    private void LevelLoading(AsyncOperation async)
+    private Slider loadingScreenSlider;
+    private void LevelLoading(object sender, float progress)
     {
-        StartCoroutine(LoadingScreen(async));
+        loadingScreenSlider.value = progress;
+        loadingText.text = "Loading...";
     }
-
-    public IEnumerator LoadingScreen(AsyncOperation async)
+    
+    private void LevelDownloading(object sender, float progress)
     {
-        var slider = loadingScreen.GetComponentInChildren<Slider>();
-        while (!async.isDone)
-        {
-            slider.value = async.progress;
-            yield return null;
-        }
+        loadingScreenSlider.value = progress;
+        float progressPercent = progress * 100f;
+        loadingText.text = $"Downloading Level... %{progressPercent:F0}";
     }
 
     private char NameChanged(string newName, char character)
@@ -123,10 +157,5 @@ public class LobbyUI : MonoBehaviour
     {
         menus.ForEach(g => g.SetActive(false));
         namePanel.SetActive(true);
-    }
-
-    public void OpenLevel(string sceneName)
-    {
-        GameSystem.LaunchLevel(sceneName);
     }
 }

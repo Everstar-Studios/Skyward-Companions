@@ -881,10 +881,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2176237100480255022, guid: 0a2fec15de384f144bd552c8bd8defe2, type: 3}
-      propertyPath: inLobby
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6703727185844269664, guid: 0a2fec15de384f144bd552c8bd8defe2, type: 3}
       propertyPath: m_Name
       value: GO_SkywardGame
@@ -1037,6 +1033,14 @@ PrefabInstance:
       propertyPath: game
       value: 
       objectReference: {fileID: 6207372247178217212}
+    - target: {fileID: 1016110788720789302, guid: 735a04b16a974544ca03fcf1995f887b, type: 3}
+      propertyPath: introLevelLabel.m_LabelString
+      value: Level_00
+      objectReference: {fileID: 0}
+    - target: {fileID: 1899060483043265698, guid: 735a04b16a974544ca03fcf1995f887b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2487135238612570118, guid: 735a04b16a974544ca03fcf1995f887b, type: 3}
       propertyPath: m_Name
       value: GO_LobbyUI

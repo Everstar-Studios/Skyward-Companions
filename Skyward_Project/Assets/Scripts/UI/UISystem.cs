@@ -18,6 +18,12 @@ public class UISystem : BaseSystem, ISkywardComponent
         CutsceneSystem.CutsceneStarted += OnCutsceneStarted;
         CutsceneSystem.CutsceneStopped += OnCutsceneStopped;
         CheckpointSystem.DeathZoneReached += OnDeathZoneReached;
+        GameSystem.LevelLoaded += LevelLoaded;
+    }
+
+    private void LevelLoaded(object sender, EventArgs args)
+    {
+        gameHUD.gameObject.SetActive(true);
     }
 
     private void OnDeathZoneReached(object sender, DeathZoneReachedEventArgs args)
@@ -40,13 +46,18 @@ public class UISystem : BaseSystem, ISkywardComponent
     {
         var renderTexture = GameManager.Instance.GetComponentInChildren<RawImage>(true);
         renderTexture.color = new Color(1, 1, 1, 1);
-        GameManager.SetEnableGameHUD(false);
+        SetEnableGameHUD(false);
     }
     
     private void OnCutsceneStopped(object sender, EventArgs e)
     {
         var renderTexture = GameManager.Instance.GetComponentInChildren<RawImage>(true);
         renderTexture.color = new Color(1, 1, 1, 0);
-        GameManager.SetEnableGameHUD(true);
+        SetEnableGameHUD(true);
+    }
+
+    private void SetEnableGameHUD(bool enable)
+    {
+        gameHUD.gameObject.SetActive(enable);
     }
 }
