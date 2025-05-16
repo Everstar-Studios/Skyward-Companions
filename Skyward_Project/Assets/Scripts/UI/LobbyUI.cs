@@ -158,4 +158,14 @@ public class LobbyUI : MonoBehaviour
         menus.ForEach(g => g.SetActive(false));
         namePanel.SetActive(true);
     }
+
+    public void OpenPrivacyPolicy()
+    {
+        Application.OpenURL("https://sites.google.com/view/skywardcompanions/privacy-policy?authuser=0");
+    }
+
+    public void OpenTermsOfService()
+    {
+        Application.OpenURL("https://sites.google.com/view/skywardcompanions/terms-conditions?authuser=0");
+    }
 }

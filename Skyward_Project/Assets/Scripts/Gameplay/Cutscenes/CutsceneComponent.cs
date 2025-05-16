@@ -24,6 +24,9 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     [field: SerializeField, ShowIf("@cutsceneType == ECutsceneType.Video")]
     public VideoClip VideoClip { get; private set; }
 
+    public AudioAsset audioAsset;
+    private AudioInstance audioInstance;
+
     [SerializeField] private Collider trigger;
     [SerializeField] private bool disableInput = true;
     [SerializeField] private UnityEvent onCutsceneStarted;
@@ -36,6 +39,13 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     private PlayableDirector director;
     private VideoPlayer videoPlayer;
     private RenderTexture renderTexture;
+    private AudioSource videoAudioSource;
+
+    private void Awake()
+    {
+        if (audioAsset == null)
+            Debug.LogWarning($"{gameObject.name} cutscene does not have an audio asset set therefore it won't play sound.");
+    }
 
     void ISkywardComponent.WorldLoaded(GameContext context)
     {
@@ -72,11 +82,15 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     private void SetupVideoPlayer()
     {
         videoPlayer = gameObject.AddComponent<VideoPlayer>();
-        videoPlayer.playOnAwake = playOnAwake;
+        videoPlayer.playOnAwake = false;
         videoPlayer.clip = VideoClip;
+        videoPlayer.audioOutputMode = VideoAudioOutputMode.AudioSource;
+
+        // Video player sound needs to go through FMOD
         videoPlayer.loopPointReached += OnVideoEnded;
         videoPlayer.Prepare();
     }
+
 
     void ISkywardComponent.Cleanup()
     {
@@ -88,8 +102,11 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
 
         if (director != null)
             director.stopped -= OnCutsceneEnd;
-        else if (videoPlayer != null)
+
+        if (videoPlayer != null)
             videoPlayer.loopPointReached -= OnVideoEnded;
+
+        CutsceneSystem.CutsceneSkipped -= SkipCutscene;
 
         hasPlayed = false;
     }
@@ -136,15 +153,19 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
 
             GameManager.Instance.GameHUD.cutsceneRawImage.texture = renderTexture;
             GameManager.Instance.GameHUD.cutsceneRawImage.gameObject.SetActive(true);
+            
+            AudioSystem.PauseMusic();
 
             CutsceneSystem.Play(videoPlayer);
             CutsceneSystem.CutsceneSkipped += SkipCutscene;
         }
 
+        if (AudioSystem.TryCreateAudioInstance(audioAsset, gameObject, out audioInstance))
+            audioInstance.Play();
+        
         if (disableInput)
             GameInputSystem.DisableInput();
-
-        AudioSystem.Pause();
+        
         CameraSystem.DisableCamera();
 
         onCutsceneStarted?.Invoke();
@@ -153,19 +174,32 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     private void OnCutsceneEnd(PlayableDirector _)
     {
         OnEnd();
-        CutsceneSystem.OnCutsceneEnded(director);
+
+        if (director != null)
+        {
+            CutsceneSystem.OnCutsceneEnded(director);
+            director.Stop();
+            Destroy(director);
+            director = null;
+        }
+
         CutsceneSystem.CutsceneSkipped -= SkipCutscene;
-        director.Stop();
-        Destroy(director);
     }
 
     private void OnVideoEnded(VideoPlayer _)
     {
         OnEnd();
-        CutsceneSystem.OnVideoEnded(videoPlayer);
-        videoPlayer.Stop();
-        GameManager.Instance.GameHUD.cutsceneRawImage.texture = null;
-        Destroy(videoPlayer);
+
+        if (videoPlayer != null)
+        {
+            CutsceneSystem.OnVideoEnded(videoPlayer);
+            videoPlayer.Stop();
+            GameManager.Instance.GameHUD.cutsceneRawImage.texture = null;
+            Destroy(videoPlayer);
+            videoPlayer = null;
+        }
+
+        CutsceneSystem.CutsceneSkipped -= SkipCutscene;
     }
 
     private void OnEnd()
@@ -177,7 +211,15 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
             GameInputSystem.EnableInput();
 
         CameraSystem.EnableCamera();
-        AudioSystem.Unpause();
+
+        if (audioInstance != null)
+        {
+            audioInstance.Stop();
+            AudioSystem.ReleaseInstance(ref audioInstance);
+            
+        }
+        
+        AudioSystem.UnpauseMusic();
 
         if (renderTexture != null)
         {
@@ -186,7 +228,7 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
             renderTexture = null;
         }
 
-        if (GameManager.Instance?.GameHUD?.cutsceneRawImage != null)
+        if (GameManager.Instance.GameHUD.cutsceneRawImage != null)
         {
             GameManager.Instance.GameHUD.cutsceneRawImage.texture = null;
         }
@@ -199,9 +241,13 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
 
     private void SkipCutscene(object sender, EventArgs args)
     {
-        if (videoPlayer != null)
+        if (videoPlayer != null && videoPlayer.gameObject != null)
+        {
             OnVideoEnded(videoPlayer);
-        else if (director != null)
+        }
+        else if (director != null && director.gameObject != null)
+        {
             OnCutsceneEnd(director);
+        }
     }
 }

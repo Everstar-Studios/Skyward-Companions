@@ -15,6 +15,10 @@ public class DeathZoneComponent : MonoBehaviour, ISkywardComponent
 
     private void OnTriggerEnter(Collider other)
     {
-        CheckpointSystem.EnteredDeathZone();
+        var player = PlayerSystem.Player;
+        if (other.gameObject != player.gameObject)
+            return;
+        
+        CheckpointSystem.EnteredDeathZone(this, player);
     }
 }

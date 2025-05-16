@@ -7,7 +7,7 @@ namespace Skyward.Characters
 {
     public class FootStepEffects : MonoBehaviour
     {
-        [SerializeField] List<AudioClip> footStepSounds;
+        [SerializeField] AudioAsset footstepAudioAsset;
         [SerializeField] List<GameObject> footStepParticles;
 
         [SerializeField] List<OverrideStepEffects> overrideStepEffects;
@@ -50,7 +50,7 @@ namespace Skyward.Characters
 
         public void OnFootLand(Transform footTransform, FloorStepData floorData = null)
         {
-            var sounds = footStepSounds;
+            AudioAsset audioAsset = footstepAudioAsset;
             var particleEffects = footStepParticles;
 
             if (floorData != null && overrideStepEffects != null)
@@ -61,25 +61,19 @@ namespace Skyward.Characters
                 if (overrideEffect != null)
                 {
                     if (overrideEffect.ovverideFootStepSounds)
-                        sounds = overrideEffect.footStepSounds;
+                        audioAsset = overrideEffect.footstepAudioAsset;
 
                     if (overrideEffect.overrideFootStepParticles)
                         particleEffects = overrideEffect.footStepParticles;
                 }
             }
 
-            if(sounds != null && sounds.Count > 0)
+            if(audioAsset != null)
             {
                 if (playerController != null && !soundIgnoreStates.Contains(playerController.FocusedSystemState))
-                {
-                    float moveAmount = 1;
-                    if(playerController.CurrentSystemState == SystemState.Locomotion && animator.GetCurrentAnimatorStateInfo(0).IsName("Locomotion"))
-                        moveAmount = animator.GetFloat(AnimatorParameters.moveAmount) / 1.5f;
-                    PlaySfx(sounds[Random.Range(0, sounds.Count)]);
-                }
+                    audioAsset.Play(transform.position);
                 else if (playerController == null)
-                    PlaySfx(sounds[Random.Range(0, sounds.Count)]);
-
+                    audioAsset.Play(transform.position);
             }
 
             if (particleEffects != null && particleEffects.Count > 0)
@@ -90,12 +84,7 @@ namespace Skyward.Characters
                     SpawnParticle(particleEffects[Random.Range(0, particleEffects.Count)], footTransform);
             }
         }
-
-        void PlaySfx(AudioClip clip)
-        {
-            AudioSystem.Play(clip);
-        }
-
+        
         void SpawnParticle(GameObject particleEffect, Transform footTransform)
         {
             var particleObj = Instantiate(particleEffect, footTransform.position, footTransform.rotation);
@@ -130,7 +119,7 @@ namespace Skyward.Characters
         public bool ovverideFootStepSounds;
         public bool overrideFootStepParticles;
 
-        public List<AudioClip> footStepSounds;
+        public AudioAsset footstepAudioAsset;
         public List<GameObject> footStepParticles;
 
         public string Tag => tag;
