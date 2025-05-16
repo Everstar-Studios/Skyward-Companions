@@ -46,6 +46,11 @@ namespace Skyward.Characters
         {
             input = new LocomotionInputAction();
             input.Enable();
+
+        }
+
+        void ISkywardComponent.WorldLoaded(GameContext context)
+        {
             GameInputSystem.AddInputAction(input);
             GameInputSystem.InputDisabled += InputDisabled;
         }
