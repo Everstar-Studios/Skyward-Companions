@@ -30,6 +30,11 @@ namespace FS_ParkourSystem
         {
             input = new ParkourInputAction();
             input.Enable();
+
+        }
+
+        void ISkywardComponent.WorldLoaded(GameContext context)
+        {
             GameInputSystem.AddInputAction(input);
         }
         

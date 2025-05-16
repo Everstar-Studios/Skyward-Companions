@@ -7,7 +7,7 @@ using FMODUnity;
 [RequiredSystem]
 public class AudioSystem : BaseSystem<AudioSystem>, ISkywardComponent
 {
-    private List<AudioInstance> audioInstances;
+    private List<AudioInstance> audioInstances = new();
 
     private Bus sfxBus;
     private Bus musicBus;
