@@ -6,17 +6,17 @@ using UnityEngine.Audio;
 
 public class AmbientSoundPlayer : MonoBehaviour, ISkywardComponent
 {
-    public AudioResource audioResource;
+    public AudioClip clip;
     private AudioSource source;
+
+    protected virtual bool CanPlayAutomatically() => true;
 
     private void Awake()
     {
-        source = gameObject.AddComponent<AudioSource>();
-        source.resource = audioResource;
-        source.loop = true;
         source.playOnAwake = false;
         source.spatialBlend = 0f;
-        source.Play();
+        if (CanPlayAutomatically())
+            source.Play();
     }
     
     public void Pause()

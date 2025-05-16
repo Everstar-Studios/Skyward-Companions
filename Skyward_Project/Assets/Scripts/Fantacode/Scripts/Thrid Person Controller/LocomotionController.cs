@@ -706,7 +706,7 @@ namespace Skyward.Characters
             if (playerController.CurrentSystemState != State) yield break;
 
             var jumpSounds = Configs.PlayerConfig.jumpSounds;
-            AudioSystem.PlayRandom(jumpSounds);
+            AudioSystem.PlayRandomSFX(jumpSounds);
             if (force <= float.Epsilon)
                 force = Mathf.Abs(Gravity);
                 
@@ -761,7 +761,7 @@ namespace Skyward.Characters
             jumpHeightDiff = Mathf.Abs(jumpMaxPosY - transform.position.y);
             if (jumpHeightDiff > minJumpHeightForHardland)
             {
-                AudioSystem.PlayRandom(Configs.PlayerConfig.hardLandingSounds);
+                AudioSystem.PlayRandomSFX(Configs.PlayerConfig.hardLandingSounds);
                 characterController.Move(Vector3.down);
                 var halfExtends = new Vector3(.3f, .9f, 0.01f);
                 var hasSpaceForRoll = Physics.BoxCast(transform.position + Vector3.up, halfExtends, transform.forward, Quaternion.LookRotation(transform.forward), 2.5f, environmentScanner.ObstacleLayer);
@@ -782,7 +782,7 @@ namespace Skyward.Characters
             }
             else
             {
-                AudioSystem.PlayRandom(Configs.PlayerConfig.softLandingSounds);
+                AudioSystem.PlayRandomSFX(Configs.PlayerConfig.softLandingSounds);
                 animator.CrossFadeInFixedTime("LandAndStepForward", .1f);
             }
         }

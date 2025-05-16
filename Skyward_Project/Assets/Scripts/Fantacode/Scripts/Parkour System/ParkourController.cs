@@ -135,7 +135,7 @@ namespace FS_ParkourSystem
                 var hitData = environmentScanner.ObstacleCheck();
                 HandleParkourAction(hitData);
 
-                AudioSystem.PlayRandom(Configs.PlayerConfig.jumpSounds);
+                AudioSystem.PlayRandomSFX(Configs.PlayerConfig.jumpSounds);
                 HandlePredictiveJumpAndClimb();
 
                 if (hitData.forwardHitFound && !InAction && Vector3.Angle(Vector3.up, hitData.forwardHit.normal) > 60f && !climbController.isFalling && EnableWallRun)

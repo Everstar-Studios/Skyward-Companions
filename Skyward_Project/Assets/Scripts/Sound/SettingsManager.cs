@@ -8,7 +8,6 @@ public class SettingsManager : MonoBehaviour
 
     private void Start()
     {
-        // Kaydedilen ayarları yükle
         float musicVol = PlayerPrefs.GetFloat("MusicVolume", 1f);
         float sfxVol = PlayerPrefs.GetFloat("SFXVolume", 1f);
 
@@ -25,22 +24,20 @@ public class SettingsManager : MonoBehaviour
     private void OnMusicVolumeChanged(float value)
     {
         ApplyMusicVolume(value);
-        PlayerPrefs.SetFloat("MusicVolume", value);
     }
 
     private void OnSFXVolumeChanged(float value)
     {
         ApplySFXVolume(value);
-        PlayerPrefs.SetFloat("SFXVolume", value);
     }
 
     private void ApplyMusicVolume(float value)
     {
-        AudioSystem.Instance?.SetMusicVolume(value);
+        AudioSystem.Instance.SetMusicVolume(value);
     }
 
     private void ApplySFXVolume(float value)
     {
-        AudioSystem.Instance?.SetSoundEffectsVolume(value);
+        AudioSystem.Instance.SetSoundEffectsVolume(value);
     }
 }

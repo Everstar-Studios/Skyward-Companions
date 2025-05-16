@@ -47,7 +47,6 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     private IEnumerator Setup()
     {
         yield return new WaitForEndOfFrame();
-        yield return new WaitUntil(() => AudioSystem.Instance != null); // 🔒 AudioSystem hazır mı?
 
         if (cutsceneType == ECutsceneType.Timeline && Timeline != null)
             SetupPlayableDirector();
@@ -81,11 +80,8 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
         videoAudioSource = gameObject.AddComponent<AudioSource>();
         videoAudioSource.playOnAwake = false;
         videoAudioSource.volume = 1f;
-
-        // 🔒 BURAYA DİKKAT: AudioSystem Mixer grubunu null'a düşmeden bağla
-        var mixerGroup = AudioSystem.Instance != null ? AudioSystem.Instance.GetMusicMixerGroup() : null;
-        if (mixerGroup != null)
-            videoAudioSource.outputAudioMixerGroup = mixerGroup;
+        
+        videoAudioSource.outputAudioMixerGroup = AudioSystem.Instance.GetMusicMixerGroup();
 
         videoPlayer.SetTargetAudioSource(0, videoAudioSource);
         videoPlayer.EnableAudioTrack(0, true);
@@ -163,8 +159,7 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
 
         if (disableInput)
             GameInputSystem.DisableInput();
-
-        AudioSystem.Pause();
+        
         CameraSystem.DisableCamera();
 
         onCutsceneStarted?.Invoke();
@@ -179,7 +174,7 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
             CutsceneSystem.OnCutsceneEnded(director);
             director.Stop();
             Destroy(director);
-            director = null; // 🔒 güvenlik için
+            director = null;
         }
 
         CutsceneSystem.CutsceneSkipped -= SkipCutscene;
@@ -195,7 +190,7 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
             videoPlayer.Stop();
             GameManager.Instance.GameHUD.cutsceneRawImage.texture = null;
             Destroy(videoPlayer);
-            videoPlayer = null; // 🔒 güvenlik için
+            videoPlayer = null;
         }
 
         CutsceneSystem.CutsceneSkipped -= SkipCutscene;
@@ -211,9 +206,6 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
 
         CameraSystem.EnableCamera();
 
-        if (AudioSystem.Instance != null)
-            AudioSystem.Unpause();
-
         if (renderTexture != null)
         {
             renderTexture.Release();
@@ -221,7 +213,7 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
             renderTexture = null;
         }
 
-        if (GameManager.Instance?.GameHUD?.cutsceneRawImage != null)
+        if (GameManager.Instance.GameHUD.cutsceneRawImage != null)
         {
             GameManager.Instance.GameHUD.cutsceneRawImage.texture = null;
         }

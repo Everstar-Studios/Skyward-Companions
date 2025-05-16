@@ -131,7 +131,7 @@ namespace Skyward.Systems
 
         public static void EnteredDeathZone()
         {
-            AudioSystem.PlayRandom(Configs.PlayerConfig.deathSoudns);
+            AudioSystem.PlayRandomSFX(Configs.PlayerConfig.deathSoudns);
             RespawnFromLastCheckpoint();
         }
     }
