@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Audio;
 using System.Collections.Generic;
@@ -7,26 +6,11 @@ using FMOD.Studio;
 using FMODUnity;
 using Random = UnityEngine.Random;
 
-[Serializable]
-public struct AudioData
-{
-    public AudioClip clip;
-    public AudioMixer mixer;
-}
-
-public enum SoundType
-{
-    Music,
-    SFX
-}
-
 [RequiredSystem]
 public class AudioSystem : BaseSystem<AudioSystem>, ISkywardComponent
 {
     private List<AudioInstance> audioInstances;
-    [Header("Mixer")]
-    public AudioMixer audioMixer;
-    
+
     private Bus sfxBus;
     private Bus ambienceBus;
 
@@ -57,17 +41,6 @@ public class AudioSystem : BaseSystem<AudioSystem>, ISkywardComponent
         }
         
         audioInstances.Clear();
-    }
-
-    public static void Play(AudioAsset audioAsset)
-    {
-        
-    }
-    
-    public static void PlayRandomSFX(AudioClip[] clips)
-    {
-        var clip = clips[Random.Range(0, clips.Length)];
-        //Play(clip, SoundType.SFX);
     }
     
     public static void PlayOneShot(AudioAsset sound, Vector3 worldPosition = default)
@@ -154,14 +127,7 @@ public class AudioSystem : BaseSystem<AudioSystem>, ISkywardComponent
 
     public void SetSoundEffectsVolume(float value)
     {
-        SoundEffectsVolume = value;
-        float db = value <= 0.0001f ? -80f : Mathf.Log10(value) * 20f;
-        audioMixer.SetFloat("SFXVolume", db);
+        AdjustVolume(sfxBus, value);
         PlayerPrefs.SetFloat("SFXVolume", value);
-    }
-    
-    public AudioMixerGroup GetMusicMixerGroup()
-    {
-        return audioMixer.FindMatchingGroups("Music")[0];
     }
 }
