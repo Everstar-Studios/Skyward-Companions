@@ -57,7 +57,16 @@ public class SkywardGame : MonoBehaviour
         context.Load();
         
         yield return ConfigSystem.AllConfigurationsLoaded;
+        
+        NotifyPostInitialize();
+        
         yield return new WaitForFixedUpdate();
+    }
+
+    private void NotifyPostInitialize()
+    {
+        foreach (ISystem system in systems)
+            system.PostInitialize(context);
     }
     
     private IEnumerator LaunchedFromLevel()
@@ -82,7 +91,7 @@ public class SkywardGame : MonoBehaviour
         OnLevelLoaded();
     }
 
-    internal void OnLevelLoaded()
+    private void OnLevelLoaded()
     {
         #if UNITY_EDITOR
         Cursor.visible = false;

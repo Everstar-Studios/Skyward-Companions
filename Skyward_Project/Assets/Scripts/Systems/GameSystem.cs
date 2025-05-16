@@ -88,6 +88,14 @@ public class GameSystem : BaseSystem<GameSystem>
         remove => Instance.backToMainMenu -= value;
     }
     
+    public static event EventHandler<string> CatalogLoaded
+    {
+        add => Instance.catalogLoaded += value;
+        remove => Instance.catalogLoaded -= value;
+    }
+
+    private event EventHandler<string> catalogLoaded;
+    
     protected override void Initialize(GameContext context)
     {
         base.Initialize(context);
@@ -97,10 +105,16 @@ public class GameSystem : BaseSystem<GameSystem>
         StartCoroutine(InitializeInternal());
     }
 
+    protected override void PostInitialize(GameContext context)
+    {
+        base.PostInitialize(context);
+
+        StartCoroutine(TryLoadNextUncompletedScene());
+    }
+
     private IEnumerator InitializeInternal()
     {
         yield return LoadCatalog();
-        yield return TryLoadNextUncompletedScene();
     }
 
     private IEnumerator LoadCatalog()
@@ -120,6 +134,7 @@ public class GameSystem : BaseSystem<GameSystem>
 
         Addressables.Release(catalogHandle);
         Debug.Log($"Remote catalog loaded: {catalogUrl}");
+        catalogLoaded?.Invoke(this, catalogUrl);
     }
 
     private IEnumerator TryLoadNextUncompletedScene()
@@ -239,7 +254,7 @@ public class GameSystem : BaseSystem<GameSystem>
         Instance.sceneInfo.MarkComplete();
         GameInputSystem.DisableInput();
         Instance.levelCompleted?.Invoke(Instance, EventArgs.Empty);
-        Instance.TryLoadNextUncompletedScene();
+        Instance.StartCoroutine(Instance.TryLoadNextUncompletedScene());
         MainMenu();
     }
 

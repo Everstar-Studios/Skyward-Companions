@@ -5,6 +5,6 @@ using UnityEngine.AddressableAssets;
 public class ConfigComponent : MonoBehaviour
 {
     [SerializeField, AssetReferenceUILabelRestriction("Config")]
-    private List<BaseConfig> configs;
-    public IEnumerable<BaseConfig> Configs => configs;
+    private List<AssetReference> configs;
+    public IEnumerable<AssetReference> Configs => configs;
 }
