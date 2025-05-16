@@ -24,6 +24,9 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     [field: SerializeField, ShowIf("@cutsceneType == ECutsceneType.Video")]
     public VideoClip VideoClip { get; private set; }
 
+    public AudioAsset audioAsset;
+    private AudioInstance audioInstance;
+
     [SerializeField] private Collider trigger;
     [SerializeField] private bool disableInput = true;
     [SerializeField] private UnityEvent onCutsceneStarted;
@@ -37,6 +40,12 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     private VideoPlayer videoPlayer;
     private RenderTexture renderTexture;
     private AudioSource videoAudioSource;
+
+    private void Awake()
+    {
+        if (audioAsset == null)
+            Debug.LogWarning($"{gameObject.name} cutscene does not have an audio asset set therefore it won't play sound.");
+    }
 
     void ISkywardComponent.WorldLoaded(GameContext context)
     {
@@ -151,6 +160,9 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
             CutsceneSystem.CutsceneSkipped += SkipCutscene;
         }
 
+        if (AudioSystem.TryCreateAudioInstance(audioAsset, gameObject, out audioInstance))
+            audioInstance.Play();
+        
         if (disableInput)
             GameInputSystem.DisableInput();
         
@@ -199,6 +211,14 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
             GameInputSystem.EnableInput();
 
         CameraSystem.EnableCamera();
+
+        if (audioInstance != null)
+        {
+            audioInstance.Stop();
+            AudioSystem.ReleaseInstance(ref audioInstance);
+            
+        }
+        
         AudioSystem.UnpauseMusic();
 
         if (renderTexture != null)

@@ -11,6 +11,7 @@ public class AudioSystem : BaseSystem<AudioSystem>, ISkywardComponent
 
     private Bus sfxBus;
     private Bus musicBus;
+    private Bus cutsceneBus;
     
     protected override void Initialize(GameContext context)
     {
@@ -18,6 +19,7 @@ public class AudioSystem : BaseSystem<AudioSystem>, ISkywardComponent
         
         sfxBus = RuntimeManager.GetBus("bus:/SFX");
         musicBus = RuntimeManager.GetBus("bus:/Music");
+        cutsceneBus = RuntimeManager.GetBus("bus:/Cutscene");
 
         float savedSFXVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
         float savedMusicVolume = PlayerPrefs.GetFloat("MusicVolume", 1f);
@@ -67,6 +69,13 @@ public class AudioSystem : BaseSystem<AudioSystem>, ISkywardComponent
         var instance = AudioInstance.Create(audioAsset, gameObject);
         Instance.audioInstances.Add(instance);
         return instance;
+    }
+
+    public static bool TryCreateAudioInstance(AudioAsset audioAsset, GameObject gameObject,
+        out AudioInstance audioInstance)
+    {
+        audioInstance = CreateAudioInstance(audioAsset, gameObject);
+        return audioInstance != null;
     }
 
     public static void ReleaseInstance(ref AudioInstance audioInstance)
