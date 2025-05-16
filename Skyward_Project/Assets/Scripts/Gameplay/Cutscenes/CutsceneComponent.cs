@@ -80,8 +80,6 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
         videoAudioSource = gameObject.AddComponent<AudioSource>();
         videoAudioSource.playOnAwake = false;
         videoAudioSource.volume = 1f;
-        
-        videoAudioSource.outputAudioMixerGroup = AudioSystem.Instance.GetMusicMixerGroup();
 
         videoPlayer.SetTargetAudioSource(0, videoAudioSource);
         videoPlayer.EnableAudioTrack(0, true);
