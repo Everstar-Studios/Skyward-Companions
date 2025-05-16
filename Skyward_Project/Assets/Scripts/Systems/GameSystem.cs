@@ -114,7 +114,10 @@ public class GameSystem : BaseSystem<GameSystem>
 
     private IEnumerator InitializeInternal()
     {
+        #if !SKYWARD_DEVELOPMENT
         yield return LoadCatalog();
+        #endif
+        yield break;
     }
 
     private IEnumerator LoadCatalog()
