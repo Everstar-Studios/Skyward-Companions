@@ -5,7 +5,8 @@ using System.Linq;
 using Skyward.Core;
 using Skyward.Utils;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceProviders;
 
 public class SkywardGame : MonoBehaviour
 {
@@ -13,16 +14,17 @@ public class SkywardGame : MonoBehaviour
     
     public GameObject gameManagerPrefab;
     public bool inLobby = false;
+    
     private GameObject GameManager { get; set; }
         
     private GameObject systemsGameObject;
     private GameContext context;
-
+    
     public GameFactory Factory => factory;
     private GameFactory factory;
     
     private List<ISystem> systems = new();
-
+    
     public event Action preLevelLoading;
     public event Action<AsyncOperation> levelLoading;
 
@@ -34,8 +36,6 @@ public class SkywardGame : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        
-        DontDestroyOnLoad(gameObject);
 
         Instance = this;
         
@@ -45,18 +45,30 @@ public class SkywardGame : MonoBehaviour
         }
     }
     
-    public IEnumerator Initialize()
+    public IEnumerator Initialize(bool reinitialization = false)
     {
         context = new GameContext(this);
-
-        Configs.Init();
+        
         //CreateFactory();
-        CreateSystems();
+        if (!reinitialization)
+            CreateSystems();
+        
         CreateGameManager();
         context.Load();
-        yield break;
+        
+        yield return ConfigSystem.AllConfigurationsLoaded;
+        
+        NotifyPostInitialize();
+        
+        yield return new WaitForFixedUpdate();
     }
 
+    private void NotifyPostInitialize()
+    {
+        foreach (ISystem system in systems)
+            system.PostInitialize(context);
+    }
+    
     private IEnumerator LaunchedFromLevel()
     {
         yield return Initialize();
@@ -66,35 +78,25 @@ public class SkywardGame : MonoBehaviour
         yield return new WaitForEndOfFrame();
         OnLevelLoaded();
     }
-
-    public void LaunchLevel(string sceneName)
+    
+    private void Completed(AsyncOperationHandle<SceneInstance> obj)
     {
-        StartCoroutine(LaunchLevelInternal(sceneName));
-
+        if (obj.Status == AsyncOperationStatus.Succeeded)
+            obj.Result.ActivateAsync();
     }
 
-    private IEnumerator LaunchLevelInternal(string sceneName)
+    public void LevelLoadCompleted()
     {
-        preLevelLoading?.Invoke();
-        yield return new WaitForEndOfFrame();
-        
-        var async = SceneManager.LoadSceneAsync(sceneName);
-        levelLoading?.Invoke(async);
-        async.completed += LevelLoadCompleted;
-        NotifyLevelLoading();
-    }
-
-    private void LevelLoadCompleted(AsyncOperation async)
-    {
-        async.completed -= LevelLoadCompleted;
         TrackPrespawnedObjects();
         OnLevelLoaded();
     }
 
     private void OnLevelLoaded()
     {
+        #if UNITY_EDITOR
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        #endif
         
         NotifyWorldLoaded();
     }
@@ -127,6 +129,7 @@ public class SkywardGame : MonoBehaviour
     
     private void TrackPrespawnedObjects()
     {
+        ComponentSystem.UntrackAll();
         foreach (var obj in FindObjectsByType<GameObject>(FindObjectsInactive.Include, FindObjectsSortMode.None).Where(obj => obj.transform.parent == null))
         {
             foreach (ICoreComponent coreComponent in obj.GetComponentsInChildren<ICoreComponent>(true))
@@ -187,12 +190,9 @@ public class SkywardGame : MonoBehaviour
         
         foreach (ISystem system in systems)
             system.Initialize(context);
-
-        
-        DontDestroyOnLoad(systemsGameObject);
     }
     
-    void NotifyLevelLoading()
+    internal void NotifyLevelLoading()
     {
         foreach (var system in systems)
             system.OnWorldLoading(context);
@@ -217,11 +217,5 @@ public class SkywardGame : MonoBehaviour
         CleanupAllComponents();
         ComponentSystem.UntrackAll();
         DestroyImmediate(GameManager.gameObject);
-        Destroy(systemsGameObject);
-    }
-
-    private void OnApplicationQuit()
-    {
-        Quit();
     }
 }

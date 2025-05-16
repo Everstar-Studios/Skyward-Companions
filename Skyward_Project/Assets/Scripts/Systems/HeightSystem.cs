@@ -5,7 +5,6 @@ using Skyward.Characters;
 using Skyward.Core;
 using UnityEngine;
 
-[RequiredSystem]
 public class HeightSystem : BaseSystem<HeightSystem>, ISkywardComponent
 {
     private Transform player;
