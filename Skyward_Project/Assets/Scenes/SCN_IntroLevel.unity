@@ -3057,6 +3057,7 @@ MonoBehaviour:
   cutsceneType: 0
   <Timeline>k__BackingField: {fileID: 11400000, guid: a053b373c4acdc84ab57e47cc84da791, type: 2}
   <VideoClip>k__BackingField: {fileID: 0}
+  audioAsset: {fileID: 0}
   trigger: {fileID: 246222972}
   disableInput: 1
   onCutsceneStarted:
@@ -8843,50 +8844,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.0615366, y: 2.7142704, z: 0.95377743}
   m_Center: {x: 0.52259207, y: 1.3571352, z: 0.0023896398}
---- !u!1 &205110135
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 205110137}
-  - component: {fileID: 205110136}
-  m_Layer: 0
-  m_Name: Banner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &205110136
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 205110135}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ead82205489fed47a0002f82e411b5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &205110137
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 205110135}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 379.13043, y: 224.46451, z: 211285.47}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &205244136
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13794,6 +13751,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1556632534}
     m_Modifications:
+    - target: {fileID: 7777744090663276361, guid: 4f8c8e46eccaa664ebc678fb33966687, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 1351314770895218376, guid: 544eee32500c5634ba4947aea7ab4921, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -13959,10 +13920,6 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8239897610739510173, guid: 544eee32500c5634ba4947aea7ab4921, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7777744090663276361, guid: 4f8c8e46eccaa664ebc678fb33966687, type: 3}
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
@@ -14779,19 +14736,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5171123544310534686, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99955684
+      value: 0.9995433
       objectReference: {fileID: 0}
     - target: {fileID: 5171123544310534686, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.026974168
+      value: -0.0269738
       objectReference: {fileID: 0}
     - target: {fileID: 5171123544310534686, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.012589135
+      value: 0.013621532
       objectReference: {fileID: 0}
     - target: {fileID: 5171123544310534686, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.00033973195
+      value: 0.00036759235
       objectReference: {fileID: 0}
     - target: {fileID: 5209498071287124412, guid: 24b27cccd2bd66b42b089af42c50c3a8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -17033,6 +16990,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1556632534}
     m_Modifications:
+    - target: {fileID: 7777744090663276361, guid: 4f8c8e46eccaa664ebc678fb33966687, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 1351314770895218376, guid: 544eee32500c5634ba4947aea7ab4921, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -17198,10 +17159,6 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8239897610739510173, guid: 544eee32500c5634ba4947aea7ab4921, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7777744090663276361, guid: 4f8c8e46eccaa664ebc678fb33966687, type: 3}
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
@@ -29342,6 +29299,7 @@ MonoBehaviour:
   cutsceneType: 0
   <Timeline>k__BackingField: {fileID: 11400000, guid: d51bdf5d99b488041b2a8c065b03aa2a, type: 2}
   <VideoClip>k__BackingField: {fileID: 0}
+  audioAsset: {fileID: 0}
   trigger: {fileID: 560239342}
   disableInput: 1
   onCutsceneStarted:
@@ -44660,7 +44618,7 @@ GameObject:
   - component: {fileID: 1425350497}
   - component: {fileID: 1425350498}
   m_Layer: 6
-  m_Name: Cutscene2
+  m_Name: BoyCutscene
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44696,7 +44654,8 @@ MonoBehaviour:
   playOnAwake: 0
   cutsceneType: 1
   <Timeline>k__BackingField: {fileID: 0}
-  <VideoClip>k__BackingField: {fileID: 32900000, guid: f91abae48a75d0b439aa7b17cb406fa1, type: 3}
+  <VideoClip>k__BackingField: {fileID: 32900000, guid: fbbb91dba186220419a001da523bb573, type: 3}
+  audioAsset: {fileID: 11400000, guid: 2ee89b239ab90ed4698b0878bd79acc5, type: 2}
   trigger: {fileID: 1234855791}
   disableInput: 1
   onCutsceneStarted:
@@ -45307,19 +45266,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2335962086821572181, guid: ce6b54a94da02704f8e768c537ab5108, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9995564
+      value: 0.9995429
       objectReference: {fileID: 0}
     - target: {fileID: 2335962086821572181, guid: ce6b54a94da02704f8e768c537ab5108, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.026988221
+      value: -0.026987849
       objectReference: {fileID: 0}
     - target: {fileID: 2335962086821572181, guid: ce6b54a94da02704f8e768c537ab5108, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.012589133
+      value: 0.013621528
       objectReference: {fileID: 0}
     - target: {fileID: 2335962086821572181, guid: ce6b54a94da02704f8e768c537ab5108, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.00033990905
+      value: 0.00036778388
       objectReference: {fileID: 0}
     - target: {fileID: 2335962086821572181, guid: ce6b54a94da02704f8e768c537ab5108, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -54888,6 +54847,7 @@ MonoBehaviour:
   cutsceneType: 0
   <Timeline>k__BackingField: {fileID: 11400000, guid: a053b373c4acdc84ab57e47cc84da791, type: 2}
   <VideoClip>k__BackingField: {fileID: 0}
+  audioAsset: {fileID: 0}
   trigger: {fileID: 1489445463}
   disableInput: 1
   onCutsceneStarted:
@@ -61160,7 +61120,7 @@ GameObject:
   - component: {fileID: 1785722688}
   - component: {fileID: 1785722687}
   m_Layer: 0
-  m_Name: Cutscene1
+  m_Name: IntroCutscene
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61181,7 +61141,8 @@ MonoBehaviour:
   playOnAwake: 1
   cutsceneType: 1
   <Timeline>k__BackingField: {fileID: 0}
-  <VideoClip>k__BackingField: {fileID: 32900000, guid: bededc8a10aeeca48b267421a6350443, type: 3}
+  <VideoClip>k__BackingField: {fileID: 32900000, guid: ebbd47fb1fb7a1249866213e1dfc8926, type: 3}
+  audioAsset: {fileID: 11400000, guid: 41e40ae4a4f78c64f8c6e4c649ef4d8d, type: 2}
   trigger: {fileID: 0}
   disableInput: 1
   onCutsceneStarted:
@@ -61237,6 +61198,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1556632534}
     m_Modifications:
+    - target: {fileID: 7777744090663276361, guid: 4f8c8e46eccaa664ebc678fb33966687, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 1351314770895218376, guid: 544eee32500c5634ba4947aea7ab4921, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -61402,10 +61367,6 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8239897610739510173, guid: 544eee32500c5634ba4947aea7ab4921, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7777744090663276361, guid: 4f8c8e46eccaa664ebc678fb33966687, type: 3}
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
@@ -88076,4 +88037,3 @@ SceneRoots:
   - {fileID: 827609838}
   - {fileID: 2125379523}
   - {fileID: 1581917849}
-  - {fileID: 205110137}

@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
 using Skyward.Characters;
+using Skyward.Core;
 using UnityEngine;
 
-public abstract class Platform : MonoBehaviour
+public abstract class Platform : MonoBehaviour, ISkywardComponent
 {
     protected Collider Collider;
     protected bool playerLanded;
@@ -15,10 +16,13 @@ public abstract class Platform : MonoBehaviour
 
     protected virtual IEnumerator Start()
     {
-        if (Collider != null)
-            yield return CheckPlayer();
-
         yield break;
+    }
+
+    void ISkywardComponent.WorldLoaded(GameContext context)
+    {
+        if (Collider != null)
+            StartCoroutine(CheckPlayer());
     }
 
     protected IEnumerator CheckPlayer()

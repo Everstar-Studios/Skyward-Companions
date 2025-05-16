@@ -27,7 +27,7 @@ namespace Skyward.Characters
 
         private void OnEnable()
         {
-            footStepSounds = serializedObject.FindProperty("footStepSounds");
+            footStepSounds = serializedObject.FindProperty("footstepAudioAsset");
             footStepParticles = serializedObject.FindProperty("footStepParticles");
             overrideType = serializedObject.FindProperty("overrideType");
             groundLayer = serializedObject.FindProperty("groundLayer");
@@ -68,7 +68,7 @@ namespace Skyward.Characters
                     var materialNameProp = overrideStepEffect.FindPropertyRelative("materialName");
                     var textureNameProp = overrideStepEffect.FindPropertyRelative("textureName");
 
-                    var overrideFootStepSoundsProp = overrideStepEffect.FindPropertyRelative("ovverideFootStepSounds");
+                    var overrideFootStepSoundsProp = overrideStepEffect.FindPropertyRelative("footstepAudioAsset");
                     var overrideFootStepParticlesProp = overrideStepEffect.FindPropertyRelative("overrideFootStepParticles");
 
                     var footStepSoundsProp = overrideStepEffect.FindPropertyRelative("footStepSounds");

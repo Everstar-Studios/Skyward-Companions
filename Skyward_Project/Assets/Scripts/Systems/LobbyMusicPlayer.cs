@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class LobbyMusicPlayer : AmbientSoundPlayer
 {
-    private IEnumerator Start()
+    protected override bool CanPlayAutomatically() => false;
+    protected override IEnumerator Start()
     {
+        yield return base.Start();
         yield return new WaitUntil(() => GameSystem.Instance != null);
         GameSystem.PreLevelLoad += LevelLoading;
+        
+        audioInstance?.Play();
     }
 
     private void LevelLoading(object sender, EventArgs args)
     {
-        Stop();
+        audioInstance?.Stop();
     }
 
     private void OnDestroy()

@@ -34,7 +34,7 @@ public class HeightSystem : BaseSystem<HeightSystem>, ISkywardComponent
     {
         player = PlayerSystem.Player.transform;
         startingY = player.position.y;
-        coroutine = Instance.StartCoroutine(UpdateHeight());
+        //coroutine = Instance.StartCoroutine(UpdateHeight());
     }
 
     void ISkywardComponent.Cleanup()
@@ -52,7 +52,7 @@ public class HeightSystem : BaseSystem<HeightSystem>, ISkywardComponent
     {
         while (true)
         {
-            height = (player.position.y - startingY) / Configs.PlayerConfig.heightConversionFactor;
+            height = (player.position.y - startingY) / ConfigSystem.GetConfig<PlayerConfig>().heightConversionFactor;
             if (height > heightInfo.highestHeight)
                 heightInfo.highestHeight = height;
             

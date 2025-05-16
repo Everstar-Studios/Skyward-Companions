@@ -129,9 +129,9 @@ namespace Skyward.Systems
             respawningInProgress = false;
         }
 
-        public static void EnteredDeathZone()
+        public static void EnteredDeathZone(DeathZoneComponent deathZone, PlayerController player)
         {
-            AudioSystem.PlayRandom(Configs.PlayerConfig.deathSoudns);
+            ConfigSystem.GetConfig<PlayerConfig>().deathSound.Play(player.transform.position);
             RespawnFromLastCheckpoint();
         }
     }

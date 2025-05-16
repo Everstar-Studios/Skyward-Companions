@@ -159,11 +159,10 @@ public class SkywardGame : MonoBehaviour
         
         foreach (Type systemType in AllRequiredSystems())
         {
-            if (systemsGameObject.TryGetComponent(systemType, out _))
-                continue;
+            Component systemComponent = (Component)FindAnyObjectByType(systemType);
+            if (systemsGameObject.GetComponent(systemType) == null && systemComponent == null)
+                systemComponent = systemsGameObject.AddComponent(systemType);
 
-            systemsGameObject.AddComponent(systemType);
-            Component systemComponent = systemsGameObject.GetComponent(systemType);
             if (systemComponent is BaseSystem baseSystem)
             {
                 baseSystem.gamecontext = context;
