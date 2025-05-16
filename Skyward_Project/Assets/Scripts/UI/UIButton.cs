@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class UIButton : MonoBehaviour
 {
     public AudioClip clickSound;
+    public AudioAsset audioAsset;
     protected Button button;
     protected virtual void Awake()
     {
@@ -20,7 +21,7 @@ public class UIButton : MonoBehaviour
 
     public virtual void OnClick()
     {
-        AudioClip clickSoundSFX = clickSound != null ? clickSound : Configs.UIConfig.defaultButtonClickSound;
-        AudioSystem.Play(clickSoundSFX);
+        AudioAsset clickSoundSFX = audioAsset != null ? audioAsset : ConfigSystem.GetConfig<UIConfig>().defaultButtonClickSound;
+        clickSoundSFX.Play();
     }
 }

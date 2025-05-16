@@ -37,7 +37,7 @@ public class AudioSystem : BaseSystem<AudioSystem>, ISkywardComponent
         base.Initialize(context);
         
         sfxBus = RuntimeManager.GetBus("bus:/SFX");
-        ambienceBus = RuntimeManager.GetBus("bus:/Ambience");
+        ambienceBus = RuntimeManager.GetBus("bus:/Music");
 
         float savedSFXVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
         float savedMusicVolume = PlayerPrefs.GetFloat("MusicVolume", 1f);
@@ -59,7 +59,7 @@ public class AudioSystem : BaseSystem<AudioSystem>, ISkywardComponent
         audioInstances.Clear();
     }
 
-    public static void Play(AudioClip clip, SoundType soundType = SoundType.SFX, float volume = 1f)
+    public static void Play(AudioAsset audioAsset)
     {
         
     }
@@ -67,10 +67,10 @@ public class AudioSystem : BaseSystem<AudioSystem>, ISkywardComponent
     public static void PlayRandomSFX(AudioClip[] clips)
     {
         var clip = clips[Random.Range(0, clips.Length)];
-        Play(clip, SoundType.SFX);
+        //Play(clip, SoundType.SFX);
     }
     
-    public static void PlayOneShot(AudioAsset sound, Vector3 worldPosition)
+    public static void PlayOneShot(AudioAsset sound, Vector3 worldPosition = default)
     {
 #if UNITY_EDITOR
         if (!Application.isPlaying)

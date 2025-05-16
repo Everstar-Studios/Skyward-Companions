@@ -10,7 +10,7 @@ public class LobbyMusicPlayer : AmbientSoundPlayer
         yield return new WaitUntil(() => GameSystem.Instance != null);
         GameSystem.PreLevelLoad += LevelLoading;
         
-        AudioSystem.Play(clip, SoundType.Music);
+        audioAsset.Play(transform.position);
     }
 
     private void LevelLoading(object sender, EventArgs args)

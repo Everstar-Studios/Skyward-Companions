@@ -9,7 +9,7 @@ public class AudioAsset : ScriptableObject
 
     internal EventReference SoundRef => sound;
 
-    public void Play(Vector3 position)
+    public void Play(Vector3 position = default)
     {
         AudioSystem.PlayOneShot(this, position);
     }
