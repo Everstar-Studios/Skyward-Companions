@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,6 +7,7 @@ public class SettingsManager : MonoBehaviour
 {
     [SerializeField] private Slider musicVolumeSlider;
     [SerializeField] private Slider sfxVolumeSlider;
+    [SerializeField] private Slider sensitivitySlider;
 
     private IEnumerator Start()
     {
@@ -21,6 +23,17 @@ public class SettingsManager : MonoBehaviour
 
         musicVolumeSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
         sfxVolumeSlider.onValueChanged.AddListener(OnSFXVolumeChanged);
+        sensitivitySlider.onValueChanged.AddListener(OnCameraSensitivityChanged);
+    }
+
+    private void OnEnable()
+    {
+        sensitivitySlider.value = Settings.Sensitivity;
+    }
+
+    private void OnCameraSensitivityChanged(float value)
+    {
+        Settings.Sensitivity = value;
     }
 
     private void OnMusicVolumeChanged(float value)

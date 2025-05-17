@@ -21,6 +21,14 @@ namespace Skyward.Systems
 
         private event EventHandler onMove;
         
+        public static event EventHandler<Vector2> OnLook
+        {
+            add => Instance.onLook += value;
+            remove => Instance.onLook -= value;
+        }
+
+        private event EventHandler<Vector2> onLook;
+        
         public static event EventHandler InputDisabled
         {
             add => Instance.inputDisabled += value;
@@ -55,6 +63,11 @@ namespace Skyward.Systems
         public static void OnMoved(Vector2 value)
         {
             Instance.onMove?.Invoke(Instance, EventArgs.Empty);
+        }
+
+        public static void OnLookInput(Vector2 value)
+        {
+            Instance.onLook?.Invoke(Instance, value);
         }
     }
 }
