@@ -19,6 +19,7 @@ namespace Skyward.Core
         void PostInitialize(GameContext context) { }
         void OnWorldLoading(GameContext context) { }
         void Cleanup() { }
+        void OnWorldLoaded(GameContext context) { }
     }
 
     public class GameContext

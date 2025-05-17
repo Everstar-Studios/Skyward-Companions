@@ -105,6 +105,9 @@ public class SkywardGame : MonoBehaviour
     {
         foreach (var comp in ComponentSystem.GetAllComponents<ISkywardComponent>())
             comp.WorldLoaded(context);
+
+        foreach (var system in systems)
+            system.OnWorldLoaded(context);
     }
     
     void CreateFactory()

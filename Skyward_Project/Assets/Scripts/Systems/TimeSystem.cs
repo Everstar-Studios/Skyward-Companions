@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Skyward.Systems
 {
     [RequiredSystem]
-    public class TimeSystem : BaseSystem<TimeSystem>, ISkywardComponent
+    public class TimeSystem : BaseSystem<TimeSystem>
     {
         [Serializable]
         public class TimeData
@@ -13,10 +13,16 @@ namespace Skyward.Systems
             public float timeAsSeconds;
             public TimeSpan timeSpan;
 
-            public void Advance(float deltaTime)
+            internal void Advance(float deltaTime)
             {
                 timeAsSeconds += deltaTime;
                 timeSpan = TimeSpan.FromSeconds(timeAsSeconds);
+            }
+
+            internal void Reset()
+            {
+                timeAsSeconds = 0f;
+                timeSpan = TimeSpan.Zero;
             }
         }
         
@@ -27,6 +33,14 @@ namespace Skyward.Systems
         private bool cutscenePlaying;
         private bool startedMoving;
 
+        private bool levelStarted;
+
+        private void BackToMainMenu(object sender, EventArgs args)
+        {
+            levelStarted = false;
+            timeData.Reset();
+        }
+
         protected override void WorldLoading(GameContext context)
         {
             base.WorldLoading(context);
@@ -34,12 +48,23 @@ namespace Skyward.Systems
             GameInputSystem.OnMove += OnCharacterStartedMoving;
             CutsceneSystem.CutsceneStarted += CutsceneStarted;
             CutsceneSystem.CutsceneStopped += CutsceneStopped;
+            GameSystem.BackToMainMenu += BackToMainMenu;
         }
 
-        void ISkywardComponent.Cleanup()
+        protected override void WorldLoaded(GameContext context)
         {
+            base.WorldLoaded(context);
+            
+            levelStarted = true;
+        }
+
+        protected override void Cleanup()
+        {
+            base.Cleanup();
+            
             CutsceneSystem.CutsceneStarted -= CutsceneStarted;
             CutsceneSystem.CutsceneStopped -= CutsceneStopped;
+            GameSystem.BackToMainMenu -= BackToMainMenu;
         }
 
         private void CutsceneStopped(object sender, EventArgs e)
@@ -60,6 +85,8 @@ namespace Skyward.Systems
 
         private void Update()
         {
+            if (!levelStarted)
+                return;
             if (!startedMoving || cutscenePlaying)
                 return;
 

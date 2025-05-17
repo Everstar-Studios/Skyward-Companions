@@ -84,9 +84,9 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
         videoPlayer = gameObject.AddComponent<VideoPlayer>();
         videoPlayer.playOnAwake = false;
         videoPlayer.clip = VideoClip;
-        videoPlayer.audioOutputMode = VideoAudioOutputMode.AudioSource;
-
-        // Video player sound needs to go through FMOD
+        videoPlayer.renderMode = VideoRenderMode.RenderTexture;
+        videoPlayer.audioOutputMode = VideoAudioOutputMode.None;
+        
         videoPlayer.loopPointReached += OnVideoEnded;
         videoPlayer.Prepare();
     }
@@ -132,9 +132,6 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
         hasPlayed = true;
         isPlaying = true;
 
-        GameManager.Instance.GameHUD.cutsceneRawImage.texture = null;
-        GameManager.Instance.GameHUD.cutsceneRawImage.gameObject.SetActive(false);
-
         if (cutsceneType == ECutsceneType.Timeline && director != null)
         {
             CutsceneSystem.Play(director);
@@ -150,9 +147,8 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
             renderTexture = new RenderTexture(Screen.width, Screen.height, 0);
             renderTexture.Create();
             videoPlayer.targetTexture = renderTexture;
-
-            GameManager.Instance.GameHUD.cutsceneRawImage.texture = renderTexture;
-            GameManager.Instance.GameHUD.cutsceneRawImage.gameObject.SetActive(true);
+            
+            GameManager.CutsceneStarted(renderTexture);
             
             AudioSystem.PauseMusic();
 
@@ -206,6 +202,8 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     {
         isPlaying = false;
         onCutsceneStopped?.Invoke();
+        
+        GameManager.CutsceneEnded();
 
         if (disableInput)
             GameInputSystem.EnableInput();

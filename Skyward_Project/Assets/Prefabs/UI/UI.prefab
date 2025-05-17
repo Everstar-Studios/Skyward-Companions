@@ -4036,7 +4036,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9174611392257286670
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4044,7 +4044,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8308034177677030027}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4077,7 +4077,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4826,6 +4826,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 658459792572335285, guid: 2a35832434c04f846a74322e8d6571a9, type: 3}
+      propertyPath: m_Size
+      value: 0.8139549
+      objectReference: {fileID: 0}
     - target: {fileID: 760514061209728052, guid: 2a35832434c04f846a74322e8d6571a9, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -5025,6 +5029,10 @@ PrefabInstance:
     - target: {fileID: 7289184779627554395, guid: 2a35832434c04f846a74322e8d6571a9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7954345407316525706, guid: 2a35832434c04f846a74322e8d6571a9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.000091552734
       objectReference: {fileID: 0}
     - target: {fileID: 7982142596964405209, guid: 2a35832434c04f846a74322e8d6571a9, type: 3}
       propertyPath: m_AnchorMax.x

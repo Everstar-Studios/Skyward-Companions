@@ -47,4 +47,16 @@ public class GameManager : MonoBehaviour, ISkywardComponent
             yield return new WaitForFixedUpdate();
         }
     }
+
+    public static void CutsceneStarted(RenderTexture renderTexture)
+    {
+        Instance.gameHUD.cutsceneRawImage.texture = renderTexture;
+        Instance.gameHUD.cutsceneRawImage.gameObject.SetActive(true);
+    }
+    
+    public static void CutsceneEnded()
+    {
+        Instance.gameHUD.cutsceneRawImage.texture = null;
+        Instance.gameHUD.cutsceneRawImage.gameObject.SetActive(false);
+    }
 }
