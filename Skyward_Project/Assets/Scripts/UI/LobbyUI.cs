@@ -113,6 +113,9 @@ public class LobbyUI : MonoBehaviour
 
     private char NameChanged(string newName, char character)
     {
+        if (character == ' ')
+            return '\0';
+        
         if (newName.Length > 10)
             character = '\0';
 
