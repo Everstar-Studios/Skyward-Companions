@@ -10,6 +10,7 @@ namespace Skyward.Core
         protected virtual void Initialize(GameContext context) { }
         protected virtual void PostInitialize(GameContext context) { }
         protected virtual void WorldLoading(GameContext context) { }
+        protected virtual void WorldLoaded(GameContext context) { }
         protected virtual void Cleanup() { }
 
         void ISystem.Initialize(GameContext context)
@@ -25,6 +26,11 @@ namespace Skyward.Core
         void ISystem.OnWorldLoading(GameContext context)
         {
             WorldLoading(context);
+        }
+        
+        void ISystem.OnWorldLoaded(GameContext context)
+        {
+            WorldLoaded(context);
         }
 
         void ISystem.Cleanup()

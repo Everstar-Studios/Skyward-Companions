@@ -18,7 +18,7 @@ public class GameHUDComponent : MonoBehaviour, ISkywardComponent
     public float fadeInDuration = 1.0f;
     public float durationBetweenFade = 1f;
 
-    private void Start()
+    private void OnEnable()
     {
         OpenPlayerUIScreen();
     }
@@ -56,6 +56,7 @@ public class GameHUDComponent : MonoBehaviour, ISkywardComponent
     public void QuitToMainMenu()
     {
         GameSystem.MainMenu();
+        gameObject.SetActive(false);
     }
 
     public void FadeOutAndIn()

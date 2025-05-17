@@ -277,11 +277,11 @@ public class GameSystem : BaseSystem<GameSystem>
     private static void Quit(bool mainMenu = false)
     {
         Instance.sceneInfo.UpdateCurrentGameSceneName(String.Empty);
-        Instance.GameContext.game.Quit();
         if (mainMenu)
             Instance.backToMainMenu?.Invoke(Instance, EventArgs.Empty);
         else
             Instance.quitting?.Invoke(Instance, EventArgs.Empty);
+        Instance.GameContext.game.Quit();
     }
 
     private static IEnumerator MainMenuInternal()

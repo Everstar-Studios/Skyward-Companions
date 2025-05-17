@@ -20,11 +20,18 @@ public class SkywardVirtualCamera : MonoBehaviour, ISkywardComponent
     void ISkywardComponent.WorldLoaded(GameContext context)
     {
         GameInputSystem.OnLook += OnLook;
+        CutsceneSystem.CutsceneStarted += CutsceneStarted;
+    }
+
+    private void CutsceneStarted(object sender, EventArgs e)
+    {
+        look = Vector2.zero;
     }
 
     void ISkywardComponent.Cleanup()
     {
         GameInputSystem.OnLook -= OnLook;
+        CutsceneSystem.CutsceneStarted -= CutsceneStarted;
     }
 
     private void Awake()
