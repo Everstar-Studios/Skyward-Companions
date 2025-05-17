@@ -9,6 +9,7 @@ public class SettingsManager : MonoBehaviour
     [SerializeField] private Slider sfxVolumeSlider;
     [SerializeField] private Slider cutsceneVolumeSlider;
     [SerializeField] private Slider sensitivitySlider;
+    [SerializeField] private Dropdown frameRateDropdown;
 
     private IEnumerator Start()
     {
@@ -16,19 +17,61 @@ public class SettingsManager : MonoBehaviour
         float sfxVol = PlayerPrefs.GetFloat("SFXVolume", 1f);
         float cutsceneVol = PlayerPrefs.GetFloat("CutsceneVolume", 1f);
 
+        int frameRate = PlayerPrefs.GetInt("FrameRate", 60);
+        Application.targetFrameRate = frameRate;
+        frameRateDropdown.value = GetDropdownOrderFromFPS(frameRate);
+
         musicVolumeSlider.value = musicVol;
         sfxVolumeSlider.value = sfxVol;
         cutsceneVolumeSlider.value = cutsceneVol;
-
-        yield return new WaitUntil(() => AudioSystem.Instance != null);
-        AudioSystem.SetMusicVolume(musicVol);
-        AudioSystem.SetSoundEffectsVolume(sfxVol);
-        AudioSystem.SetCutsceneVolume(cutsceneVol);
 
         musicVolumeSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
         sfxVolumeSlider.onValueChanged.AddListener(OnSFXVolumeChanged);
         cutsceneVolumeSlider.onValueChanged.AddListener(OnCutsceneVolumeChanged);
         sensitivitySlider.onValueChanged.AddListener(OnCameraSensitivityChanged);
+        frameRateDropdown.onValueChanged.AddListener(OnFrameRateChanged);
+        
+        yield return new WaitUntil(() => AudioSystem.Instance != null);
+        AudioSystem.SetMusicVolume(musicVol);
+        AudioSystem.SetSoundEffectsVolume(sfxVol);
+        AudioSystem.SetCutsceneVolume(cutsceneVol);
+
+    }
+
+    private void OnDestroy()
+    {
+        musicVolumeSlider.onValueChanged.RemoveListener(OnMusicVolumeChanged);
+        sfxVolumeSlider.onValueChanged.RemoveListener(OnSFXVolumeChanged);
+        cutsceneVolumeSlider.onValueChanged.RemoveListener(OnCutsceneVolumeChanged);
+        sensitivitySlider.onValueChanged.RemoveListener(OnCameraSensitivityChanged);
+        frameRateDropdown.onValueChanged.RemoveListener(OnFrameRateChanged);
+    }
+
+    private void OnFrameRateChanged(int order)
+    {
+        int frameRate = 60;
+        if (order == 0)
+            frameRate = 30;
+        else if (order == 1)
+            frameRate = 60;
+        else if (order == 2)
+            frameRate = 120;
+
+        Application.targetFrameRate = frameRate;
+
+        PlayerPrefs.SetInt("FrameRate", frameRate);
+    }
+
+    private int GetDropdownOrderFromFPS(int frameRate)
+    {
+        if (frameRate == 30)
+            return 0;
+        if (frameRate == 60)
+            return 1;
+        if (frameRate == 120)
+            return 2;
+
+        return 2;
     }
 
     private void OnEnable()
