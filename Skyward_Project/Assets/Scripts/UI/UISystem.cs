@@ -18,10 +18,9 @@ public class UISystem : BaseSystem, ISkywardComponent
         CutsceneSystem.CutsceneStarted += OnCutsceneStarted;
         CutsceneSystem.CutsceneStopped += OnCutsceneStopped;
         CheckpointSystem.DeathZoneReached += OnDeathZoneReached;
-        GameSystem.LevelLoaded += LevelLoaded;
     }
 
-    private void LevelLoaded(object sender, EventArgs args)
+    void ISkywardComponent.WorldLoaded(GameContext context)
     {
         gameHUD.gameObject.SetActive(true);
     }
