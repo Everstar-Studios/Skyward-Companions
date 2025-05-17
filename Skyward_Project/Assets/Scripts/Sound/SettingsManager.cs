@@ -7,22 +7,27 @@ public class SettingsManager : MonoBehaviour
 {
     [SerializeField] private Slider musicVolumeSlider;
     [SerializeField] private Slider sfxVolumeSlider;
+    [SerializeField] private Slider cutsceneVolumeSlider;
     [SerializeField] private Slider sensitivitySlider;
 
     private IEnumerator Start()
     {
         float musicVol = PlayerPrefs.GetFloat("MusicVolume", 1f);
         float sfxVol = PlayerPrefs.GetFloat("SFXVolume", 1f);
+        float cutsceneVol = PlayerPrefs.GetFloat("CutsceneVolume", 1f);
 
         musicVolumeSlider.value = musicVol;
         sfxVolumeSlider.value = sfxVol;
+        cutsceneVolumeSlider.value = cutsceneVol;
 
         yield return new WaitUntil(() => AudioSystem.Instance != null);
-        ApplyMusicVolume(musicVol);
-        ApplySFXVolume(sfxVol);
+        AudioSystem.SetMusicVolume(musicVol);
+        AudioSystem.SetSoundEffectsVolume(sfxVol);
+        AudioSystem.SetCutsceneVolume(cutsceneVol);
 
         musicVolumeSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
         sfxVolumeSlider.onValueChanged.AddListener(OnSFXVolumeChanged);
+        cutsceneVolumeSlider.onValueChanged.AddListener(OnCutsceneVolumeChanged);
         sensitivitySlider.onValueChanged.AddListener(OnCameraSensitivityChanged);
     }
 
@@ -38,21 +43,16 @@ public class SettingsManager : MonoBehaviour
 
     private void OnMusicVolumeChanged(float value)
     {
-        ApplyMusicVolume(value);
+        AudioSystem.SetMusicVolume(value);
     }
 
     private void OnSFXVolumeChanged(float value)
     {
-        ApplySFXVolume(value);
+        AudioSystem.SetSoundEffectsVolume(value);
     }
-
-    private void ApplyMusicVolume(float value)
+    
+    private void OnCutsceneVolumeChanged(float value)
     {
-        AudioSystem.Instance.SetMusicVolume(value);
-    }
-
-    private void ApplySFXVolume(float value)
-    {
-        AudioSystem.Instance.SetSoundEffectsVolume(value);
+        AudioSystem.SetCutsceneVolume(value);
     }
 }

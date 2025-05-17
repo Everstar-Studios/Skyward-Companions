@@ -101,15 +101,21 @@ public class AudioSystem : BaseSystem<AudioSystem>, ISkywardComponent
         bus.setVolume(newVolume);
     }
 
-    public void SetMusicVolume(float value)
+    public static void SetMusicVolume(float value)
     {
-        AdjustVolume(musicBus, value);
+        Instance.AdjustVolume(Instance.musicBus, value);
         PlayerPrefs.SetFloat("MusicVolume", value);
     }
 
-    public void SetSoundEffectsVolume(float value)
+    public static void SetSoundEffectsVolume(float value)
     {
-        AdjustVolume(sfxBus, value);
+        Instance.AdjustVolume(Instance.sfxBus, value);
+        PlayerPrefs.SetFloat("SFXVolume", value);
+    }
+    
+    public static void SetCutsceneVolume(float value)
+    {
+        Instance.AdjustVolume(Instance.cutsceneBus, value);
         PlayerPrefs.SetFloat("SFXVolume", value);
     }
 }
