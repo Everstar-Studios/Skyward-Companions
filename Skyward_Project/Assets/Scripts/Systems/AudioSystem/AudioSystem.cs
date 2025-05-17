@@ -103,13 +103,13 @@ public class AudioSystem : BaseSystem<AudioSystem>, ISkywardComponent
 
     public static void SetMusicVolume(float value)
     {
-        Instance.AdjustVolume(Instance.cutsceneBus, value);
+        Instance.AdjustVolume(Instance.musicBus, value);
         PlayerPrefs.SetFloat("MusicVolume", value);
     }
 
     public static void SetSoundEffectsVolume(float value)
     {
-        Instance.AdjustVolume(Instance.cutsceneBus, value);
+        Instance.AdjustVolume(Instance.sfxBus, value);
         PlayerPrefs.SetFloat("SFXVolume", value);
     }
     
