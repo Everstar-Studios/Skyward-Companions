@@ -39,29 +39,10 @@ public class ConfigSystem : BaseSystem<ConfigSystem>
     protected override void Initialize(GameContext context)
     {
         base.Initialize(context);
-
-        #if !SKYWARD_DEVELOPMENT
-        GameSystem.CatalogLoaded += OnCatalogLoaded;
-        #else
-        StartCoroutine(LoadConfigs());
-        #endif
-    }
-
-    protected override void Cleanup()
-    {
-        base.Cleanup();
         
-#if !SKYWARD_DEVELOPMENT
-        GameSystem.CatalogLoaded -= OnCatalogLoaded;
-#endif
-    }
-
-#if !SKYWARD_DEVELOPMENT
-    private void OnCatalogLoaded(object sender, string catalogUrl)
-    {
         StartCoroutine(LoadConfigs());
     }
-#endif
+    
     private IEnumerator LoadConfigs()
     {
         configComponent = FindAnyObjectByType<ConfigComponent>();

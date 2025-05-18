@@ -4,7 +4,10 @@ using UnityEngine.Video;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
+using TMPro;
+using UnityEngine.AddressableAssets;
 using UnityEngine.InputSystem;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 [RequireComponent(typeof(VideoPlayer))]
 public class SplashScreenManager : MonoBehaviour
@@ -12,6 +15,7 @@ public class SplashScreenManager : MonoBehaviour
     public VideoPlayer videoPlayer; 
     public string nextSceneName = "SCN_SplashLoadingScene";
     public Slider loadingSlider;
+    public TMP_Text loadingText;
     public float waitTime;
 
     private CutsceneInputAction inputAction;
@@ -41,26 +45,59 @@ public class SplashScreenManager : MonoBehaviour
 
     private void OnVideoEnd(VideoPlayer vp)
     {
-        StartCoroutine(LoadScene());
+        StartCoroutine(PrepareGame());
     }
 
-    private IEnumerator LoadScene()
+    private IEnumerator PrepareGame()
     {
-        var async = SceneManager.LoadSceneAsync(nextSceneName);
-        async.allowSceneActivation = false;
         loadingSlider.transform.parent.gameObject.SetActive(true);
-        while (!async.isDone)
+        yield return LoadCatalog();
+        yield return LoadLobbyScene();
+
+        yield return new WaitForSeconds(waitTime);
+    }
+
+    private IEnumerator LoadLobbyScene()
+    {
+        var sceneHandle = SceneManager.LoadSceneAsync(nextSceneName);
+        sceneHandle.allowSceneActivation = false;
+        loadingText.text = "Entering the world...";
+        while (!sceneHandle.isDone)
         {
-            float progress = Mathf.Clamp01(async.progress / 0.9f);
+            float progress = Mathf.Clamp01(sceneHandle.progress / 0.9f);
             loadingSlider.value = progress;
             
-            if (async.progress >= 0.9f)
+            if (sceneHandle.progress >= 0.9f)
             {
                 yield return new WaitForSeconds(waitTime);
-                async.allowSceneActivation = true;
+                sceneHandle.allowSceneActivation = true;
+                break;
             }
-
+            
             yield return null;
         }
+    }
+
+    private IEnumerator LoadCatalog()
+    {
+        string catalogUrl = DeliveryBucketManager.GetContentCatalogURL(BucketEnvironment.Development);
+        var catalogHandle = Addressables.LoadContentCatalogAsync(catalogUrl);
+        loadingText.text = "Preparing game content...";
+        while (!catalogHandle.IsDone)
+        {
+            float progress = Mathf.Clamp01(catalogHandle.PercentComplete / 0.9f);
+            loadingSlider.value = progress;
+            yield return null;
+        }
+
+        if (catalogHandle.Status != AsyncOperationStatus.Succeeded)
+        {
+            Debug.LogError("Failed to load content catalog: " + catalogHandle.OperationException);
+            Addressables.Release(catalogHandle);
+            yield break;
+        }
+
+        Addressables.Release(catalogHandle);
+        Debug.Log($"Remote catalog loaded: {catalogUrl}");
     }
 }

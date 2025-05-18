@@ -79,8 +79,11 @@ public class LobbyUI : MonoBehaviour
         StartCoroutine(Initialize(reinitialization: true));
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
+        if (!game.Initialized)
+            return;
+        
         Cleanup();
     }
 
