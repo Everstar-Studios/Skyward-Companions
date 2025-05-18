@@ -56,7 +56,6 @@ public class GameHUDComponent : MonoBehaviour, ISkywardComponent
     public void QuitToMainMenu()
     {
         GameSystem.MainMenu();
-        gameObject.SetActive(false);
     }
 
     public void FadeOutAndIn()
