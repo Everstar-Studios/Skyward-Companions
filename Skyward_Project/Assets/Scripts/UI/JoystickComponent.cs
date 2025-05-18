@@ -21,6 +21,7 @@ public class JoystickComponent : OnScreenStick, ISkywardComponent
 
     private void InputDisabled(object sender, EventArgs e)
     {
-        OnPointerUp(null);
+        if (TimeSystem.TimeInLevel >= float.Epsilon)
+            OnPointerUp(null);
     }
 }

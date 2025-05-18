@@ -34,13 +34,6 @@ namespace Skyward.Systems
         private bool startedMoving;
 
         private bool levelStarted;
-
-        private void BackToMainMenu(object sender, EventArgs args)
-        {
-            levelStarted = false;
-            timeData.Reset();
-        }
-
         protected override void WorldLoading(GameContext context)
         {
             base.WorldLoading(context);
@@ -48,7 +41,6 @@ namespace Skyward.Systems
             GameInputSystem.OnMove += OnCharacterStartedMoving;
             CutsceneSystem.CutsceneStarted += CutsceneStarted;
             CutsceneSystem.CutsceneStopped += CutsceneStopped;
-            GameSystem.BackToMainMenu += BackToMainMenu;
         }
 
         protected override void WorldLoaded(GameContext context)
@@ -62,9 +54,11 @@ namespace Skyward.Systems
         {
             base.Cleanup();
             
+            levelStarted = false;
+            timeData.Reset();
+            
             CutsceneSystem.CutsceneStarted -= CutsceneStarted;
             CutsceneSystem.CutsceneStopped -= CutsceneStopped;
-            GameSystem.BackToMainMenu -= BackToMainMenu;
         }
 
         private void CutsceneStopped(object sender, EventArgs e)

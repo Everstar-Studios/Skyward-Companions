@@ -10,7 +10,15 @@ public class LobbyMusicPlayer : AmbientSoundPlayer
         yield return base.Start();
         yield return new WaitUntil(() => GameSystem.Instance != null);
         GameSystem.PreLevelLoad += LevelLoading;
+        GameSystem.BackToMainMenu += BackToMainMenu;
         
+        audioInstance?.Play();
+    }
+
+    private void BackToMainMenu(object sender, EventArgs args)
+    {
+        // Audio System releases all instances on Cleanup so we're recreating this here
+        audioInstance = AudioSystem.CreateAudioInstance(audioAsset, gameObject);
         audioInstance?.Play();
     }
 
@@ -22,5 +30,6 @@ public class LobbyMusicPlayer : AmbientSoundPlayer
     private void OnDestroy()
     {
         GameSystem.PreLevelLoad -= LevelLoading;
+        GameSystem.BackToMainMenu -= BackToMainMenu;
     }
 }
