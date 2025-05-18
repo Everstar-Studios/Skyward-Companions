@@ -1,13 +1,9 @@
-using System;
-using System.IO;
-using System.Text.RegularExpressions;
-using Skyward.Core;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
-public class LevelButton : UIButton, ISkywardComponent
+public class LevelButton : UIButton
 {
     public bool unlockedByDefault = false;
     public GameObject lockIcon;
@@ -44,14 +40,5 @@ public class LevelButton : UIButton, ISkywardComponent
         
         unlockedByDefault = true;
         Unlock();
-    }
-    
-    private static int ParseLevelIndex(string label)
-    {
-        // expects LEVEL_01, LEVEL_02 … LEVEL_10 etc.
-        var match = Regex.Match(label, @"(\d+)$");
-        if (!match.Success)
-            throw new FormatException($"Label {label} doesn't end with digits.");
-        return int.Parse(match.Value);
     }
 }
