@@ -11,7 +11,7 @@ using Random = System.Random;
 public class ScoreMetadata
 {
     public string levelName;
-    public float timeTaken;
+    public string playerName;
 }
 
 [RequiredSystem]
@@ -40,31 +40,26 @@ public class LeaderboardSystem : BaseSystem<LeaderboardSystem>
         GameSystem.LevelCompleted += OnLevelCompleted;
     }
 
+    protected override void WorldLoaded(GameContext context)
+    {
+        base.WorldLoaded(context);
+        
+        string levelName = GameSystem.GetCurrentLevelName();
+        string leaderboardId = $"Skyward-{levelName}";
+        LeaderboardsService.Instance.AddPlayerScoreAsync(leaderboardId, 15f);
+    }
+
     protected override void Cleanup()
     {
         base.Cleanup();
         
-        GameSystem.LevelCompleted-= OnLevelCompleted;
+        GameSystem.LevelCompleted -= OnLevelCompleted;
     }
 
-    private async void OnLevelCompleted(object sender, EventArgs args)
+    private async void OnLevelCompleted(object sender, GameSystem.LevelEndEventArgs args)
     {
-        var options = new AddPlayerScoreOptions()
-        {
-            Metadata = new ScoreMetadata { levelName = GameSystem.GetCurrentLevelName(), timeTaken = Time.timeSinceLevelLoad}
-        };
-        await LeaderboardsService.Instance.AddPlayerScoreAsync("Skyward-Leaderboard", Time.timeSinceLevelLoad, options);
-    }
-
-    public async void AddScoreWithMetadata(string leaderboardId, float score)
-    {
-        // var scoreMetadata = new ScoreMetadata { levelName = "LEVEL_01", height = 120 };
-        // var playerEntry = await LeaderboardsService.Instance
-        //     .AddPlayerScoreAsync(
-        //         leaderboardId,
-        //         score,
-        //         new AddPlayerScoreOptions { Metadata = scoreMetadata }
-        //     );
-        // Debug.Log(JsonConvert.SerializeObject(playerEntry));
+        string levelName = GameSystem.GetCurrentLevelName();
+        string leaderboardId = $"Skyward-{levelName}";
+        await LeaderboardsService.Instance.AddPlayerScoreAsync(leaderboardId, args.time);
     }
 }

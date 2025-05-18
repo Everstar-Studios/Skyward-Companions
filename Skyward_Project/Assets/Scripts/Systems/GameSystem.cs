@@ -63,14 +63,17 @@ public class GameSystem : BaseSystem<GameSystem>
 
     private event EventHandler levelLoaded;
     
-    // TODO Omer: Send time
-    public static event EventHandler LevelCompleted
+    public class LevelEndEventArgs : EventArgs
+    {
+        public float time;
+    }
+    
+    public static event EventHandler<LevelEndEventArgs> LevelCompleted
     {
         add => Instance.levelCompleted += value;
         remove => Instance.levelCompleted -= value;
     }
-
-    private event EventHandler levelCompleted;
+    private event EventHandler<LevelEndEventArgs> levelCompleted;
     
     private event EventHandler quitting;
     
@@ -225,7 +228,7 @@ public class GameSystem : BaseSystem<GameSystem>
         if (levelHandle.Status != AsyncOperationStatus.Succeeded)
             throw levelHandle.OperationException;
 
-        sceneInfo.UpdateCurrentGameSceneName(levelHandle.Result.Scene.name);
+        sceneInfo.UpdateCurrentGameSceneName(levelKey);
         levelLoaded?.Invoke(this, EventArgs.Empty);
         gamecontext.game.LevelLoadCompleted();
     }
@@ -256,7 +259,7 @@ public class GameSystem : BaseSystem<GameSystem>
     {
         Instance.sceneInfo.MarkComplete();
         GameInputSystem.DisableInput();
-        Instance.levelCompleted?.Invoke(Instance, EventArgs.Empty);
+        Instance.levelCompleted?.Invoke(Instance, new() { time = TimeSystem.TimeInLevel });
         Instance.StartCoroutine(Instance.TryLoadNextUncompletedScene());
         MainMenu();
     }
@@ -337,7 +340,7 @@ public class GameSystem : BaseSystem<GameSystem>
         public string GetCurrentSceneName()
         {
             if (string.IsNullOrEmpty(currentGameSceneName))
-                return SceneManager.GetActiveScene().name;
+                return string.Empty;
         
             return currentGameSceneName;
         }

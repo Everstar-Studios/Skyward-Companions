@@ -1,83 +1,119 @@
 using System;
+using System.Collections;
 using TMPro;
 using Unity.Services.Leaderboards;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class UILeaderboardManager : MonoBehaviour
 {
+    public static UILeaderboardManager Instance { get; private set; }
+
     [SerializeField] private int playersPerPage = 25;
     [SerializeField] private LeaderboardPlayerItem playerItemPrefab;
     [SerializeField] private RectTransform container;
     [SerializeField] private TextMeshProUGUI pageText;
-    
     [SerializeField] private Button nextButton;
     [SerializeField] private Button prevButton;
+    [SerializeField] private Transform levelLayoutGroup;
 
+    private string currentLeaderboardId;
     private int currentPage = 1;
     private int totalPages = 0;
 
-    private void OnEnable()
-    {
-        ClearPlayersList();
-        nextButton.onClick.AddListener(NextPage);
-        prevButton.onClick.AddListener(PreviousPage);
+    public GameObject leaderboardLevelButtonPrefab;
 
-        currentPage = 1;
-        totalPages = 0;
-        LoadPlayers(1);
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+        
+        
     }
     
+    private IEnumerator Start()
+    {
+        yield return new WaitUntil(() => ConfigSystem.Instance != null);
+        yield return ConfigSystem.AllConfigurationsLoaded;
+
+        foreach (var level in ConfigSystem.GetConfig<LevelConfig>().levels)
+        {
+            string levelName = level.sceneLabel.labelString;
+            var split = levelName.Split("_0");
+            string beautifiedLevelName = split[0] + " " + split[1];
+            var levelButton = Instantiate(leaderboardLevelButtonPrefab, levelLayoutGroup.transform).GetComponent<LeaderboardLevelButton>();
+            levelButton.GetComponentInChildren<TMP_Text>().text = beautifiedLevelName;
+            levelButton.GetComponent<Button>().onClick.AddListener(() => ShowLeaderboardForLevel(levelName));
+        }
+    }
+
+    private void OnEnable()
+    {
+        nextButton.onClick.AddListener(NextPage);
+        prevButton.onClick.AddListener(PreviousPage);
+    }
+
+    private void OnDisable()
+    {
+        ClearPlayersList();
+        nextButton.onClick.RemoveListener(NextPage);
+        prevButton.onClick.RemoveListener(PreviousPage);
+    }
+
+    private void ShowLeaderboardForLevel(string levelName)
+    {
+        currentLeaderboardId = $"Skyward-{levelName}";
+        currentPage = 1;
+        LoadPlayers(currentPage);
+    }
+
     public async void LoadPlayers(int page)
     {
         nextButton.interactable = false;
         prevButton.interactable = false;
 
-        GetScoresOptions options = new();
-        options.Offset = (page - 1) * playersPerPage;
-        options.Limit = playersPerPage;
-        var scores = await LeaderboardsService.Instance.GetScoresAsync("Skyward-Leaderboard", options);
-        ClearPlayersList();
-        for (int i = 0; i < scores.Results.Count; i++)
+        GetScoresOptions options = new()
         {
-            LeaderboardPlayerItem item = Instantiate(playerItemPrefab, container);
-            item.Initialize(scores.Results[i]);
+            Offset = (page - 1) * playersPerPage,
+            Limit = playersPerPage
+        };
+
+        try
+        {
+            var scores = await LeaderboardsService.Instance.GetScoresAsync(currentLeaderboardId, options);
+            ClearPlayersList();
+
+            foreach (var score in scores.Results)
+            {
+                var item = Instantiate(playerItemPrefab, container);
+                item.Initialize(score);
+            }
+
+            totalPages = Mathf.CeilToInt((float)scores.Total / scores.Limit);
+            currentPage = page;
+
+            pageText.text = $"{currentPage}/{totalPages}";
+            nextButton.interactable = currentPage < totalPages;
+            prevButton.interactable = currentPage > 1;
         }
-
-        totalPages = Mathf.CeilToInt((float)scores.Total / scores.Limit);
-        currentPage = page;
-
-        pageText.text = currentPage + "/" + totalPages;
-        nextButton.interactable = currentPage < totalPages && totalPages > 1;
-        prevButton.interactable = currentPage > 1 && totalPages > 1;
+        catch (Exception e)
+        {
+            Debug.LogError($"Failed to load leaderboard: {e.Message}");
+            ClearPlayersList();
+            pageText.text = "0/0";
+        }
     }
 
-    private void NextPage()
-    {
-        int nextPage = currentPage + 1;
-        if (nextPage > totalPages)
-            LoadPlayers(1);
-        else
-            LoadPlayers(nextPage);
-    }
-
-    private void PreviousPage()
-    {
-        if (currentPage - 1 <= 0)
-            LoadPlayers(totalPages);
-        else
-            LoadPlayers(currentPage - 1);
-    }
-
+    private void NextPage() => LoadPlayers(currentPage + 1);
+    private void PreviousPage() => LoadPlayers(currentPage - 1);
+    
     private void ClearPlayersList()
     {
-        LeaderboardPlayerItem[] items = container.GetComponentsInChildren<LeaderboardPlayerItem>();
-        if (items == null)
-            return;
-
-        foreach (var item in items)
-            Destroy(item.gameObject);
-
+        foreach (Transform child in container)
+            Destroy(child.gameObject);
     }
 }
