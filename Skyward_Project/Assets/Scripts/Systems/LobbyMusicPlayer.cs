@@ -29,6 +29,10 @@ public class LobbyMusicPlayer : AmbientSoundPlayer
 
     private void OnDestroy()
     {
+        // is only null if application quits during splash screen load. Hacky but no time.
+        if (GameSystem.Instance == null)
+            return;
+        
         GameSystem.PreLevelLoad -= LevelLoading;
         GameSystem.BackToMainMenu -= BackToMainMenu;
     }

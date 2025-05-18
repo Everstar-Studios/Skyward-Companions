@@ -91,21 +91,11 @@ public class GameSystem : BaseSystem<GameSystem>
         remove => Instance.backToMainMenu -= value;
     }
     
-    public static event EventHandler<string> CatalogLoaded
-    {
-        add => Instance.catalogLoaded += value;
-        remove => Instance.catalogLoaded -= value;
-    }
-
-    private event EventHandler<string> catalogLoaded;
-    
     protected override void Initialize(GameContext context)
     {
         base.Initialize(context);
 
         context.Store(sceneInfo);
-
-        StartCoroutine(InitializeInternal());
     }
 
     protected override void PostInitialize(GameContext context)
@@ -113,34 +103,6 @@ public class GameSystem : BaseSystem<GameSystem>
         base.PostInitialize(context);
 
         StartCoroutine(TryLoadNextUncompletedScene());
-    }
-
-    private IEnumerator InitializeInternal()
-    {
-        #if !SKYWARD_DEVELOPMENT
-        yield return LoadCatalog();
-        #endif
-        yield break;
-    }
-
-    private IEnumerator LoadCatalog()
-    {
-        string catalogUrl = DeliveryBucketManager.GetContentCatalogURL(BucketEnvironment.Development);
-        var catalogHandle = Addressables.LoadContentCatalogAsync(catalogUrl);
-        yield return catalogHandle;
-
-        if (catalogHandle.Status != AsyncOperationStatus.Succeeded)
-        {
-            Debug.LogError("Failed to load content catalog: " + catalogHandle.OperationException);
-            levelDownloadFailed?.Invoke(this, EventArgs.Empty);
-            Addressables.Release(catalogHandle);
-            isLoading = false;
-            yield break;
-        }
-
-        Addressables.Release(catalogHandle);
-        Debug.Log($"Remote catalog loaded: {catalogUrl}");
-        catalogLoaded?.Invoke(this, catalogUrl);
     }
 
     private IEnumerator TryLoadNextUncompletedScene()

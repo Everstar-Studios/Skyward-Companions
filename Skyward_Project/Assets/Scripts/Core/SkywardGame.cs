@@ -28,6 +28,7 @@ public class SkywardGame : MonoBehaviour
     public event Action preLevelLoading;
     public event Action<AsyncOperation> levelLoading;
 
+    public bool Initialized { get; private set; }
 
     private void Awake()
     {
@@ -59,6 +60,8 @@ public class SkywardGame : MonoBehaviour
         yield return ConfigSystem.AllConfigurationsLoaded;
         
         NotifyPostInitialize();
+
+        Initialized = true;
         
         yield return new WaitForFixedUpdate();
     }
@@ -193,6 +196,7 @@ public class SkywardGame : MonoBehaviour
 
     public void Quit()
     {
+        Initialized = false;
         context.Save();
         DestroyAll();
     }
