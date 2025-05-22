@@ -106,7 +106,7 @@ namespace Skyward.Systems
             checkpoint.ActivateDeathZone();
         }
 
-        private static void RespawnFromLastCheckpoint()
+        public static void RespawnFromLastCheckpoint()
         {
             Instance.StartCoroutine(Instance.RespawnFlow());
         }

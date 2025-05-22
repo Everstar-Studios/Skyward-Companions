@@ -223,7 +223,6 @@ public class GameSystem : BaseSystem<GameSystem>
         GameInputSystem.DisableInput();
         Instance.levelCompleted?.Invoke(Instance, new() { time = TimeSystem.TimeInLevel });
         Instance.StartCoroutine(Instance.TryLoadNextUncompletedScene());
-        MainMenu();
     }
 
     private void OnApplicationQuit()

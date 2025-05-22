@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Video;
 using UnityEngine.SceneManagement;
@@ -13,10 +12,13 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 public class SplashScreenManager : MonoBehaviour
 {
     public VideoPlayer videoPlayer; 
-    public string nextSceneName = "SCN_SplashLoadingScene";
+    public string nextSceneName = "SCN_Lobby";
     public Slider loadingSlider;
     public TMP_Text loadingText;
     public float waitTime;
+    public float waitTimeAfterDownloadStart;
+
+    public string LEVEL_00_KEY = "Level_00";
 
     private CutsceneInputAction inputAction;
 
@@ -51,9 +53,14 @@ public class SplashScreenManager : MonoBehaviour
     private IEnumerator PrepareGame()
     {
         loadingSlider.transform.parent.gameObject.SetActive(true);
+        
+        #if !SKYWARD_DEVELOPMENT
         yield return LoadCatalog();
-        yield return LoadLobbyScene();
+        yield return DownloadIntroLevel();
+        #endif
 
+        yield return LoadLobbyScene();
+        
         yield return new WaitForSeconds(waitTime);
     }
 
@@ -69,7 +76,6 @@ public class SplashScreenManager : MonoBehaviour
             
             if (sceneHandle.progress >= 0.9f)
             {
-                yield return new WaitForSeconds(waitTime);
                 sceneHandle.allowSceneActivation = true;
                 break;
             }
@@ -78,6 +84,27 @@ public class SplashScreenManager : MonoBehaviour
         }
     }
 
+    private IEnumerator DownloadIntroLevel()
+    {
+        var sizeHandle = Addressables.GetDownloadSizeAsync(LEVEL_00_KEY);
+        yield return sizeHandle;
+        
+        if (sizeHandle.Status != AsyncOperationStatus.Succeeded)
+        {
+            Addressables.Release(sizeHandle);
+            yield break;
+        }
+        
+        long bytes = sizeHandle.Result;
+        Addressables.Release(sizeHandle);
+        if (bytes == 0)
+            yield break;
+        
+        Addressables.DownloadDependenciesAsync(LEVEL_00_KEY, true);
+        yield return new WaitForSeconds(waitTimeAfterDownloadStart);
+    }
+
+#if !SKYWARD_DEVELOPMENT
     private IEnumerator LoadCatalog()
     {
         string catalogUrl = DeliveryBucketManager.GetContentCatalogURL(BucketEnvironment.Development);
@@ -100,4 +127,5 @@ public class SplashScreenManager : MonoBehaviour
         Addressables.Release(catalogHandle);
         Debug.Log($"Remote catalog loaded: {catalogUrl}");
     }
+#endif
 }

@@ -118,4 +118,10 @@ public class AudioSystem : BaseSystem<AudioSystem>, ISkywardComponent
         Instance.AdjustVolume(Instance.cutsceneBus, value);
         PlayerPrefs.SetFloat("SFXVolume", value);
     }
+
+    public static float GetMusicVolume()
+    {
+        Instance.musicBus.getVolume(out float volume);
+        return volume;
+    }
 }

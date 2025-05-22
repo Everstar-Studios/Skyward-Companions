@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class LobbyMusicPlayer : AmbientSoundPlayer
+public class LobbyMusicPlayerComponent : MusicPlayerComponent
 {
     protected override bool CanPlayAutomatically() => false;
     protected override IEnumerator Start()
