@@ -5,7 +5,7 @@ using Skyward.Core;
 using UnityEngine;
 
 [RequiredSystem]
-public class PlayerSystem : BaseSystem<PlayerSystem>, ISkywardComponent, ISkywardSerializable
+public class PlayerSystem : BaseSystem<PlayerSystem>, ISkywardSerializable
 {
     public static PlayerController Player => Instance.player;
     
@@ -30,8 +30,10 @@ public class PlayerSystem : BaseSystem<PlayerSystem>, ISkywardComponent, ISkywar
         context.Store(this);
     }
 
-    void ISkywardComponent.WorldLoaded(GameContext context)
+    protected override void WorldLoaded(GameContext context)
     {
+        base.WorldLoaded(context);
+        
         player = FindAnyObjectByType<PlayerController>();
         playerFound?.Invoke(this, player);
     }
