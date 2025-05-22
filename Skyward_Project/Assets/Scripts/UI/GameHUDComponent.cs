@@ -1,15 +1,18 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using Skyward.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameHUDComponent : MonoBehaviour, ISkywardComponent
+public class GameHUDComponent : MonoBehaviour
 {
     public GameObject pauseScreen;
     public GameObject playerUIScreen;
     public GameObject quitScreen;
     public GameObject settingsScreen;
+    public GameObject levelEndScreen;
     public RawImage cutsceneRawImage;
     
     public CanvasGroup canvasGroup;
@@ -17,6 +20,32 @@ public class GameHUDComponent : MonoBehaviour, ISkywardComponent
     public float fadeOutDuration = 0.5f;
     public float fadeInDuration = 1.0f;
     public float durationBetweenFade = 1f;
+    
+    private List<GameObject> menus = new();
+
+    private void Awake()
+    {
+        menus.Add(playerUIScreen);
+        menus.Add(pauseScreen);
+        menus.Add(quitScreen);
+        menus.Add(settingsScreen);
+        menus.Add(levelEndScreen);
+    }
+
+    private void Start()
+    {
+        GameSystem.LevelCompleted += OnLevelCompleted;
+    }
+
+    private void OnDestroy()
+    {
+        GameSystem.LevelCompleted -= OnLevelCompleted;
+    }
+
+    private void OnLevelCompleted(object sender, GameSystem.LevelEndEventArgs args)
+    {
+        OpenLevelEndScreen();
+    }
 
     private void OnEnable()
     {
@@ -25,32 +54,30 @@ public class GameHUDComponent : MonoBehaviour, ISkywardComponent
 
     public void OpenPlayerUIScreen()
     {
+        menus.ForEach(g => g.SetActive(false));
         playerUIScreen.SetActive(true);
-        pauseScreen.SetActive(false);
-        quitScreen.SetActive(false);        
-        settingsScreen.SetActive(false);
     }
     public void OpenPauseScreen()
     {
+        menus.ForEach(g => g.SetActive(false));
         pauseScreen.SetActive(true);
-        quitScreen.SetActive(false);
-        playerUIScreen.SetActive(false);
-        settingsScreen.SetActive(false);
     }
     public void OpenQuitScreen()
     {
-        pauseScreen.SetActive(false);
-        playerUIScreen.SetActive(false);
+        menus.ForEach(g => g.SetActive(false));
         quitScreen.SetActive(true);
-        settingsScreen.SetActive(false);
     }
 
     public void OpenSettingsScreen()
     {
-        pauseScreen.SetActive(false);
-        playerUIScreen.SetActive(false);
-        quitScreen.SetActive(false);
+        menus.ForEach(g => g.SetActive(false));
         settingsScreen.SetActive(true);
+    }
+
+    private void OpenLevelEndScreen()
+    {
+        menus.ForEach(g => g.SetActive(false));
+        levelEndScreen.SetActive(true);
     }
 
     public void QuitToMainMenu()

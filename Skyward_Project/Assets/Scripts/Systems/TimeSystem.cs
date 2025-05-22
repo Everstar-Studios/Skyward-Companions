@@ -41,6 +41,12 @@ namespace Skyward.Systems
             GameInputSystem.OnMove += OnCharacterStartedMoving;
             CutsceneSystem.CutsceneStarted += CutsceneStarted;
             CutsceneSystem.CutsceneStopped += CutsceneStopped;
+            GameSystem.LevelCompleted += LevelCompleted;
+        }
+
+        private void LevelCompleted(object sender, GameSystem.LevelEndEventArgs args)
+        {
+            levelStarted = false;
         }
 
         protected override void WorldLoaded(GameContext context)
@@ -59,6 +65,7 @@ namespace Skyward.Systems
             
             CutsceneSystem.CutsceneStarted -= CutsceneStarted;
             CutsceneSystem.CutsceneStopped -= CutsceneStopped;
+            GameSystem.LevelCompleted -= LevelCompleted;
         }
 
         private void CutsceneStopped(object sender, EventArgs e)
