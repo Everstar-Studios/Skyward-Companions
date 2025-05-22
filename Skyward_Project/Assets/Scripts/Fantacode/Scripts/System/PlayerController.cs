@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Skyward.Systems;
 using UnityEngine;
 
 namespace Skyward.Characters
@@ -115,7 +116,7 @@ namespace Skyward.Characters
         /////===============================================================================\\\\\
 
             player = GetComponent<ICharacter>();
-            var camera = FindAnyObjectByType<Camera>();
+            var camera = CameraSystem.Camera;
             if (camera == null)
             {
                 Debug.LogException(new Exception("Camera could not be found in the scene. Make sure you have a Camera with CinemachineBrain!"));
