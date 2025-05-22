@@ -1896,7 +1896,8 @@ GameObject:
   - component: {fileID: 9059345312770259494}
   - component: {fileID: 1248440510612338728}
   - component: {fileID: 5486664771809439770}
-  m_Layer: 13
+  - component: {fileID: 2725568528041765745}
+  m_Layer: 7
   m_Name: FootTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1978,6 +1979,29 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2725568528041765745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 731929024008507322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c127b2031be937e438715f8ce6a271a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  footstepAudioAsset: {fileID: 11400000, guid: 7b2b391bb43239248bde0cd6e7d68825, type: 2}
+  footStepParticles: []
+  overrideStepEffects: []
+  overrideType: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 577
+  soundIgnoreStates: 050000000400000006000000
+  particleIgnoreStates: 040000000500000006000000
+  adjustVolumeBasedOnSpeed: 1
+  minVolume: 0.2
 --- !u!1 &745974309182314479
 GameObject:
   m_ObjectHideFlags: 0
@@ -5859,7 +5883,6 @@ GameObject:
   - component: {fileID: 4714229603545159168}
   - component: {fileID: 3971569804270633727}
   - component: {fileID: 4931067122157093104}
-  - component: {fileID: 4070066163993933166}
   m_Layer: 2
   m_Name: GO_Player
   m_TagString: Untagged
@@ -6209,30 +6232,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19e1e13aa26baaa41b605a5e216c5a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4070066163993933166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2338293788737626659}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c127b2031be937e438715f8ce6a271a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  footStepSound: []
-  footstepAudioAsset: {fileID: 11400000, guid: 7b2b391bb43239248bde0cd6e7d68825, type: 2}
-  footStepParticles: []
-  overrideStepEffects: []
-  overrideType: 0
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 577
-  soundIgnoreStates: 050000000400000006000000
-  particleIgnoreStates: 040000000500000006000000
-  adjustVolumeBasedOnSpeed: 1
-  minVolume: 0.2
 --- !u!1 &2350896360766133419
 GameObject:
   m_ObjectHideFlags: 0
@@ -12282,7 +12281,8 @@ GameObject:
   - component: {fileID: 3707683239608450036}
   - component: {fileID: 8846724077249958726}
   - component: {fileID: 3726340594796436190}
-  m_Layer: 13
+  - component: {fileID: 4885278245039750867}
+  m_Layer: 7
   m_Name: FootTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12364,6 +12364,29 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &4885278245039750867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4799921040889016070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c127b2031be937e438715f8ce6a271a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  footstepAudioAsset: {fileID: 11400000, guid: 7b2b391bb43239248bde0cd6e7d68825, type: 2}
+  footStepParticles: []
+  overrideStepEffects: []
+  overrideType: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 577
+  soundIgnoreStates: 050000000400000006000000
+  particleIgnoreStates: 040000000500000006000000
+  adjustVolumeBasedOnSpeed: 1
+  minVolume: 0.2
 --- !u!1 &4807316770684751635
 GameObject:
   m_ObjectHideFlags: 0
@@ -25373,19 +25396,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4529602298990993906, guid: 1eaeeac7d8b1a244f86a179d382def32, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99954367
+      value: 0.9996167
       objectReference: {fileID: 0}
     - target: {fileID: 4529602298990993906, guid: 1eaeeac7d8b1a244f86a179d382def32, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.02695972
+      value: -0.026961671
       objectReference: {fileID: 0}
     - target: {fileID: 4529602298990993906, guid: 1eaeeac7d8b1a244f86a179d382def32, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.013621537
+      value: 0.006295691
       objectReference: {fileID: 0}
     - target: {fileID: 4529602298990993906, guid: 1eaeeac7d8b1a244f86a179d382def32, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0003674004
+      value: 0.00016980743
       objectReference: {fileID: 0}
     - target: {fileID: 4529602298990993906, guid: 1eaeeac7d8b1a244f86a179d382def32, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
