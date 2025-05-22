@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Skyward.Core;
+using Skyward.Systems;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -88,6 +89,12 @@ public class GameHUDComponent : MonoBehaviour
     public void FadeOutAndIn()
     {
         StartCoroutine(FadeLoop());
+    }
+
+    public void RestartFromCheckpoint()
+    {
+        OpenPlayerUIScreen();
+        CheckpointSystem.RespawnFromLastCheckpoint();
     }
 
     IEnumerator FadeLoop()
