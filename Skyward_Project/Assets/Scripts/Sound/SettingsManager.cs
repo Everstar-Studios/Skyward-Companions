@@ -13,17 +13,13 @@ public class SettingsManager : MonoBehaviour
 
     private IEnumerator Start()
     {
-        float musicVol = PlayerPrefs.GetFloat("MusicVolume", 1f);
-        float sfxVol = PlayerPrefs.GetFloat("SFXVolume", 1f);
-        float cutsceneVol = PlayerPrefs.GetFloat("CutsceneVolume", 1f);
-
         int frameRate = PlayerPrefs.GetInt("FrameRate", 60);
         Application.targetFrameRate = frameRate;
         frameRateDropdown.value = GetDropdownOrderFromFPS(frameRate);
 
-        musicVolumeSlider.value = musicVol;
-        sfxVolumeSlider.value = sfxVol;
-        cutsceneVolumeSlider.value = cutsceneVol;
+        musicVolumeSlider.value = AudioSystem.GetMusicVolume();
+        sfxVolumeSlider.value = AudioSystem.GetSfxVolume();
+        cutsceneVolumeSlider.value = AudioSystem.GetCutsceneVolume();
 
         musicVolumeSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
         sfxVolumeSlider.onValueChanged.AddListener(OnSFXVolumeChanged);
@@ -32,10 +28,6 @@ public class SettingsManager : MonoBehaviour
         frameRateDropdown.onValueChanged.AddListener(OnFrameRateChanged);
         
         yield return new WaitUntil(() => AudioSystem.Instance != null);
-        AudioSystem.SetMusicVolume(musicVol);
-        AudioSystem.SetSoundEffectsVolume(sfxVol);
-        AudioSystem.SetCutsceneVolume(cutsceneVol);
-
     }
 
     private void OnDestroy()
