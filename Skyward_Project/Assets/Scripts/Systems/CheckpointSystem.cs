@@ -14,7 +14,7 @@ namespace Skyward.Systems
     }
     
     [RequiredSystem]
-    public class CheckpointSystem : BaseSystem<CheckpointSystem>, ISkywardComponent
+    public class CheckpointSystem : BaseSystem<CheckpointSystem>
     {
         private List<DeathZoneComponent> deathZoneComponents = new();
 
@@ -57,7 +57,7 @@ namespace Skyward.Systems
             PlayerSystem.PlayerFound += OnPlayerSpawned;
         }
         
-        void ISkywardComponent.Cleanup()
+        protected override void Cleanup()
         {
             PlayerSystem.PlayerFound -= OnPlayerSpawned;
             canUpdate = false;
