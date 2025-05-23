@@ -26,27 +26,11 @@ public class LeaderboardSystem : BaseSystem<LeaderboardSystem>
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
     }
 
-    protected override void Initialize(GameContext context)
-    {
-        base.Initialize(context);
-        
-        
-    }
-
     protected override void WorldLoading(GameContext context)
     {
         base.WorldLoading(context);
 
         GameSystem.LevelCompleted += OnLevelCompleted;
-    }
-
-    protected override void WorldLoaded(GameContext context)
-    {
-        base.WorldLoaded(context);
-        
-        string levelName = GameSystem.GetCurrentLevelName();
-        string leaderboardId = $"Skyward-{levelName}";
-        LeaderboardsService.Instance.AddPlayerScoreAsync(leaderboardId, 15f);
     }
 
     protected override void Cleanup()

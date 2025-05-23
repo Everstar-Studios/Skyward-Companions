@@ -22,10 +22,12 @@ public class AudioSystem : BaseSystem<AudioSystem>, ISkywardComponent
         cutsceneBus = RuntimeManager.GetBus("bus:/Cutscene");
 
         float savedSFXVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
-        float savedMusicVolume = PlayerPrefs.GetFloat("MusicVolume", 1f);
+        float savedMusicVolume = PlayerPrefs.GetFloat("MusicVolume", 0.75f);
+        float savedCutsceneVolume = PlayerPrefs.GetFloat("MusicVolume", 1f);
 
         SetSoundEffectsVolume(savedSFXVolume);
         SetMusicVolume(savedMusicVolume);
+        SetCutsceneVolume(savedCutsceneVolume);
     }
 
     protected override void Cleanup()
@@ -117,5 +119,23 @@ public class AudioSystem : BaseSystem<AudioSystem>, ISkywardComponent
     {
         Instance.AdjustVolume(Instance.cutsceneBus, value);
         PlayerPrefs.SetFloat("SFXVolume", value);
+    }
+
+    public static float GetMusicVolume()
+    {
+        Instance.musicBus.getVolume(out float volume);
+        return volume;
+    }
+    
+    public static float GetSfxVolume()
+    {
+        Instance.sfxBus.getVolume(out float volume);
+        return volume;
+    }
+    
+    public static float GetCutsceneVolume()
+    {
+        Instance.cutsceneBus.getVolume(out float volume);
+        return volume;
     }
 }

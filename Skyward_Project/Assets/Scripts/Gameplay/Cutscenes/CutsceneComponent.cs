@@ -23,9 +23,10 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     public TimelineAsset Timeline { get; private set; }
     [field: SerializeField, ShowIf("@cutsceneType == ECutsceneType.Video")]
     public VideoClip VideoClip { get; private set; }
-
     public AudioAsset audioAsset;
-    private AudioInstance audioInstance;
+    public bool pauseMusic = true;
+    [HideIf(nameof(pauseMusic)), Range(0f, 1f)] 
+    public float musicVolume = 1f;
 
     [SerializeField] private Collider trigger;
     [SerializeField] private bool disableInput = true;
@@ -35,11 +36,13 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
     private Coroutine recognitionCoroutine;
     private bool hasPlayed;
     private bool isPlaying;
-
+    private AudioInstance audioInstance;
     private PlayableDirector director;
     private VideoPlayer videoPlayer;
     private RenderTexture renderTexture;
     private AudioSource videoAudioSource;
+
+    private float previousMusicVolume;
 
     private void Awake()
     {
@@ -149,8 +152,12 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
             videoPlayer.targetTexture = renderTexture;
             
             GameManager.CutsceneStarted(renderTexture);
-            
-            AudioSystem.PauseMusic();
+
+            previousMusicVolume = AudioSystem.GetMusicVolume();
+            if (pauseMusic)
+                AudioSystem.PauseMusic();
+            else
+                AudioSystem.SetMusicVolume(musicVolume);
 
             CutsceneSystem.Play(videoPlayer);
             CutsceneSystem.CutsceneSkipped += SkipCutscene;
@@ -216,9 +223,12 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
             AudioSystem.ReleaseInstance(ref audioInstance);
             
         }
-        
-        AudioSystem.UnpauseMusic();
 
+        if (pauseMusic)
+            AudioSystem.UnpauseMusic();
+        else
+            AudioSystem.SetMusicVolume(previousMusicVolume);    
+        
         if (renderTexture != null)
         {
             renderTexture.Release();

@@ -4,7 +4,7 @@ using Skyward.Core;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class AmbientSoundPlayer : MonoBehaviour
+public class MusicPlayerComponent : MonoBehaviour
 {
     public AudioAsset audioAsset;
     protected AudioInstance audioInstance;
