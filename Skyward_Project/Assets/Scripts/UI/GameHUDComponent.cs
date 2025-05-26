@@ -57,11 +57,13 @@ public class GameHUDComponent : MonoBehaviour
     {
         menus.ForEach(g => g.SetActive(false));
         playerUIScreen.SetActive(true);
+        GameSystem.OnGameUnpaused();
     }
     public void OpenPauseScreen()
     {
         menus.ForEach(g => g.SetActive(false));
         pauseScreen.SetActive(true);
+        GameSystem.OnGamePaused();
     }
     public void OpenQuitScreen()
     {
