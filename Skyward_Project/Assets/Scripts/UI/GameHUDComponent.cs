@@ -75,6 +75,7 @@ public class GameHUDComponent : MonoBehaviour
     {
         menus.ForEach(g => g.SetActive(false));
         settingsScreen.SetActive(true);
+        GameSystem.OnGamePaused();
     }
 
     private void OpenLevelEndScreen()
