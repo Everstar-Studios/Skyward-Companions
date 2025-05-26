@@ -43,15 +43,13 @@ public class UISystem : BaseSystem, ISkywardComponent
     
     private void OnCutsceneStarted(object sender, EventArgs e)
     {
-        var renderTexture = GameManager.Instance.GetComponentInChildren<RawImage>(true);
-        renderTexture.color = new Color(1, 1, 1, 1);
+        gameHUD.cutsceneRawImage.gameObject.SetActive(true);
         SetEnableGameHUD(false);
     }
     
     private void OnCutsceneStopped(object sender, EventArgs e)
     {
-        var renderTexture = GameManager.Instance.GetComponentInChildren<RawImage>(true);
-        renderTexture.color = new Color(1, 1, 1, 0);
+        gameHUD.cutsceneRawImage.gameObject.SetActive(false);
         SetEnableGameHUD(true);
     }
 
