@@ -32,8 +32,9 @@ namespace Skyward.Systems
 
         private bool cutscenePlaying;
         private bool startedMoving;
-
         private bool levelStarted;
+        private bool gamePaused;
+        
         protected override void WorldLoading(GameContext context)
         {
             base.WorldLoading(context);
@@ -42,6 +43,8 @@ namespace Skyward.Systems
             CutsceneSystem.CutsceneStarted += CutsceneStarted;
             CutsceneSystem.CutsceneStopped += CutsceneStopped;
             GameSystem.LevelCompleted += LevelCompleted;
+            GameSystem.GamePaused += GamePaused;
+            GameSystem.GameUnpaused += GameUnpaused;
         }
 
         private void LevelCompleted(object sender, GameSystem.LevelEndEventArgs args)
@@ -61,11 +64,14 @@ namespace Skyward.Systems
             base.Cleanup();
             
             levelStarted = false;
+            gamePaused = false;
             timeData.Reset();
             
             CutsceneSystem.CutsceneStarted -= CutsceneStarted;
             CutsceneSystem.CutsceneStopped -= CutsceneStopped;
             GameSystem.LevelCompleted -= LevelCompleted;
+            GameSystem.GamePaused -= GamePaused;
+            GameSystem.GameUnpaused -= GameUnpaused;
         }
 
         private void CutsceneStopped(object sender, EventArgs e)
@@ -83,10 +89,22 @@ namespace Skyward.Systems
             GameInputSystem.OnMove -= OnCharacterStartedMoving;
             startedMoving = true;
         }
+        
+        private void GamePaused(object sender, EventArgs args)
+        {
+            gamePaused = true;
+        }
+        
+        private void GameUnpaused(object sender, EventArgs args)
+        {
+            gamePaused = false;
+        }
 
         private void Update()
         {
             if (!levelStarted)
+                return;
+            if (gamePaused)
                 return;
             if (!startedMoving || cutscenePlaying)
                 return;

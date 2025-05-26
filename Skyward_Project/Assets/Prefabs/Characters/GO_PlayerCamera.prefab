@@ -30,13 +30,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4805069416202168114}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.02696167, y: 0.006295692, z: 0.0001698075, w: 0.9996167}
+  m_LocalRotation: {x: -0.026961453, y: 0.0062982803, z: 0.00016987592, w: 0.9996166}
   m_LocalPosition: {x: 0, y: 1.2028198, z: -3.8148804}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -3.09, y: 0.722, z: 0}
 --- !u!114 &8733197515047138480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,7 +124,7 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   VerticalAxis:
-    Value: 17.5
+    Value: 40
     Center: 17.5
     Range: {x: -10, y: 60}
     Wrap: 0
@@ -234,8 +234,6 @@ MonoBehaviour:
       Input:
         InputAction: {fileID: -6055912931470156525, guid: b13ed430d9a91c6478f27db44ef7e99d, type: 3}
         Gain: 1
-        LegacyInput: 
-        LegacyGain: 100
         CancelDeltaTime: 0
       InputValue: 0
       Driver:
@@ -247,8 +245,6 @@ MonoBehaviour:
       Input:
         InputAction: {fileID: -6055912931470156525, guid: b13ed430d9a91c6478f27db44ef7e99d, type: 3}
         Gain: -1
-        LegacyInput: 
-        LegacyGain: -100
         CancelDeltaTime: 0
       InputValue: 0
       Driver:
@@ -260,8 +256,6 @@ MonoBehaviour:
       Input:
         InputAction: {fileID: 5082991133974614888, guid: 1d6e640e716dc4ff6989b73d02023f2b, type: 3}
         Gain: 1
-        LegacyInput: Mouse ScrollWheel
-        LegacyGain: 200
         CancelDeltaTime: 0
       InputValue: 0
       Driver:
@@ -281,3 +275,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a16ea6828ae6cb4eb353eb7a649e86c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  topClamp: 70
+  bottomClamp: -30

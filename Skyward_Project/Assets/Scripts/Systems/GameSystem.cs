@@ -91,6 +91,25 @@ public class GameSystem : BaseSystem<GameSystem>
         remove => Instance.backToMainMenu -= value;
     }
     
+    private event EventHandler gamePaused;
+    
+    public static event EventHandler GamePaused
+    {
+        add => Instance.gamePaused += value;
+        remove => Instance.gamePaused -= value;
+    }
+    
+    private event EventHandler gameUnpaused;
+    
+    public static event EventHandler GameUnpaused
+    {
+        add => Instance.gameUnpaused += value;
+        remove => Instance.gameUnpaused -= value;
+    }
+
+    
+    private bool levelAlreadyLoaded;
+    
     protected override void Initialize(GameContext context)
     {
         base.Initialize(context);
@@ -153,7 +172,6 @@ public class GameSystem : BaseSystem<GameSystem>
         Instance.StartCoroutine(Instance.RequestLevelLaunchCoroutine(levelKey));
     }
 
-    private bool levelAlreadyLoaded;
     private IEnumerator RequestLevelLaunchCoroutine(string levelKey)
     {
         isLoading = true;
@@ -330,5 +348,15 @@ public class GameSystem : BaseSystem<GameSystem>
     public static bool IsLevelUnlocked(int index)
     {
         return Instance.sceneInfo.IsUnlocked(index);
+    }
+
+    public static void OnGamePaused()
+    {
+        Instance.gamePaused?.Invoke(Instance, EventArgs.Empty);
+    }
+
+    public static void OnGameUnpaused()
+    {
+        Instance.gameUnpaused?.Invoke(Instance, EventArgs.Empty);
     }
 }

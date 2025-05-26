@@ -197,7 +197,6 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
         {
             CutsceneSystem.OnVideoEnded(videoPlayer);
             videoPlayer.Stop();
-            GameManager.Instance.GameHUD.cutsceneRawImage.texture = null;
             Destroy(videoPlayer);
             videoPlayer = null;
         }
@@ -235,11 +234,8 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
             Destroy(renderTexture);
             renderTexture = null;
         }
-
-        if (GameManager.Instance.GameHUD.cutsceneRawImage != null)
-        {
-            GameManager.Instance.GameHUD.cutsceneRawImage.texture = null;
-        }
+        
+        GameManager.Instance.GameHUD.cutsceneRawImage.texture = null;
     }
 
     private bool IsPlayerInColliderBounds()

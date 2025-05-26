@@ -48,6 +48,9 @@ public class SkywardVirtualCamera : MonoBehaviour, ISkywardComponent
     {
         cinemachineCamera = gameObject.GetComponent<CinemachineCamera>();
         CameraSystem.SetCamera(cinemachineCamera);
+
+        cinemachineTargetYaw = orbitalFollowComponent.HorizontalAxis.Value;
+        cinemachineTargetPitch = orbitalFollowComponent.VerticalAxis.Value;
     }
 
     void LateUpdate()

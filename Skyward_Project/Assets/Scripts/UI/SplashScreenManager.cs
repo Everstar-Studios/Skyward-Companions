@@ -109,7 +109,7 @@ public class SplashScreenManager : MonoBehaviour
     {
         string catalogUrl = DeliveryBucketManager.GetContentCatalogURL(BucketEnvironment.Development);
         var catalogHandle = Addressables.LoadContentCatalogAsync(catalogUrl);
-        loadingText.text = "Preparing game content...";
+        loadingText.text = "Preparing your journey...";
         while (!catalogHandle.IsDone)
         {
             float progress = Mathf.Clamp01(catalogHandle.PercentComplete / 0.9f);
