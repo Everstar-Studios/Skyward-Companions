@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Skyward.Characters;
 using Skyward.Core;
@@ -8,7 +9,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class CheckpointComponent : MonoBehaviour, ISkywardComponent
+public class CheckpointComponent : MonoBehaviour
 {
     public Transform checkpointPositionOverride;
     public Collider trigger;
@@ -19,40 +20,24 @@ public class CheckpointComponent : MonoBehaviour, ISkywardComponent
 
     private Coroutine coroutine;
 
+    private bool reached;
+
     private void Awake()
     {
         DeathZone = GetComponentInChildren<DeathZoneComponent>();
         trigger.isTrigger = true;
     }
 
-    void ISkywardComponent.WorldLoaded(GameContext context)
+    private void OnTriggerEnter(Collider other)
     {
-        coroutine = StartCoroutine(CheckForPlayer());
-    }
-
-    void ISkywardComponent.Cleanup()
-    {
-        StopCoroutine(coroutine);
-        coroutine = null;
-    }
-
-    private IEnumerator CheckForPlayer()
-    {
-        yield return new WaitUntil(() => CheckpointSystem.IsReady);
-
-        var player = PlayerSystem.Player;
-        while (true)
-        {
-            Vector3 closestPoint = trigger.ClosestPoint(player.transform.position);
-            if (Vector3.Distance(closestPoint, PlayerSystem.PlayerColliderCenter) < 1f)
-            {
-                CheckpointSystem.OnCheckpointReached(this, player);
-                checkpointReachedEvent.Invoke();
-                yield break;
-            }
-
-            yield return null;
-        }
+        if (reached)
+            return;
+        if (other.gameObject != PlayerSystem.Player.gameObject)
+            return;
+        
+        CheckpointSystem.OnCheckpointReached(this, PlayerSystem.Player);
+        checkpointReachedEvent.Invoke();
+        reached = true;
     }
     
     public void ActivateDeathZone() => DeathZone.gameObject.SetActive(true);
