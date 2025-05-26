@@ -9,7 +9,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class CheckpointComponent : MonoBehaviour
+public class CheckpointComponent : MonoBehaviour, ISkywardComponent
 {
     public Transform checkpointPositionOverride;
     public Collider trigger;
