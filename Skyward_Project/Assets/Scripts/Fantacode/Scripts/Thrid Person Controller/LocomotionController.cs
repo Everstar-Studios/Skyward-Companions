@@ -607,7 +607,18 @@ namespace Skyward.Characters
             Vector3 origin = transform.TransformPoint(groundCheckOffset);
             Vector3 direction = Vector3.down;
             //isGrounded = Physics.SphereCast(origin, groundCheckRadius, direction, out hit, groundCheckRadius, groundLayer);
-            isGrounded = Physics.OverlapSphereNonAlloc(origin, groundCheckRadius, groundColliders, groundLayer) > 0;
+            int count = Physics.OverlapSphereNonAlloc(origin, groundCheckRadius, groundColliders, groundLayer);
+            isGrounded = false;
+
+            for (int i = 0; i < count; i++)
+            {
+                if (!groundColliders[i].isTrigger)
+                {
+                    isGrounded = true;
+                    break;
+                }
+            }
+            
             animator.SetBool(AnimatorParameters.IsGrounded, isGrounded);
         }
 
