@@ -59,6 +59,11 @@ namespace Skyward.Systems
         
         protected override void Cleanup()
         {
+            deathZoneComponents.Clear();
+            checkpoints.Clear();
+            activeDeathZone = null;
+            activeCheckpoint = null;
+            
             PlayerSystem.PlayerFound -= OnPlayerSpawned;
             canUpdate = false;
         }
