@@ -131,7 +131,9 @@ public class LobbyUI : MonoBehaviour
             return;
         
         PlayerSystem.PlayerName = name;
-        await AuthenticationService.Instance.UpdatePlayerNameAsync(name);
+        if (AuthenticationService.Instance != null)
+            await AuthenticationService.Instance.UpdatePlayerNameAsync(name);
+        
         OpenMainMenu();
     }
 
