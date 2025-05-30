@@ -86,6 +86,7 @@ public class GameHUDComponent : MonoBehaviour
 
     public void QuitToMainMenu()
     {
+        menus.ForEach(g => g.SetActive(false));
         GameSystem.MainMenu();
     }
 

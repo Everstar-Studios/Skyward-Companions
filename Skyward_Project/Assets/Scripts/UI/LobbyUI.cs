@@ -69,7 +69,7 @@ public class LobbyUI : MonoBehaviour
         GameSystem.LevelLoading -= LevelLoading;
         GameSystem.LevelLoaded -= LevelLoaded;
         GameSystem.LevelDownloading -= LevelDownloading;
-        GameSystem.Quitting -= BackToMainMenu;
+        GameSystem.BackToMainMenu -= BackToMainMenu;
     }
 
     private void BackToMainMenu(object sender, EventArgs args)
@@ -131,7 +131,9 @@ public class LobbyUI : MonoBehaviour
             return;
         
         PlayerSystem.PlayerName = name;
-        await AuthenticationService.Instance.UpdatePlayerNameAsync(name);
+        if (AuthenticationService.Instance != null)
+            await AuthenticationService.Instance.UpdatePlayerNameAsync(name);
+        
         OpenMainMenu();
     }
 
