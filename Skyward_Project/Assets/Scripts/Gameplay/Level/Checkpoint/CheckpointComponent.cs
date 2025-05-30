@@ -21,6 +21,7 @@ public class CheckpointComponent : MonoBehaviour, ISkywardComponent
     private Coroutine coroutine;
 
     private bool reached;
+    private bool worldLoaded;
 
     private void Awake()
     {
@@ -28,9 +29,16 @@ public class CheckpointComponent : MonoBehaviour, ISkywardComponent
         trigger.isTrigger = true;
     }
 
+    void ISkywardComponent.WorldLoaded(GameContext context)
+    {
+        worldLoaded = true;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (reached)
+            return;
+        if (!worldLoaded)
             return;
         if (other.gameObject != PlayerSystem.Player.gameObject)
             return;
