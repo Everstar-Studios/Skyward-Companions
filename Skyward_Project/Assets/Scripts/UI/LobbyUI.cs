@@ -56,6 +56,8 @@ public class LobbyUI : MonoBehaviour
         
         if (hasName)
         {
+            if (AuthenticationService.Instance != null)
+                yield return AuthenticationService.Instance.UpdatePlayerNameAsync(PlayerSystem.PlayerName);
             OpenMainMenu();
             yield break;
         }
