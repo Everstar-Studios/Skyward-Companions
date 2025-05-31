@@ -109,12 +109,17 @@ public class GameSystem : BaseSystem<GameSystem>
 
     
     private bool levelAlreadyLoaded;
+    private int currentFrameRate;
+    public static int FrameRate => Instance.currentFrameRate;
     
     protected override void Initialize(GameContext context)
     {
         base.Initialize(context);
 
         context.Store(sceneInfo);
+        int frameRate = PlayerPrefs.GetInt("FrameRate", 60);
+        Application.targetFrameRate = frameRate;
+        currentFrameRate = frameRate;
     }
 
     protected override void PostInitialize(GameContext context)

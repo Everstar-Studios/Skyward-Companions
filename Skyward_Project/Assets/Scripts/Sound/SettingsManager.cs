@@ -13,9 +13,7 @@ public class SettingsManager : MonoBehaviour
 
     private IEnumerator Start()
     {
-        int frameRate = PlayerPrefs.GetInt("FrameRate", 60);
-        Application.targetFrameRate = frameRate;
-        frameRateDropdown.value = GetDropdownOrderFromFPS(frameRate);
+        frameRateDropdown.value = GetDropdownOrderFromFPS(GameSystem.FrameRate);
 
         musicVolumeSlider.value = AudioSystem.GetMusicVolume();
         sfxVolumeSlider.value = AudioSystem.GetSfxVolume();
@@ -63,7 +61,8 @@ public class SettingsManager : MonoBehaviour
         if (frameRate == 120)
             return 2;
 
-        return 2;
+        Debug.LogError("Game System did not initialize frame rate before entering settings menu. This should not occur!!");
+        return 1;
     }
 
     private void OnEnable()
