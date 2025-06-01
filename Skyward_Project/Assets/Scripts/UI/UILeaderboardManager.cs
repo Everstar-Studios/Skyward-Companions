@@ -7,11 +7,11 @@ using UnityEngine.UI;
 
 public class UILeaderboardManager : MonoBehaviour
 {
-    public static UILeaderboardManager Instance { get; private set; }
-
     [SerializeField] private int playersPerPage = 25;
     [SerializeField] private LeaderboardPlayerItem playerItemPrefab;
+    [SerializeField] private LeaderboardPlayerItem localPlayerItemPrefab;
     [SerializeField] private RectTransform container;
+    [SerializeField] private RectTransform localContainer;
     [SerializeField] private TextMeshProUGUI pageText;
     [SerializeField] private Button nextButton;
     [SerializeField] private Button prevButton;
@@ -22,18 +22,6 @@ public class UILeaderboardManager : MonoBehaviour
     private int totalPages = 0;
 
     public GameObject leaderboardLevelButtonPrefab;
-
-    private void Awake()
-    {
-        if (Instance == null) Instance = this;
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
-        
-        
-    }
     
     private IEnumerator Start()
     {
@@ -86,11 +74,38 @@ public class UILeaderboardManager : MonoBehaviour
         {
             var scores = await LeaderboardsService.Instance.GetScoresAsync(currentLeaderboardId, options);
             ClearPlayersList();
+            
+            int startIndex = (page - 1) * playersPerPage + 1;
+            int endIndex = startIndex + playersPerPage - 1;
 
+            bool foundPlayer = false;
             foreach (var score in scores.Results)
             {
-                var item = Instantiate(playerItemPrefab, container);
+                LeaderboardPlayerItem item;
+
+                if (score.PlayerName == PlayerSystem.PlayerFullName)
+                {
+                    item = Instantiate(localPlayerItemPrefab, container);
+                    foundPlayer = true;
+                }
+                else
+                    item = Instantiate(playerItemPrefab, container);
+                
                 item.Initialize(score);
+            }
+
+            if (!foundPlayer)
+            {
+                try
+                {
+                    var localScore = await LeaderboardsService.Instance.GetPlayerScoreAsync(currentLeaderboardId);
+                    var bottomItem = Instantiate(localPlayerItemPrefab, localContainer);
+                    bottomItem.Initialize(localScore);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Local player has no score yet: " + e.Message);
+                }
             }
 
             totalPages = Mathf.CeilToInt((float)scores.Total / scores.Limit);
@@ -114,6 +129,8 @@ public class UILeaderboardManager : MonoBehaviour
     private void ClearPlayersList()
     {
         foreach (Transform child in container)
+            Destroy(child.gameObject);
+        foreach (Transform child in localContainer)
             Destroy(child.gameObject);
     }
 }
