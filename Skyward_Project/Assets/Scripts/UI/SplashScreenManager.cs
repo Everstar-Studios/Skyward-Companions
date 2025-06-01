@@ -107,7 +107,7 @@ public class SplashScreenManager : MonoBehaviour
 #if !SKYWARD_DEVELOPMENT
     private IEnumerator LoadCatalog()
     {
-        string catalogUrl = DeliveryBucketManager.GetContentCatalogURL(BucketEnvironment.Development);
+        string catalogUrl = DeliveryBucketManager.GetContentCatalogURL(BucketEnvironment.Production);
         var catalogHandle = Addressables.LoadContentCatalogAsync(catalogUrl);
         loadingText.text = "Preparing your journey...";
         while (!catalogHandle.IsDone)
