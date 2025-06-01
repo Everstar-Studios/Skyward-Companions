@@ -56,8 +56,7 @@ public class LobbyUI : MonoBehaviour
         
         if (hasName)
         {
-            if (AuthenticationService.Instance != null)
-                yield return AuthenticationService.Instance.UpdatePlayerNameAsync(PlayerSystem.PlayerName);
+            UpdatePlayerName(PlayerSystem.PlayerFullName);
             OpenMainMenu();
             yield break;
         }
@@ -74,6 +73,12 @@ public class LobbyUI : MonoBehaviour
         GameSystem.BackToMainMenu -= BackToMainMenu;
     }
 
+    private async void UpdatePlayerName(string playerName)
+    {
+        await AuthenticationService.Instance.UpdatePlayerNameAsync(playerName);
+        PlayerSystem.PlayerFullName = AuthenticationService.Instance.PlayerName;
+    }
+    
     private void BackToMainMenu(object sender, EventArgs args)
     {
         Cleanup();
@@ -118,23 +123,18 @@ public class LobbyUI : MonoBehaviour
 
     private char NameChanged(string newName, char character)
     {
-        if (character == ' ')
+        if (!char.IsLetter(character) || newName.Length >= 10)
             return '\0';
-        
-        if (newName.Length > 10)
-            character = '\0';
 
         return character;
     }
 
-    private async void NameCreated(string name)
+    private void NameCreated(string newName)
     {
-        if (string.IsNullOrEmpty(name))
+        if (string.IsNullOrEmpty(newName))
             return;
-        
-        PlayerSystem.PlayerName = name;
-        if (AuthenticationService.Instance != null)
-            await AuthenticationService.Instance.UpdatePlayerNameAsync(name);
+
+        UpdatePlayerName(newName);
         
         OpenMainMenu();
     }

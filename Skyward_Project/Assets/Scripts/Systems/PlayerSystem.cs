@@ -8,9 +8,17 @@ using UnityEngine;
 public class PlayerSystem : BaseSystem<PlayerSystem>, ISkywardSerializable
 {
     public static PlayerController Player => Instance.player;
-    
-    public static Vector3 PlayerColliderCenter => Player.player.Collider.bounds.center;
-    public static string PlayerName { get; set; }
+
+    public static string PlayerName
+    {
+        get
+        {
+            int index = PlayerFullName.IndexOf('#');
+            return index >= 0 ? PlayerFullName.Substring(0, index) : PlayerFullName;
+        }
+        
+    }
+    public static string PlayerFullName { get; set; }
 
     private PlayerController player;
     private GameContext gameContext;
@@ -45,6 +53,6 @@ public class PlayerSystem : BaseSystem<PlayerSystem>, ISkywardSerializable
 
     public void Deserialize()
     {
-        PlayerName = PlayerPrefs.GetString("PlayerName");
+        PlayerFullName = PlayerPrefs.GetString("PlayerName");
     }
 }
