@@ -59,7 +59,7 @@ public static class DeliveryBucketManager
     {
         string bucketId = GetBucketId(environment);
         string environmentStr = environment == BucketEnvironment.Development ? "development" : "production";
-        string catalogUrl = $"https://5020019f-5188-4075-84eb-a2113dd902e6.client-api.unity3dusercontent.com/client_api/v1/environments/{environmentStr}/buckets/{bucketId}/release_by_badge/latest/entry_by_path/content/?path=catalog_1.0.0.bin";
+        string catalogUrl = $"https://32fc0e12-ca2c-49f1-8c2e-f26741f6f6f9.client-api.unity3dusercontent.com/client_api/v1/environments/{environmentStr}/buckets/{bucketId}/release_by_badge/latest/entry_by_path/content/?path=catalog_1.0.0.bin";
         return catalogUrl;
     }
 }
