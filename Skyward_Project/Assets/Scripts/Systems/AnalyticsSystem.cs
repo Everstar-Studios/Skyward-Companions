@@ -1,5 +1,4 @@
 using System.Collections;
-using Firebase;
 using Skyward.Core;
 using UnityEngine;
 
@@ -16,12 +15,13 @@ public class AnalyticsSystem : BaseSystem
 
     private IEnumerator InitializeFirebase()
     {
-        var handle = FirebaseApp.CheckAndFixDependenciesAsync();
-        yield return handle;
-        
-        if (handle.Result == DependencyStatus.Available)
-            Debug.Log("Firebase is successfully initialized.");
-        else
-            Debug.LogError($"Could not resolve Firebase dependencies: {handle.Result}");
+        yield return null;
+        // var handle = FirebaseApp.CheckAndFixDependenciesAsync();
+        // yield return handle;
+
+        // if (handle.Result == DependencyStatus.Available)
+        //     Debug.Log("Firebase is successfully initialized.");
+        // else
+        //     Debug.LogError($"Could not resolve Firebase dependencies: {handle.Result}");
     }
 }
