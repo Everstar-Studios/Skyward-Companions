@@ -44,6 +44,9 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
 
     private float previousMusicVolume;
 
+    //If this has a value, the cutscene plays only ones.
+    [SerializeField] string playOnceId = "";
+
     private void Awake()
     {
         if (audioAsset == null)
@@ -132,36 +135,48 @@ public class CutsceneComponent : MonoBehaviour, ISkywardComponent
 
     private void Play()
     {
+        if (!string.IsNullOrEmpty(playOnceId))
+        {
+            if (PlayerPrefs.GetInt(playOnceId, 0) == 1)
+            {
+                return;
+            }
+            else
+            { 
+                 PlayerPrefs.SetInt(playOnceId, 1);
+            }
+        }
+
         hasPlayed = true;
         isPlaying = true;
 
         if (cutsceneType == ECutsceneType.Timeline && director != null)
-        {
-            CutsceneSystem.Play(director);
-        }
-        else if (cutsceneType == ECutsceneType.Video && videoPlayer != null)
-        {
-            if (renderTexture != null)
             {
-                renderTexture.Release();
-                Destroy(renderTexture);
+                CutsceneSystem.Play(director);
             }
+            else if (cutsceneType == ECutsceneType.Video && videoPlayer != null)
+            {
+                if (renderTexture != null)
+                {
+                    renderTexture.Release();
+                    Destroy(renderTexture);
+                }
 
-            renderTexture = new RenderTexture(Screen.width, Screen.height, 0);
-            renderTexture.Create();
-            videoPlayer.targetTexture = renderTexture;
-            
-            GameManager.CutsceneStarted(renderTexture);
+                renderTexture = new RenderTexture(Screen.width, Screen.height, 0);
+                renderTexture.Create();
+                videoPlayer.targetTexture = renderTexture;
 
-            previousMusicVolume = AudioSystem.GetMusicVolume();
-            if (pauseMusic)
-                AudioSystem.PauseMusic();
-            else
-                AudioSystem.SetMusicVolume(musicVolume);
+                GameManager.CutsceneStarted(renderTexture);
 
-            CutsceneSystem.Play(videoPlayer);
-            CutsceneSystem.CutsceneSkipped += SkipCutscene;
-        }
+                previousMusicVolume = AudioSystem.GetMusicVolume();
+                if (pauseMusic)
+                    AudioSystem.PauseMusic();
+                else
+                    AudioSystem.SetMusicVolume(musicVolume);
+
+                CutsceneSystem.Play(videoPlayer);
+                CutsceneSystem.CutsceneSkipped += SkipCutscene;
+            }
 
         if (AudioSystem.TryCreateAudioInstance(audioAsset, gameObject, out audioInstance))
             audioInstance.Play();
